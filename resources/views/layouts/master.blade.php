@@ -17,7 +17,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     @if($site_settings->favicon ?? false)
-        <link rel="icon" type="image/png" href="{{ asset($site_settings->favicon) }}">
+        <link rel="icon" type="image/png" href="{{ env('BACKEND_URL') . '/' . $site_settings->favicon }}">
     @endif
 
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">

@@ -18,7 +18,7 @@
                             @endif
                             <div class="d-flex gap-3 mb-3 align-items-start anim-card">
                                 @if($mention->image)
-                                    <img src="{{ asset($mention->image) }}" alt="{{ $mention->title }}">
+                                    <img src="{{ env('BACKEND_URL') . '/' . $mention->image }}" alt="{{ $mention->title }}">
                                 @endif
                                 <div>
                                     <div class="card-title">

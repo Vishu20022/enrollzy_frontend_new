@@ -15,7 +15,7 @@
                 <div class="video-slide">
                     <div class="video-card">
                         <div class="video-thumb"
-                             style="background-image:url('{{ asset($video->thumbnail) }}')">
+                             style="background-image:url('{{ env('BACKEND_URL') . '/' . $video->thumbnail }}')">
                             <a href="{{ $video->video_url }}" target="_blank" class="play-btn">
                                 ▶
                             </a>

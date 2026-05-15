@@ -12,7 +12,7 @@
                         <div class="d-flex align-items-center mb-3">
                             <div class="me-3">
                                 @php
-                                    $imgUrl = (str_starts_with($testimonial->image, 'http')) ? $testimonial->image : asset($testimonial->image);
+                                    $imgUrl = (str_starts_with($testimonial->image, 'http')) ? $testimonial->image : env('BACKEND_URL') . '/' . $testimonial->image;
                                 @endphp
                                 <img src="{{ $imgUrl }}" alt="{{ $testimonial->name }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                             </div>

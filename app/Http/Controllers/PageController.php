@@ -14,6 +14,8 @@ use App\Models\VideoTestimonial;
 use App\Models\NoteworthyCategory;
 use App\Models\OrganisationCourse;
 use App\Models\Course;
+use App\Models\TrendingSkill;
+use App\Models\CompanyMarquee;
 
 class PageController extends Controller
 {
@@ -32,7 +34,20 @@ class PageController extends Controller
             }
         ])->where('status', true)->get();
         // dd($organisations);
-        $hero_sliders = HeroSlider::where('is_active', true)->orderBy('sort_order')->get();
+        $site_settings = \App\Models\Setting::first();
+        $is_show_full_banner = $site_settings->is_show_full_banner ?? 0;
+
+        $hero_sliders = HeroSlider::where('is_active', true)
+            ->when($is_show_full_banner == 1, function ($query) {
+                return $query->where('image_type', 'Full Banner');
+            })
+            ->when($is_show_full_banner == 0, function ($query) {
+                return $query->where(function($q) {
+                    $q->where('image_type', '!=', 'Full Banner')->orWhereNull('image_type');
+                });
+            })
+            ->orderBy('sort_order')
+            ->get();
         $video_testimonials = VideoTestimonial::where('is_active', true)->orderBy('sort_order')->get();
         $noteworthy_categories = NoteworthyCategory::with([
             'mentions' => function ($query) {
@@ -53,8 +68,12 @@ class PageController extends Controller
 
         $home_services = \App\Models\HomeService::where('status', true)->orderBy('sort_order')->get();
         $home_benefits = \App\Models\HomeBenefit::where('status', true)->orderBy('sort_order')->get();
+        
+        // Dynamic Trending Skills & Marquee
+        $trending_skills = TrendingSkill::where('status', true)->orderBy('sort_order')->get();
+        $company_marquees = CompanyMarquee::where('status', true)->orderBy('sort_order')->get();
 
-        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits'));
+        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees'));
     }
 
     public function blog()

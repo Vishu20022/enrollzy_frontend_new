@@ -18,7 +18,7 @@
                     <div class="expert-card">
                         <div class="image-wrap skeleton">
                             @php
-                                $imgUrl = (str_starts_with($expert->img, 'http')) ? $expert->img : asset($expert->img);
+                                $imgUrl = (str_starts_with($expert->img, 'http')) ? $expert->img : env('BACKEND_URL') . '/' . $expert->img;
                             @endphp
                             <a href="{{ route('pages.experts.detail', $expert->id) }}">
                                 <img src="{{ $imgUrl }}" alt="{{ $expert->name }}" loading="lazy">

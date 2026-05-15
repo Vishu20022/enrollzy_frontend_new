@@ -15,7 +15,7 @@
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                     <a href="{{ route('pages.organisations.detail', $org->slug) }}" class="text-decoration-none">
                         <div class="organisation-card h-100">
-                            <img src="{{ asset($org->logo_url ? $org->logo_url : 'images/default-org.png') }}"
+                            <img src="{{ $org->logo_url ? env('BACKEND_URL') . '/' . $org->logo_url : asset('images/default-org.png') }}"
                                 alt="{{ $org->name }}" class="org-logo">
 
                             <div class="course-count">

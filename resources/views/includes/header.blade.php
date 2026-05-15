@@ -12,7 +12,7 @@
         <div class="drawer-header d-flex align-items-center justify-content-between px-3 py-3">
             <a href="{{route('pages.home')}}" class="fw-bold fs-4 text-primary">
                 @if($site_settings->logo ?? false)
-                    <img src="{{ asset($site_settings->logo) }}" alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 40px;">
+                    <img src="{{ env('BACKEND_URL') . '/' . $site_settings->logo }}" alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 40px;">
                 @else
                     {{ $site_settings->site_name ?? 'YourLogo' }}
                 @endif
@@ -70,7 +70,7 @@
             <!-- Logo -->
             <a class="navbar-brand" href="{{route('pages.home')}}">
                 @if($site_settings->logo ?? false)
-                    <img src="{{ asset($site_settings->logo) }}" alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 45px;">
+                    <img src="{{ env('BACKEND_URL') . '/' . $site_settings->logo }}" alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 45px;">
                 @else
                     <span class="theme">{{ explode(' ', $site_settings->site_name ?? 'Your Logo')[0] }}</span>
                     <span>{{ implode(' ', array_slice(explode(' ', $site_settings->site_name ?? 'Your Logo'), 1)) }}</span>

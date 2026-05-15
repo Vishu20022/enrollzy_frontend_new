@@ -15,7 +15,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="alumni-card">
                         @php
-                            $imgUrl = $alumnus->image ? (str_starts_with($alumnus->image, 'http') ? $alumnus->image : asset($alumnus->image)) : 'https://ui-avatars.com/api/?name='.urlencode($alumnus->name);
+                            $imgUrl = $alumnus->image ? (str_starts_with($alumnus->image, 'http') ? $alumnus->image : env('BACKEND_URL') . '/' . $alumnus->image) : 'https://ui-avatars.com/api/?name='.urlencode($alumnus->name);
                         @endphp
                         <a href="{{ route('pages.alumni.detail', $alumnus->id) }}">
                             <img src="{{ $imgUrl }}" alt="{{ $alumnus->name }}">
