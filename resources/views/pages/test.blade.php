@@ -2533,7 +2533,7 @@
     </section>
 
 
-    <section class="university-section n">
+    <section class="university-section ">
 
         <div class="container">
 
