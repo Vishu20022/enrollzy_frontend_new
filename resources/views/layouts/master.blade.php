@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}"
-      class="lang-{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="lang-{{ app()->getLocale() }}">
 
 <head>
     <meta charset="utf-8">
@@ -15,7 +14,7 @@
     @yield('seo')
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     @if($site_settings->favicon ?? false)
         <link rel="icon" type="image/png" href="{{ env('BACKEND_URL') . '/' . $site_settings->favicon }}">
     @endif
@@ -37,16 +36,17 @@
 
 <body>
 
-    {{-- HEADER --}}
-    @include('includes.header')
-
+    @include('includes.header2')
     {{-- PAGE CONTENT --}}
     <main>
         @yield('content')
     </main>
 
     {{-- FOOTER --}}
+
     @include('includes.footer')
+
+
     @include('includes.booking-modal')
 
     <script src="{{asset('js/jquery-3.7.1.min.js')}}"></script>
@@ -56,4 +56,5 @@
     <script src="{{asset('js/header.js')}}"></script>
     @stack('js')
 </body>
+
 </html>

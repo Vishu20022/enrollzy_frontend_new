@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfessionalAuthController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteProtectionController;
+use App\Http\Controllers\Admin\LeadController;
 
 // 🛡️ Site Protection Wall
 Route::get('/under-construction', [SiteProtectionController::class, 'index'])->name('site.protection.login');
@@ -133,6 +134,7 @@ Route::name('pages.')->group(function () {
 
     Route::get('/students-community', [CommunityController::class, 'index'])->name('students.community');
 
+    Route::get('/test', [CommunityController::class, 'test'])->name('students.test');
 
     Route::get('/my-learning', [PageController::class, 'myLearning'])
         ->name('mylearning');
