@@ -116,9 +116,7 @@
 
 
 
-        .featured-section {
-            padding: 30px 20px;
-        }
+
 
         .featured-title {
             font-size: 56px;
@@ -130,7 +128,6 @@
         .featured-desc {
             max-width: 700px;
             margin: auto;
-            font-size: 22px;
             line-height: 1.5;
             color: #444;
         }
@@ -145,17 +142,12 @@
 
         @media(max-width:768px) {
 
-            .featured-section {
-                padding: 50px 20px;
-            }
 
             .featured-title {
                 font-size: 36px;
             }
 
-            .featured-desc {
-                font-size: 16px;
-            }
+
 
             .title-line {
                 width: 120px;
@@ -201,6 +193,15 @@
                 0 4px 12px rgba(0, 0, 0, .15);
 
             transition: .3s;
+
+            span {
+                line-height: 1.2;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         .uni-card:hover {
@@ -213,23 +214,7 @@
             object-fit: contain;
         }
 
-        .view-btn {
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 12px 50px;
-            border-radius: 50px;
-            font-size: 20px;
-            margin-top: 45px;
-            box-shadow: 0px 4px 4px 3px #00000040;
-            cursor: pointer;
-            position: relative;
-            z-index: 12;
-        }
 
-        .view-btn:hover {
-            background: #424242;
-        }
 
         @media(max-width:991px) {
 
@@ -305,21 +290,18 @@
             font-size: 16px;
             line-height: 1.4;
             color: #333;
-
-            min-height: 80px;
         }
 
         .learn-btn {
 
-            background: #000;
-            color: #fff;
+            background: var(--darkclr);
+            color: var(--plainclr);
             border: none;
 
             padding: 10px 28px;
 
             border-radius: 40px;
 
-            font-size: 18px;
 
             box-shadow:
                 0 4px 10px rgba(0, 0, 0, .3);
@@ -327,7 +309,8 @@
         }
 
         .learn-btn:hover {
-            background: #111;
+            background: var(--themethirteenclr);
+            color: var(--plainclr);
         }
 
         @media(max-width:991px) {
@@ -353,7 +336,6 @@
             }
 
             .learn-btn {
-                font-size: 16px;
                 padding: 9px 24px;
             }
 
@@ -372,7 +354,7 @@
         }
 
         .image-box {
-
+            max-height: 270px;
             border-radius: 22px;
             overflow: hidden;
             background: #fff;
@@ -402,8 +384,6 @@
         }
 
         .content-box p {
-
-            font-size: 20px;
             line-height: 1.8;
             color: #444;
 
@@ -411,27 +391,7 @@
 
         }
 
-        .learn-btn {
 
-            background: #160d32;
-            color: #fff;
-
-            padding: 11px 32px;
-
-            border-radius: 40px;
-
-            font-size: 20px;
-
-            border: none;
-
-            box-shadow:
-                0 4px 8px rgba(0, 0, 0, .2);
-
-        }
-
-        .learn-btn:hover {
-            background: #24124f;
-        }
 
         @media(max-width:991px) {
 
@@ -449,7 +409,6 @@
             }
 
             .content-box p {
-                font-size: 17px;
                 line-height: 1.7;
             }
 
@@ -466,7 +425,6 @@
             }
 
             .learn-btn {
-                font-size: 16px;
                 padding: 10px 24px;
             }
 
@@ -478,6 +436,7 @@
         .timeline-section {
             padding: 80px 0;
             position: relative;
+            overflow-x:hidden;
         }
 
         .timeline-section .section-title {
@@ -593,13 +552,25 @@
 
         @media (min-width:350px) and (max-width:767px) {
             .timeline-section .image-box img {
-                width: 150px;                                                                                                                                                                                                                                                                                                                                                       
+                width: 150px;
             }
-            .timeline-content{
-                padding-left: 20px;
+
+            .timeline-content {
+                padding-left: 14px;
             }
-            .timeline-section .card-box p{
+
+            .timeline-section .card-box p {
                 font-size: 14px !important;
+            }
+            .timeline-section .timeline-content{
+                width: 50%;
+            }
+            .timeline-section .btn-theme-1{
+                margin-top: 10px;
+                font-size: .8rem;
+                padding: 10px 10px; 
+                border-radius: 20px;
+                line-height: 18px;
             }
         }
 
@@ -640,20 +611,27 @@
             .card-box h3 {
                 font-size: 20px;
             }
-               
+
 
 
         }
 
-          @media (min-width:350px) and (max-width:767px) {
-            
-            .timeline-content{
+        @media (min-width:350px) and (max-width:767px) {
+
+            .timeline-content {
                 padding-left: 20px;
             }
 
-            .find-btn{min-width: 80px;padding: 8px 20px; font-size: 12px; line-height: 18px;}
+            .find-btn {
+                min-width: 80px;
+                padding: 8px 20px;
+                font-size: 12px;
+                line-height: 18px;
+            }
 
-            .timeline-section .card-box{padding: 12px;}
+            .timeline-section .card-box {
+                padding: 12px;
+            }
         }
 
         .timeline {
@@ -713,6 +691,7 @@
         .scholarship-section {
             padding: 80px 0;
             background: #f4f4f4;
+            overflow-x: hidden;
         }
 
         .section-heading {
@@ -747,20 +726,13 @@
                 linear-gradient(180deg,
                     #86d6ff 0%,
                     #0d3e9f 100%);
-
-            padding: 25px;
-
+            padding: 16px;
             border-radius: 32px;
-
-            color: #fff;
-
+            color: var(--plainclr);
             text-align: center;
-
             height: 100%;
-
             box-shadow:
                 0 8px 15px rgba(0, 0, 0, .15);
-
             transition: .4s;
         }
 
@@ -776,35 +748,15 @@
         }
 
         .scholar-card h3 {
-
-            font-size: 28px;
             font-weight: 700;
-
             margin-bottom: 15px;
 
         }
 
         .scholar-card p {
-
             font-size: 15px;
             line-height: 1.5;
-
             margin-bottom: 25px;
-        }
-
-        .learn-btn {
-
-            background: #fff;
-
-            color: #7d58e7;
-
-            border: none;
-
-            padding: 10px 28px;
-
-            border-radius: 30px;
-
-            font-weight: 600;
         }
 
         .top-card {
@@ -834,16 +786,15 @@
                 font-size: 34px;
             }
 
-            .scholar-card h3 {
-                font-size: 24px;
-            }
+
 
         }
 
 
         /* testimonial */
-        .testimonial-section {
-            padding: 80px 0;
+
+        .testimonial-section .fa-play {
+            color: #805CD8;
         }
 
         .heading-wrap {
@@ -979,7 +930,7 @@
 
         /* slider */
         .custom-slider {
-            padding: 40px 0;
+            padding: 20px 0;
         }
 
         .custom-slider .slider-wrapper {
@@ -1042,18 +993,12 @@
         }
 
         .custom-slider .content-box h2 {
-
-            font-size: 50px;
             font-weight: 800;
-
             margin-bottom: 25px;
         }
 
         .custom-slider .content-box p {
-
-            font-size: 20px;
             line-height: 1.7;
-
             color: #555;
         }
 
@@ -1118,13 +1063,9 @@
 
             }
 
-            .custom-slider .content-box h2 {
-                font-size: 32px;
-            }
 
-            .custom-slider .content-box p {
-                font-size: 16px;
-            }
+
+
 
             .custom-slider .carousel-indicators {
                 justify-content: center;
@@ -1138,7 +1079,6 @@
         /* faqs */
         .faq-section {
             background: #f4f4f4;
-            padding: 70px 0;
 
             .faq-heading {
 
@@ -1238,7 +1178,7 @@
 
                 .accordion-body {
 
-                    padding: 25px 70px;
+                    padding: 10px 70px;
 
                     color: #444;
 
@@ -1274,6 +1214,7 @@
 
                     .accordion-body {
                         padding: 20px;
+                        font-size: 13px;
                     }
 
                 }
@@ -1281,6 +1222,8 @@
             }
 
         }
+
+       
 
         @media(max-width:576px) {
 
@@ -1335,7 +1278,6 @@
 
         /* blog */
         .blog-section {
-            padding: 70px 0;
             background: #f4f4f4;
         }
 
@@ -1427,8 +1369,6 @@
         }
 
         .blog-title {
-
-            font-size: 30px;
             font-weight: 700;
 
             margin: 25px 0 20px;
@@ -1446,17 +1386,11 @@
         }
 
         .read-more {
-
             color: #8664eb;
-
-            font-size: 28px;
-
+            font-size: 16px;
             font-weight: 700;
-
             text-decoration: none;
-
             display: inline-block;
-
             margin-top: 20px;
         }
 
@@ -1468,10 +1402,6 @@
 
             .blog-card {
                 margin-bottom: 25px;
-            }
-
-            .blog-title {
-                font-size: 26px;
             }
 
         }
@@ -1545,7 +1475,6 @@
         }
 
         .left-side .big-text {
-            font-size: 28px;
             line-height: 1.3;
             color: #fff;
             margin-bottom: 25px;
@@ -1591,6 +1520,7 @@
         .question-box p {
             line-height: 1.8;
             color: #444;
+            font-size: 14px;
         }
 
         .answer-card {
@@ -1621,6 +1551,7 @@
         .answer-card p {
             line-height: 1.8;
             color: #444;
+            font-size: 14px;
         }
 
         @media(max-width:991px) {
@@ -1633,9 +1564,7 @@
                 font-size: 40px;
             }
 
-            .left-side .big-text {
-                font-size: 22px;
-            }
+
 
             .answer-card h4,
             .question-box h4 {
@@ -1658,9 +1587,7 @@
                 font-size: 32px;
             }
 
-            .left-side .big-text {
-                font-size: 18px;
-            }
+
 
             .answer-card,
             .question-box {
@@ -1682,35 +1609,35 @@
 
         /* compare */
         .compare-section {
-            padding: 70px 0;
+
             background: #f5f5f5;
         }
-        .param-tab-btn{
 
-    position:relative;
+        .param-tab-btn {
+            position: relative;
+            padding-right: 20px;
 
-    padding-right:20px;
+        }
 
-}
+        .param-tab-btn::after {
 
-.param-tab-btn::after{
+            content: "|";
 
-    content:"|";
+            position: absolute;
 
-    position:absolute;
+            right: 0;
 
-    right:0;
+            top: 50%;
 
-    top:50%;
+            transform: translateY(-50%);
 
-    transform:translateY(-50%);
+            color: #999;
 
-    color:#999;
+        }
 
-}
-.param-tab-btn:last-child::after{
-    display:none;
-}
+        .param-tab-btn:last-child::after {
+            display: none;
+        }
 
         .heading-wrap {
             text-align: center;
@@ -1856,9 +1783,7 @@
 
 
         /* testimonial */
-        .text-testimonial {
-            padding: 80px 0;
-        }
+
 
         .heading {
             text-align: center;
@@ -1942,12 +1867,8 @@
         }
 
         .testimonial-card p {
-
             font-size: 15px;
             line-height: 1.5;
-
-            color: #444;
-
             min-height: 55px;
         }
 
@@ -2013,10 +1934,7 @@
 
 
 
-        /* mention */
-        .mention-section {
-            padding: 70px 0;
-        }
+
 
         .section-heading {
             text-align: center;
@@ -2069,8 +1987,6 @@
         }
 
         .column-top h4 {
-
-            font-size: 18px;
             font-weight: 700;
             margin: 0;
         }
@@ -2161,10 +2077,7 @@
 
 
 
-        /* exam */
-        .exam-section {
-            padding: 80px 0;
-        }
+
 
         .section-heading {
             text-align: center;
@@ -2196,9 +2109,8 @@
         }
 
         .exam-card {
-
-            width: 270px;
-            height: 270px;
+            width: 250px;
+            height: 250px;
 
             border: 1.8px solid #000;
 
@@ -2213,7 +2125,7 @@
             justify-content: center;
             align-items: center;
 
-            padding: 20px;
+            padding: 14px;
 
             margin: auto;
 
@@ -2247,7 +2159,7 @@
 
         .exam-card h3 {
 
-            font-size: 20px;
+            font-size: 16px;
 
             font-weight: 800;
 
@@ -2262,7 +2174,7 @@
 
         .exam-card p {
 
-            font-size: 14px;
+            font-size: 13px;
 
             text-align: center;
 
@@ -2307,7 +2219,10 @@
             }
 
             .exam-card h3 {
-                font-size: 18px;
+                font-size: 14px;
+            }
+            .exam-section .exam-card p{
+                font-size: 12px !important;
             }
 
         }
@@ -2316,9 +2231,6 @@
 
 
         /* contact */
-        .contact-section {
-            padding: 70px 0;
-        }
 
         .contact-box {
 
@@ -2497,18 +2409,18 @@
     @php
         $orgTypes = \App\Models\OrganisationType::where('status', true)->orderBy('sort_order')->get();
     @endphp
-    @if($orgTypes->count() > 0)
-    <section class="school-nav">
-        <div class="container">
-            <ul class="school-list">
-                @foreach($orgTypes as $type)
-                    <li>
-                        <a href="#">{{ $type->title }}</a>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    </section>
+    @if ($orgTypes->count() > 0)
+        <section class="school-nav">
+            <div class="container">
+                <ul class="school-list">
+                    @foreach ($orgTypes as $type)
+                        <li>
+                            <a href="#">{{ $type->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
     @endif
 
 
@@ -2520,8 +2432,9 @@
                 <!-- indicators -->
 
                 <div class="carousel-indicators">
-                    @foreach($hero_sliders as $index => $slider)
-                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></button>
+                    @foreach ($hero_sliders as $index => $slider)
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $index }}"
+                            class="{{ $index == 0 ? 'active' : '' }}"></button>
                     @endforeach
                 </div>
 
@@ -2529,7 +2442,8 @@
                 <div class="carousel-inner">
                     @forelse($hero_sliders as $index => $slider)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                            <img src="{{ env('BACKEND_URL') . '/' . $slider->image_path }}" alt="{{ $slider->heading ?? 'banner' }}">
+                            <img src="{{ env('BACKEND_URL') . '/' . $slider->image_path }}"
+                                alt="{{ $slider->heading ?? 'banner' }}">
                         </div>
                     @empty
                         <div class="carousel-item active">
@@ -2548,7 +2462,7 @@
 
         <div class="container text-center">
 
-            <h2 class="featured-title">
+            <h2 class="featured-title main-heading">
                 Featured University
             </h2>
 
@@ -2572,14 +2486,15 @@
 
             <div class="row g-4 justify-content-center">
 
-                @foreach($organisations->take(12) as $org)
+                @foreach ($organisations->take(12) as $org)
                     <div class="col-lg-2 col-md-4 col-6">
                         <a href="{{ route('pages.organisations.detail', $org->slug) }}" class="text-decoration-none">
                             <div class="uni-card">
-                                @if($org->logo_url)
+                                @if ($org->logo_url)
                                     <img src="{{ env('BACKEND_URL') . '/' . $org->logo_url }}" alt="{{ $org->name }}">
                                 @else
-                                    <span class="fw-bold text-center px-2" style="font-size: 13px; color: #333;">{{ $org->name }}</span>
+                                    <span class="fw-bold text-center px-2"
+                                        style="font-size: 13px; color: #333;">{{ $org->name }}</span>
                                 @endif
                             </div>
                         </a>
@@ -2590,7 +2505,8 @@
 
 
             <div class="text-center">
-                <a href="{{ route('pages.home') }}" class="view-btn text-decoration-none d-inline-block text-center pt-2">
+                <a href="{{ route('pages.home') }}"
+                    class="btn-theme-1 text-decoration-none d-inline-block text-center pt-2">
                     View More
                 </a>
             </div>
@@ -2603,7 +2519,7 @@
 
         <div class="container text-center">
 
-            <h2 class="featured-title">
+            <h2 class="featured-title main-heading">
                 Talk To Experts
             </h2>
 
@@ -2627,9 +2543,11 @@
 
             <div class="row g-4 justify-content-center">
 
-                @foreach($experts->take(4) as $expert)
+                @foreach ($experts->take(4) as $expert)
                     @php
-                        $imgUrl = (str_starts_with($expert->img, 'http')) ? $expert->img : env('BACKEND_URL') . '/' . $expert->img;
+                        $imgUrl = str_starts_with($expert->img, 'http')
+                            ? $expert->img
+                            : env('BACKEND_URL') . '/' . $expert->img;
                     @endphp
                     <div class="col-lg-3 col-md-6">
 
@@ -2637,12 +2555,14 @@
 
                             <div class="card-image" style="height: 250px; overflow: hidden;">
                                 <a href="{{ route('pages.experts.detail', $expert->id) }}">
-                                    <img src="{{ $imgUrl }}" alt="{{ $expert->name }}" style="object-fit: cover; height: 100%; width: 100%;">
+                                    <img src="{{ $imgUrl }}" alt="{{ $expert->name }}"
+                                        style="object-fit: cover; height: 100%; width: 100%;">
                                 </a>
                             </div>
 
                             <h3 class="card-title">
-                                <a href="{{ route('pages.experts.detail', $expert->id) }}" class="text-decoration-none text-dark">{{ $expert->name }}</a>
+                                <a href="{{ route('pages.experts.detail', $expert->id) }}"
+                                    class="text-decoration-none text-dark">{{ $expert->name }}</a>
                             </h3>
 
                             <p class="card-desc">
@@ -2650,14 +2570,10 @@
                                 {{ $expert->exp }} · ⭐ {{ $expert->rating }}
                             </p>
 
-                            <button class="learn-btn btn-book-session"
-                                data-bs-toggle="modal" 
-                                data-bs-target="#bookingModal"
-                                data-provider-id="{{ $expert->id }}"
-                                data-provider-type="expert"
-                                data-provider-name="{{ $expert->name }}"
-                                data-provider-role="{{ $expert->role }}"
-                                data-provider-img="{{ $imgUrl }}">
+                            <button class="btn-theme-2 btn-book-session" data-bs-toggle="modal"
+                                data-bs-target="#bookingModal" data-provider-id="{{ $expert->id }}"
+                                data-provider-type="expert" data-provider-name="{{ $expert->name }}"
+                                data-provider-role="{{ $expert->role }}" data-provider-img="{{ $imgUrl }}">
                                 Book Session
                             </button>
 
@@ -2676,7 +2592,7 @@
 
         <div class="container text-center">
 
-            <h2 class="featured-title">
+            <h2 class="featured-title main-heading">
                 Our Trending Program
             </h2>
         </div>
@@ -2690,12 +2606,12 @@
 
             @php
                 $trending_courses = [];
-                foreach($organisations as $org) {
-                    foreach($org->courses as $c) {
-                        if(count($trending_courses) < 3) {
+                foreach ($organisations as $org) {
+                    foreach ($org->courses as $c) {
+                        if (count($trending_courses) < 3) {
                             $trending_courses[] = [
                                 'org' => $org,
-                                'course' => $c
+                                'course' => $c,
                             ];
                         }
                     }
@@ -2706,24 +2622,35 @@
                 @php
                     $org = $tc['org'];
                     $c = $tc['course'];
-                    $img = $org->logo_url ? env('BACKEND_URL') . '/' . $org->logo_url : 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=900';
+                    $img = $org->logo_url
+                        ? env('BACKEND_URL') . '/' . $org->logo_url
+                        : 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=900';
                 @endphp
                 <div class="row align-items-center info-row">
-                    @if($index % 2 == 0)
+                    @if ($index % 2 == 0)
                         <div class="col-lg-5">
                             <div class="image-box">
-                                <img src="{{ $img }}" alt="{{ $c->course->name ?? 'Course' }}" style="max-height: 250px; object-fit: contain; width: 100%;">
+                                <img src="{{ $img }}" alt="{{ $c->course->name ?? 'Course' }}"
+                                    style="max-height: 250px; object-fit: cover; width: 100%;">
                             </div>
                         </div>
                         <div class="col-lg-7">
                             <div class="content-box">
-                                <h2>{{ $c->course->name ?? 'N/A' }}</h2>
+                                <h2 class="sub-heading">{{ $c->course->name ?? 'N/A' }}</h2>
                                 <p style="font-size: 16px; line-height: 1.6; color: #555;">
                                     Offered by <strong>{{ $org->name }}</strong>.<br>
                                     Mode: {{ $c->mode ?? 'N/A' }} | Duration: {{ $c->duration ?? 'N/A' }}<br>
-                                    {!! Str::limit(strip_tags($c->placement_details ?? $c->eligibility ?? 'Learn more about this dynamic program, its curriculum, fees, and career placement options.'), 200) !!}
+                                    {!! Str::limit(
+                                        strip_tags(
+                                            $c->placement_details ??
+                                                ($c->eligibility ??
+                                                    'Learn more about this dynamic program, its curriculum, fees, and career placement options.'),
+                                        ),
+                                        200,
+                                    ) !!}
                                 </p>
-                                <a href="{{ route('pages.organisations.detail', $org->slug) }}" class="learn-btn text-decoration-none d-inline-block text-center pt-2">
+                                <a href="{{ route('pages.organisations.detail', $org->slug) }}"
+                                    class="btn-theme-2 text-decoration-none d-inline-block text-center pt-2">
                                     Learn More
                                 </a>
                             </div>
@@ -2731,20 +2658,29 @@
                     @else
                         <div class="col-lg-7 order-lg-1 order-2">
                             <div class="content-box">
-                                <h2>{{ $c->course->name ?? 'N/A' }}</h2>
+                                <h2 class="sub-heading">{{ $c->course->name ?? 'N/A' }}</h2>
                                 <p style="font-size: 16px; line-height: 1.6; color: #555;">
                                     Offered by <strong>{{ $org->name }}</strong>.<br>
                                     Mode: {{ $c->mode ?? 'N/A' }} | Duration: {{ $c->duration ?? 'N/A' }}<br>
-                                    {!! Str::limit(strip_tags($c->placement_details ?? $c->eligibility ?? 'Learn more about this dynamic program, its curriculum, fees, and career placement options.'), 200) !!}
+                                    {!! Str::limit(
+                                        strip_tags(
+                                            $c->placement_details ??
+                                                ($c->eligibility ??
+                                                    'Learn more about this dynamic program, its curriculum, fees, and career placement options.'),
+                                        ),
+                                        200,
+                                    ) !!}
                                 </p>
-                                <a href="{{ route('pages.organisations.detail', $org->slug) }}" class="learn-btn text-decoration-none d-inline-block text-center pt-2">
+                                <a href="{{ route('pages.organisations.detail', $org->slug) }}"
+                                    class="btn-theme-2  text-decoration-none d-inline-block text-center pt-2">
                                     Learn More
                                 </a>
                             </div>
                         </div>
                         <div class="col-lg-5 order-lg-2 order-1">
                             <div class="image-box">
-                                <img src="{{ $img }}" alt="{{ $c->course->name ?? 'Course' }}" style="max-height: 250px; object-fit: contain; width: 100%;">
+                                <img src="{{ $img }}" alt="{{ $c->course->name ?? 'Course' }}"
+                                    style="max-height: 250px; object-fit: cover; width: 100%;">
                             </div>
                         </div>
                     @endif
@@ -2754,7 +2690,8 @@
                 <div class="row align-items-center info-row">
                     <div class="col-lg-5">
                         <div class="image-box">
-                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=900" alt="students">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=900"
+                                alt="students">
                         </div>
                     </div>
                     <div class="col-lg-7">
@@ -2778,7 +2715,7 @@
 
         <div class="container">
 
-            <h2 class="section-title">
+            <h2 class="section-title main-heading">
                 Why Choose enrollzy
             </h2>
 
@@ -2794,7 +2731,7 @@
 
                 @forelse($home_services as $index => $service)
                     <div class="timeline-item row">
-                        @if($index % 2 == 0)
+                        @if ($index % 2 == 0)
                             <div class="timeline-content left animate">
                                 <div class="image-box">
                                     <img src="{{ asset('images/Choose-enrollzy.png') }}" alt="timeline">
@@ -2803,10 +2740,10 @@
 
                             <div class="timeline-content right animate">
                                 <div class="card-box">
-                                    <h3>{{ $service->title }}</h3>
+                                    <h3 class="sub-heading">{{ $service->title }}</h3>
                                     <p>{{ $service->description }}</p>
-                                    @if($service->footer_text)
-                                        <button class="find-btn">
+                                    @if ($service->footer_text)
+                                        <button class="btn-theme-1">
                                             {{ $service->footer_text }}
                                         </button>
                                     @endif
@@ -2815,10 +2752,10 @@
                         @else
                             <div class="timeline-content left animate">
                                 <div class="card-box">
-                                    <h3>{{ $service->title }}</h3>
+                                    <h3 class="sub-heading">{{ $service->title }}</h3>
                                     <p>{{ $service->description }}</p>
-                                    @if($service->footer_text)
-                                        <button class="find-btn">
+                                    @if ($service->footer_text)
+                                        <button class="btn-theme-1">
                                             {{ $service->footer_text }}
                                         </button>
                                     @endif
@@ -2841,9 +2778,9 @@
                         </div>
                         <div class="timeline-content right animate">
                             <div class="card-box">
-                                <h3>Stage 1</h3>
+                                <h3 class="sub-heading">Stage 1</h3>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                <button class="find-btn">Find</button>
+                                <button class="btn-theme-1">Find</button>
                             </div>
                         </div>
                     </div>
@@ -2862,7 +2799,7 @@
 
             <div class="section-heading heading">
 
-                <h2>
+                <h2 class="main-heading">
                     Scholarships & Benefits
                 </h2>
 
@@ -2879,7 +2816,7 @@
 
                 @forelse($home_benefits->take(4) as $index => $benefit)
                     @php
-                        $cardClass = ($index == 0 || $index == 3) ? 'top-card' : 'bottom-card';
+                        $cardClass = $index == 0 || $index == 3 ? 'top-card' : 'bottom-card';
                     @endphp
                     <div class="col-lg-3 col-md-6">
 
@@ -2887,13 +2824,13 @@
 
                             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
 
-                            <h3>{{ $benefit->title }}</h3>
+                            <h3 class="sub-heading-two text-white">{{ $benefit->title }}</h3>
 
-                            <p>
+                            <p class="text-white">
                                 {{ $benefit->content }}
                             </p>
 
-                            <button class="learn-btn">
+                            <button class="btn-theme-3">
                                 Learn More
                             </button>
 
@@ -2904,8 +2841,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="scholar-card top-card">
                             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
-                            <h3>Lorem Ipsum</h3>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            <h3 class="sub-heading-two text-white">Lorem Ipsum</h3>
+                            <p class="text-white">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                industry.</p>
                             <button class="learn-btn">Learn More</button>
                         </div>
                     </div>
@@ -2927,7 +2865,7 @@
 
                 <div class="heading-line"></div>
 
-                <h2>
+                <h2 class="main-heading">
                     Testimonials
                 </h2>
 
@@ -2936,15 +2874,18 @@
             </div>
 
 
-            
+
             <div class="swiper testimonialSwiper">
 
                 <div class="swiper-wrapper">
 
                     @forelse($video_testimonials as $video)
                         <div class="swiper-slide">
-                            <div class="testimonial-card" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.75)), url('{{ env('BACKEND_URL') . '/' . $video->thumbnail }}'); background-size: cover; background-position: center; min-height: 250px;">
-                                <a href="{{ $video->video_url }}" target="_blank" class="play-btn text-decoration-none text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); border-radius: 50%;">
+                            <div class="testimonial-card"
+                                style="background-image:linear-gradient(rgba(173, 41, 172, 0.35),rgba(111, 68, 117, 0.70)), url('{{ env('BACKEND_URL') . '/' . $video->thumbnail }}'); background-size: cover; background-position: center; min-height: 250px;">
+                                <a href="{{ $video->video_url }}" target="_blank"
+                                    class="play-btn text-decoration-none text-white d-inline-flex align-items-center justify-content-center mb-3"
+                                    style="width: 50px; height: 50px; background: #fff; backdrop-filter: blur(5px); border-radius: 50%;">
                                     <i class="fa-solid fa-play"></i>
                                 </a>
                                 <h3>{{ $video->name }}</h3>
@@ -2952,7 +2893,7 @@
                                     {{ $video->course }}
                                 </p>
                                 <div class="rating">
-                                    @for($i = 1; $i <= 5; $i++)
+                                    @for ($i = 1; $i <= 5; $i++)
                                         <i class="fa-solid fa-star" style="color: #ffc107;"></i>
                                     @endfor
                                 </div>
@@ -2995,7 +2936,7 @@
 
         <div class="container text-center">
 
-            <h2 class="featured-title">
+            <h2 class="featured-title main-heading">
                 Alumnai
             </h2>
 
@@ -3015,311 +2956,320 @@
 
 
 
-    
-    @if($site_alumni->count() > 0)
-    <section class="custom-slider">
 
-        <div class="container-fluid px-lg-4">
+    @if ($site_alumni->count() > 0)
+        <section class="custom-slider">
 
-            <div id="customCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="container-fluid px-lg-4">
 
+                <div id="customCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
 
-                <div class="carousel-indicators">
-                    @foreach($site_alumni as $index => $alumnus)
-                        <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="{{ $index }}"
-                            class="{{ $index == 0 ? 'active' : '' }}"></button>
-                    @endforeach
-                </div>
 
-
-
-                <div class="carousel-inner">
-
-                    @foreach($site_alumni as $index => $alumnus)
-                        @php
-                            $imgUrl = $alumnus->image ? (str_starts_with($alumnus->image, 'http') ? $alumnus->image : env('BACKEND_URL') . '/' . $alumnus->image) : 'https://ui-avatars.com/api/?name='.urlencode($alumnus->name);
-                        @endphp
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-
-                            <div class="slider-wrapper">
-
-                                <div class="left-image">
-                                    <a href="{{ route('pages.alumni.detail', $alumnus->id) }}">
-                                        <img src="{{ $imgUrl }}" alt="{{ $alumnus->name }}" style="max-height: 400px; object-fit: cover; width: 100%;">
-                                    </a>
-                                </div>
-
-
-                                <div class="content-box">
-
-                                    <h2>
-                                        {{ $alumnus->name }}
-                                    </h2>
-
-                                    <h4 class="text-white opacity-75 mt-2">{{ $alumnus->designation }} {{ $alumnus->company ? '@ ' . $alumnus->company : '' }}</h4>
-
-                                    <p class="mt-3">
-                                        {{ $alumnus->experience_years ? $alumnus->experience_years . ' years of professional experience.' : '' }}
-                                        Connect with our alumni working in top organizations worldwide to get real-world insights, career guidance, and mentorship.
-                                    </p>
-
-                                    <button type="button" 
-                                        class="btn-theme-one mt-4 btn-book-session"
-                                        style="background: #2563eb; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; transition: all 0.3s ease;"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#bookingModal"
-                                        data-provider-id="{{ $alumnus->id }}"
-                                        data-provider-type="alumni"
-                                        data-provider-name="{{ $alumnus->name }}"
-                                        data-provider-role="{{ $alumnus->designation }}"
-                                        data-provider-img="{{ $imgUrl }}">
-                                        Book Session
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    @endforeach
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-    @endif
-
-
-
-
-    
-    @if($faqs->count() > 0)
-    <section class="faq-section">
-
-        <div class="container">
-
-            <div class="faq-heading">
-
-                <h2>
-                    FAQ
-                </h2>
-
-                <p>
-                    Find answers to frequently asked questions about our programs and admissions.
-                </p>
-
-            </div>
-
-
-            <div class="faq-wrapper">
-
-                <div class="accordion" id="faqAccordion">
-
-                    @foreach($faqs as $index => $faq)
-                        <div class="accordion-item">
-
-                            <h2 class="accordion-header">
-
-                                <button class="accordion-button {{ $index == 0 ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq{{ $faq->id }}">
-
-                                    <div class="faq-icon"></div>
-
-                                    {{ $faq->question }}
-
-                                </button>
-
-                            </h2>
-
-
-                            <div id="faq{{ $faq->id }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
-
-                                <div class="accordion-body">
-
-                                    {{ $faq->answer }}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    @endforeach
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-    @endif
-
-
-
-    
-    @if($blogs->count() > 0)
-    <section class="blog-section">
-
-        <div class="container">
-
-            <div class="blog-heading">
-
-                <h2>
-                    Our Latest Blog
-                </h2>
-
-            </div>
-
-
-            <div class="blog-wrapper">
-
-                <div class="row g-4">
-
-                    @foreach($blogs->take(3) as $blog)
-                        <div class="col-lg-4 col-md-6">
-
-                            <div class="blog-card">
-
-                                <div class="blog-image">
-
-                                    <img src="{{ env('BACKEND_URL') . '/' . $blog->image }}" alt="{{ $blog->title }}">
-
-                                </div>
-
-
-                                <div class="blog-content">
-
-                                    <button class="update-btn">
-                                        Update
-                                    </button>
-
-                                    <h3 class="blog-title">
-                                        {{ $blog->title }}
-                                    </h3>
-
-                                    <p class="blog-desc">
-                                        {!! Str::limit(strip_tags($blog->description), 100) !!}
-                                    </p>
-
-                                    <a href="{{ route('pages.blogs.detail', $blog->slug) }}" class="read-more">
-                                        Read More →
-                                    </a>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    @endforeach
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-    @endif
-
-
-
-    
-    @if($faqs->count() > 0)
-    <section class="qa-section">
-
-        <div class="container">
-
-            <div class="top-heading">
-
-                <h2>
-                    Questions & Answers
-                </h2>
-
-                <p>
-                    Here are some of the most commonly asked questions by our prospective students.
-                </p>
-
-                <div class="heading-line"></div>
-
-            </div>
-
-
-            <div class="qa-wrapper">
-
-                <div class="row">
-
-
-                    <!-- left -->
-
-                    <div class="col-lg-7">
-
-                        <div class="left-side">
-
-                            <h3>
-                                Asked Questions
-                            </h3>
-
-                            <p class="big-text">
-                                Have more specific questions? Reach out to our guidance experts for custom advice.
-                            </p>
-
-
-                            <div class="left-image">
-
-                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=900">
-
-                            </div>
-
-
-                            <div class="question-box">
-
-                                <h4>
-                                    Still Have Question ?
-                                </h4>
-
-                                <p>
-                                    Fill in our contact form or book a free session with any of our experts to clarify your doubts.
-                                </p>
-
-                            </div>
-
-                        </div>
-
+                    <div class="carousel-indicators">
+                        @foreach ($site_alumni as $index => $alumnus)
+                            <button type="button" data-bs-target="#customCarousel"
+                                data-bs-slide-to="{{ $index }}"
+                                class="{{ $index == 0 ? 'active' : '' }}"></button>
+                        @endforeach
                     </div>
 
 
 
-                    <!-- right -->
+                    <div class="carousel-inner">
 
-                    <div class="col-lg-5">
+                        @foreach ($site_alumni as $index => $alumnus)
+                            @php
+                                $imgUrl = $alumnus->image
+                                    ? (str_starts_with($alumnus->image, 'http')
+                                        ? $alumnus->image
+                                        : env('BACKEND_URL') . '/' . $alumnus->image)
+                                    : 'https://ui-avatars.com/api/?name=' . urlencode($alumnus->name);
+                            @endphp
+                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
 
-                        @foreach($faqs->skip(1)->take(4) as $faq)
-                            <div class="answer-card">
+                                <div class="slider-wrapper">
 
-                                <h4>
-                                    {{ $faq->question }}
-                                </h4>
+                                    <div class="left-image">
+                                        <a href="{{ route('pages.alumni.detail', $alumnus->id) }}">
+                                            <img src="{{ $imgUrl }}" alt="{{ $alumnus->name }}"
+                                                style="max-height: 400px; object-fit: cover; width: 100%;">
+                                        </a>
+                                    </div>
 
-                                <p>
-                                    {{ $faq->answer }}
-                                </p>
+
+                                    <div class="content-box">
+
+                                        <h2 class="sub-heading">
+                                            {{ $alumnus->name }}
+                                        </h2>
+
+                                        <h4 class="text-white opacity-75 mt-2">{{ $alumnus->designation }}
+                                            {{ $alumnus->company ? '@ ' . $alumnus->company : '' }}</h4>
+
+                                        <p class="mt-3">
+                                            {{ $alumnus->experience_years ? $alumnus->experience_years . ' years of professional experience.' : '' }}
+                                            Connect with our alumni working in top organizations worldwide to get real-world
+                                            insights, career guidance, and mentorship.
+                                        </p>
+
+                                        <button type="button" class="btn-theme-one mt-4 btn-book-session"
+                                            style="background: #2563eb; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; transition: all 0.3s ease;"
+                                            data-bs-toggle="modal" data-bs-target="#bookingModal"
+                                            data-provider-id="{{ $alumnus->id }}" data-provider-type="alumni"
+                                            data-provider-name="{{ $alumnus->name }}"
+                                            data-provider-role="{{ $alumnus->designation }}"
+                                            data-provider-img="{{ $imgUrl }}">
+                                            Book Session
+                                        </button>
+
+                                    </div>
+
+                                </div>
 
                             </div>
                         @endforeach
 
                     </div>
 
+                </div>
+
+            </div>
+
+        </section>
+    @endif
+
+
+
+
+
+    @if ($faqs->count() > 0)
+        <section class="faq-section">
+
+            <div class="container">
+
+                <div class="faq-heading">
+
+                    <h2 class="main-heading">
+                        FAQ
+                    </h2>
+
+                    <p>
+                        Find answers to frequently asked questions about our programs and admissions.
+                    </p>
+
+                </div>
+
+
+                <div class="faq-wrapper">
+
+                    <div class="accordion" id="faqAccordion">
+
+                        @foreach ($faqs as $index => $faq)
+                            <div class="accordion-item">
+
+                                <h2 class="accordion-header">
+
+                                    <button class="accordion-button {{ $index == 0 ? '' : 'collapsed' }}" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq{{ $faq->id }}">
+
+                                        <div class="faq-icon"></div>
+
+                                        {{ $faq->question }}
+
+                                    </button>
+
+                                </h2>
+
+
+                                <div id="faq{{ $faq->id }}"
+                                    class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}"
+                                    data-bs-parent="#faqAccordion">
+
+                                    <div class="accordion-body">
+
+                                        {{ $faq->answer }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
+    @endif
 
-    </section>
+
+
+
+    @if ($blogs->count() > 0)
+        <section class="blog-section">
+
+            <div class="container">
+
+                <div class="blog-heading">
+
+                    <h2 class="main-heading">
+                        Our Latest Blog
+                    </h2>
+
+                </div>
+
+
+                <div class="blog-wrapper">
+
+                    <div class="row g-4">
+
+                        @foreach ($blogs->take(3) as $blog)
+                            <div class="col-lg-4 col-md-6">
+
+                                <div class="blog-card">
+
+                                    <div class="blog-image">
+
+                                        <img src="{{ env('BACKEND_URL') . '/' . $blog->image }}"
+                                            alt="{{ $blog->title }}">
+
+                                    </div>
+
+
+                                    <div class="blog-content">
+
+                                        <button class="update-btn">
+                                            Update
+                                        </button>
+
+                                        <h3 class="blog-title sub-heading-two">
+                                            {{ $blog->title }}
+                                        </h3>
+
+                                        <p class="blog-desc">
+                                            {!! Str::limit(strip_tags($blog->description), 100) !!}
+                                        </p>
+
+                                        <a href="{{ route('pages.blogs.detail', $blog->slug) }}" class="read-more">
+                                            Read More →
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+    @endif
+
+
+
+
+    @if ($faqs->count() > 0)
+        <section class="qa-section">
+
+            <div class="container">
+
+                <div class="top-heading">
+
+                    <h2 class="main-heading">
+                        Questions & Answers
+                    </h2>
+
+                    <p>
+                        Here are some of the most commonly asked questions by our prospective students.
+                    </p>
+
+                    <div class="heading-line"></div>
+
+                </div>
+
+
+                <div class="qa-wrapper">
+
+                    <div class="row">
+
+
+                        <!-- left -->
+
+                        <div class="col-lg-7">
+
+                            <div class="left-side">
+
+                                <h3 class="main-heading">
+                                    Asked Questions
+                                </h3>
+
+                                <p class="big-text">
+                                    Have more specific questions? Reach out to our guidance experts for custom advice.
+                                </p>
+
+
+                                <div class="left-image">
+
+                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=900">
+
+                                </div>
+
+
+                                <div class="question-box">
+
+                                    <h4 class="sub-heading">
+                                        Still Have Question ?
+                                    </h4>
+
+                                    <p>
+                                        Fill in our contact form or book a free session with any of our experts to clarify
+                                        your doubts.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- right -->
+
+                        <div class="col-lg-5">
+
+                            @foreach ($faqs->skip(1)->take(4) as $faq)
+                                <div class="answer-card">
+
+                                    <h4 class="sub-heading">
+                                        {{ $faq->question }}
+                                    </h4>
+
+                                    <p>
+                                        {{ $faq->answer }}
+                                    </p>
+
+                                </div>
+                            @endforeach
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
     @endif
 
 
@@ -3328,7 +3278,7 @@
 
         <div class="container text-center">
 
-            <h2 class="featured-title">
+            <h2 class="featured-title main-heading">
                 Comparison
             </h2>
 
@@ -3344,7 +3294,7 @@
         </div>
 
     </section>
-    
+
     <section class="compare-section">
 
         <div class="container">
@@ -3354,7 +3304,7 @@
 
                     <div class="row g-4 justify-content-center">
 
-                        @for($i = 1; $i <= 3; $i++)
+                        @for ($i = 1; $i <= 3; $i++)
                             <div class="col-lg-4 col-md-6">
 
                                 <div class="compare-card" data-slot-card="{{ $i }}">
@@ -3381,7 +3331,7 @@
                                             <option value="">
                                                 Choose Institution
                                             </option>
-                                            @foreach($organisations as $org)
+                                            @foreach ($organisations as $org)
                                                 <option value="{{ $org->id }}">{{ $org->name }}</option>
                                             @endforeach
 
@@ -3396,7 +3346,8 @@
                                             Program
                                         </label>
 
-                                        <select class="form-select course-selector" data-slot="{{ $i }}" disabled>
+                                        <select class="form-select course-selector" data-slot="{{ $i }}"
+                                            disabled>
 
                                             <option value="">
                                                 Select Course
@@ -3423,13 +3374,15 @@
                     <i class="fas fa-filter me-2 text-primary"></i>
                     <span class="fw-bold small text-uppercase">Quick Jump</span>
                 </div>
-                <div class="param-tabs-scroll d-flex gap-2" style="overflow-x: auto; white-space: nowrap; padding-bottom: 10px;">
+                <div class="param-tabs-scroll d-flex gap-2"
+                    style="overflow-x: auto; white-space: nowrap; padding-bottom: 10px;">
                     <!-- Tabs will be injected here -->
                 </div>
             </div>
 
             <!-- Comparison Matrix -->
-            <div id="comparisonResults" class="comparison-matrix-wrapper d-none shadow-premium rounded-4 overflow-hidden border-0 mt-4 bg-white p-3">
+            <div id="comparisonResults"
+                class="comparison-matrix-wrapper d-none shadow-premium rounded-4 overflow-hidden border-0 mt-4 bg-white p-3">
                 <div class="table-responsive">
                     <table class="table comparison-matrix-table mb-0">
                         <thead>
@@ -3446,7 +3399,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="text-center py-4 bg-light border-top mt-3">
                     <button id="resetComparison" class="btn btn-dark rounded-pill px-5 py-2 shadow-sm">
                         <i class="fas fa-undo me-2"></i> Reset Comparison
@@ -3462,56 +3415,154 @@
 
 
 
-    
-    @if($testimonials->count() > 0)
-    <section class="text-testimonial">
 
-        <div class="container">
+    @if ($testimonials->count() > 0)
+        <section class="text-testimonial">
 
-            <div class="heading">
+            <div class="container">
 
-                <h2>
-                    <span>Text</span> Testimonials
-                </h2>
+                <div class="heading">
 
-                <p>
-                    What our students and parents have to say about their experience with us.
-                </p>
+                    <h2 class="main-heading">
+                        <span class="main-heading">Text</span> Testimonials
+                    </h2>
 
-                <div class="heading-line"></div>
+                    <p>
+                        What our students and parents have to say about their experience with us.
+                    </p>
+
+                    <div class="heading-line"></div>
+
+                </div>
+
+
+                <div class="swiper testimonialSlider">
+
+                    <div class="swiper-wrapper">
+
+                        @foreach ($testimonials as $testi)
+                            <div class="swiper-slide">
+
+                                <div class="testimonial-card">
+
+                                    <div class="profile">
+                                        @php
+                                            $avatar = $testi->image
+                                                ? (str_starts_with($testi->image, 'http')
+                                                    ? $testi->image
+                                                    : env('BACKEND_URL') . '/' . $testi->image)
+                                                : 'https://ui-avatars.com/api/?name=' . urlencode($testi->name);
+                                        @endphp
+                                        <img src="{{ $avatar }}" alt="{{ $testi->name }}">
+
+                                    </div>
+
+                                    <h3>{{ $testi->name }}</h3>
+                                    <h6 class="text-muted small mb-2">{{ $testi->role }}</h6>
+
+                                    <p>
+                                        {{ $testi->content }}
+                                    </p>
+
+                                    <div class="stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa-solid fa-star" style="color: #ffc107;"></i>
+                                        @endfor
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                    <div class="swiper-pagination"></div>
+
+                </div>
 
             </div>
 
+        </section>
+    @endif
 
-            <div class="swiper testimonialSlider">
 
-                <div class="swiper-wrapper">
 
-                    @foreach($testimonials as $testi)
-                        <div class="swiper-slide">
+    @if ($noteworthy_categories->count() > 0)
+        <section class="mention-section">
 
-                            <div class="testimonial-card">
+            <div class="container">
 
-                                <div class="profile">
+                <div class="section-heading heading">
+
+                    <h2 class="main-heading">
+                        <span class="main-heading">Noteworthy</span> Mentions
+                    </h2>
+
+                    <p>
+                        Explore our popular certificates, credentials, and achievements.
+                    </p>
+
+                    <div class="heading-line"></div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    @php
+                        $colors = ['purple', 'cream', 'green'];
+                    @endphp
+                    @foreach ($noteworthy_categories->take(3) as $cIndex => $category)
+                        <div class="col-lg-4 col-md-6">
+
+                            <div class="mention-column">
+
+                                <div class="column-top">
+
+                                    <h4 class="sub-heading-two text-capitalize">{{ $category->name }}</h4>
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </div>
+
+                                @foreach ($category->mentions->take(6) as $mention)
                                     @php
-                                        $avatar = $testi->image ? (str_starts_with($testi->image, 'http') ? $testi->image : env('BACKEND_URL') . '/' . $testi->image) : 'https://ui-avatars.com/api/?name='.urlencode($testi->name);
+                                        $colorClass = $colors[$cIndex % 3];
                                     @endphp
-                                    <img src="{{ $avatar }}" alt="{{ $testi->name }}">
+                                    @if ($mention->url)
+                                        <a href="{{ $mention->url }}" class="text-decoration-none text-dark">
+                                    @endif
+                                    <div class="mention-card {{ $colorClass }}">
 
-                                </div>
+                                        <div class="icon-box">
+                                            @if ($mention->image)
+                                                <img src="{{ env('BACKEND_URL') . '/' . $mention->image }}"
+                                                    alt="img" style="width: 32px; height: 32px; border-radius: 50%;">
+                                            @else
+                                                🏅
+                                            @endif
+                                        </div>
 
-                                <h3>{{ $testi->name }}</h3>
-                                <h6 class="text-muted small mb-2">{{ $testi->role }}</h6>
+                                        <div class="card-content">
 
-                                <p>
-                                    {{ $testi->content }}
-                                </p>
+                                            <h5 class="text-white">
+                                                {{ $mention->title }}
+                                            </h5>
 
-                                <div class="stars">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <i class="fa-solid fa-star" style="color: #ffc107;"></i>
-                                    @endfor
-                                </div>
+                                            <p>
+                                                {{ $mention->subtitle }} @if ($mention->badge_text)
+                                                    | {{ $mention->badge_text }}
+                                                @endif
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+                                    @if ($mention->url)
+                                        </a>
+                                    @endif
+                                @endforeach
 
                             </div>
 
@@ -3520,154 +3571,63 @@
 
                 </div>
 
-                <div class="swiper-pagination"></div>
-
             </div>
 
-        </div>
-
-    </section>
+        </section>
     @endif
 
 
-    
-    @if($noteworthy_categories->count() > 0)
-    <section class="mention-section">
-
-        <div class="container">
-
-            <div class="section-heading heading">
-
-                <h2>
-                    <span>Noteworthy</span> Mentions
-                </h2>
-
-                <p>
-                    Explore our popular certificates, credentials, and achievements.
-                </p>
-
-                <div class="heading-line"></div>
-
-            </div>
 
 
-            <div class="row g-4">
+    @if ($exams->count() > 0)
+        <section class="exam-section">
 
-                @php
-                    $colors = ['purple', 'cream', 'green'];
-                @endphp
-                @foreach ($noteworthy_categories->take(3) as $cIndex => $category)
-                    <div class="col-lg-4 col-md-6">
+            <div class="container">
 
-                        <div class="mention-column">
+                <div class="section-heading heading">
 
-                            <div class="column-top">
+                    <h2 class="main-heading">
+                        <span class="main-heading">Top</span> Exams
+                    </h2>
 
-                                <h4>{{ $category->name }}</h4>
+                    <p>
+                        Prepare for the top competitive exams in the country.
+                    </p>
 
-                                <i class="fa-solid fa-arrow-right"></i>
+                    <div class="heading-line"></div>
 
-                            </div>
+                </div>
 
-                            @foreach($category->mentions->take(6) as $mention)
-                                @php
-                                    $colorClass = $colors[$cIndex % 3];
-                                @endphp
-                                @if($mention->url)
-                                    <a href="{{ $mention->url }}" class="text-decoration-none text-dark">
-                                @endif
-                                <div class="mention-card {{ $colorClass }}">
 
-                                    <div class="icon-box">
-                                        @if($mention->image)
-                                            <img src="{{ env('BACKEND_URL') . '/' . $mention->image }}" alt="img" style="width: 32px; height: 32px; border-radius: 50%;">
-                                        @else
-                                            🏅
-                                        @endif
-                                    </div>
+                <div class="row justify-content-center g-4">
 
-                                    <div class="card-content">
+                    @foreach ($exams->take(6) as $exam)
+                        <div class="col-lg-4 col-md-6">
 
-                                        <h5>
-                                            {{ $mention->title }}
-                                        </h5>
+                            <div class="exam-card">
 
-                                        <p>
-                                            {{ $mention->subtitle }} @if($mention->badge_text) | {{ $mention->badge_text }} @endif
-                                        </p>
-
-                                    </div>
-
+                                <div class="exam-icon">
+                                    <img src="{{ asset('images/upsc.jpg') }}" alt="icon">
                                 </div>
-                                @if($mention->url)
-                                    </a>
-                                @endif
-                            @endforeach
 
-                        </div>
+                                <h3>
+                                    {{ $exam->name }}
+                                </h3>
 
-                    </div>
-                @endforeach
+                                <p>
+                                    {{ $exam->exam_type }} | {{ $exam->exam_category }}
+                                </p>
 
-            </div>
-
-        </div>
-
-    </section>
-    @endif
-
-
-
-    
-    @if($exams->count() > 0)
-    <section class="exam-section">
-
-        <div class="container">
-
-            <div class="section-heading heading">
-
-                <h2>
-                    <span>Top</span> Exams
-                </h2>
-
-                <p>
-                    Prepare for the top competitive exams in the country.
-                </p>
-
-                <div class="heading-line"></div>
-
-            </div>
-
-
-            <div class="row justify-content-center g-4">
-
-                @foreach($exams->take(6) as $exam)
-                    <div class="col-lg-4 col-md-6">
-
-                        <div class="exam-card">
-
-                            <div class="exam-icon">
-                                <img src="{{ asset('images/upsc.jpg') }}" alt="icon">
                             </div>
 
-                            <h3>
-                                {{ $exam->name }}
-                            </h3>
-
-                            <p>
-                                {{ $exam->exam_type }} | {{ $exam->exam_category }}
-                            </p>
-
                         </div>
+                    @endforeach
 
-                    </div>
-                @endforeach
+                </div>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
     @endif
 
 
@@ -3699,7 +3659,7 @@
 
                     <div class="col-lg-7">
 
-                        
+
                         <form class="form-side" action="{{ route('leads.submit') }}" method="POST">
                             @csrf
                             <input type="hidden" name="subject" value="Contact Form Enquiry">
@@ -3712,16 +3672,16 @@
                                 Leave us a message and our advisors will get back to you shortly.
                             </p>
 
-                            @if(session('success'))
+                            @if (session('success'))
                                 <div class="alert alert-success">
                                     {{ session('success') }}
                                 </div>
                             @endif
 
-                            @if($errors->any())
+                            @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul class="mb-0">
-                                        @foreach($errors->all() as $error)
+                                        @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>
@@ -3935,30 +3895,32 @@
     </script>
 
     @php
-        $compData = $organisations->mapWithKeys(function($org) {
-            return [$org->id => [
-                'name' => $org->name,
-                'courses' => $org->courses->map(function($c) {
-                    return [
-                        'id' => $c->id,
-                        'name' => $c->course->name ?? 'N/A',
-                        'fee' => $c->fees ?? 'N/A',
-                        'mode' => $c->mode ?? 'N/A',
-                        'duration' => $c->duration ?? 'N/A',
-                        'rating' => $c->rating ?? 0,
-                        'placement' => strip_tags($c->placement_details) ?: 'N/A',
-                        'eligibility' => strip_tags($c->eligibility) ?: 'N/A',
-                        'admission' => strip_tags($c->admission_process) ?: 'N/A',
-                        'roi' => $c->roi ?: 'N/A',
-                        'industrial' => strip_tags($c->industrial_collaboration) ?: 'N/A',
-                        'internship' => $c->internship_ranking ?: 'N/A'
-                    ];
-                })
-            ]];
+        $compData = $organisations->mapWithKeys(function ($org) {
+            return [
+                $org->id => [
+                    'name' => $org->name,
+                    'courses' => $org->courses->map(function ($c) {
+                        return [
+                            'id' => $c->id,
+                            'name' => $c->course->name ?? 'N/A',
+                            'fee' => $c->fees ?? 'N/A',
+                            'mode' => $c->mode ?? 'N/A',
+                            'duration' => $c->duration ?? 'N/A',
+                            'rating' => $c->rating ?? 0,
+                            'placement' => strip_tags($c->placement_details) ?: 'N/A',
+                            'eligibility' => strip_tags($c->eligibility) ?: 'N/A',
+                            'admission' => strip_tags($c->admission_process) ?: 'N/A',
+                            'roi' => $c->roi ?: 'N/A',
+                            'industrial' => strip_tags($c->industrial_collaboration) ?: 'N/A',
+                            'internship' => $c->internship_ranking ?: 'N/A',
+                        ];
+                    }),
+                ],
+            ];
         });
     @endphp
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const orgData = @json($compData);
 
             const orgSelectors = document.querySelectorAll('.org-selector');
@@ -3970,27 +3932,72 @@
             const matrixBody = document.getElementById('matrixBody');
             const resetBtn = document.getElementById('resetComparison');
 
-            const params = [
-                { label: 'Mode of Study', key: 'mode', icon: 'fas fa-laptop-house' },
-                { label: 'Total Fees', key: 'fee', icon: 'fas fa-money-bill-wave' },
-                { label: 'Duration', key: 'duration', icon: 'fas fa-clock' },
-                { label: 'Rating', key: 'rating', isRating: true, icon: 'fas fa-star' },
-                { label: 'Eligibility', key: 'eligibility', icon: 'fas fa-user-check' },
-                { label: 'Admission Process', key: 'admission', icon: 'fas fa-file-signature' },
-                { label: 'Placement', key: 'placement', icon: 'fas fa-briefcase' },
-                { label: 'ROI', key: 'roi', icon: 'fas fa-chart-line' },
-                { label: 'Ind. Collaboration', key: 'industrial', icon: 'fas fa-handshake' },
-                { label: 'Internship Rank', key: 'internship', icon: 'fas fa-medal' }
+            const params = [{
+                    label: 'Mode of Study',
+                    key: 'mode',
+                    icon: 'fas fa-laptop-house'
+                },
+                {
+                    label: 'Total Fees',
+                    key: 'fee',
+                    icon: 'fas fa-money-bill-wave'
+                },
+                {
+                    label: 'Duration',
+                    key: 'duration',
+                    icon: 'fas fa-clock'
+                },
+                {
+                    label: 'Rating',
+                    key: 'rating',
+                    isRating: true,
+                    icon: 'fas fa-star'
+                },
+                {
+                    label: 'Eligibility',
+                    key: 'eligibility',
+                    icon: 'fas fa-user-check'
+                },
+                {
+                    label: 'Admission Process',
+                    key: 'admission',
+                    icon: 'fas fa-file-signature'
+                },
+                {
+                    label: 'Placement',
+                    key: 'placement',
+                    icon: 'fas fa-briefcase'
+                },
+                {
+                    label: 'ROI',
+                    key: 'roi',
+                    icon: 'fas fa-chart-line'
+                },
+                {
+                    label: 'Ind. Collaboration',
+                    key: 'industrial',
+                    icon: 'fas fa-handshake'
+                },
+                {
+                    label: 'Internship Rank',
+                    key: 'internship',
+                    icon: 'fas fa-medal'
+                }
             ];
 
-            let selections = { 1: null, 2: null, 3: null };
+            let selections = {
+                1: null,
+                2: null,
+                3: null
+            };
 
             orgSelectors.forEach(select => {
-                select.addEventListener('change', function () {
+                select.addEventListener('change', function() {
                     const slot = this.getAttribute('data-slot');
                     const orgId = this.value;
-                    const courseSelect = document.querySelector(`.course-selector[data-slot="${slot}"]`);
-                    
+                    const courseSelect = document.querySelector(
+                        `.course-selector[data-slot="${slot}"]`);
+
                     courseSelect.innerHTML = '<option value="">Select Course</option>';
                     selections[slot] = null;
 
@@ -3998,7 +4005,7 @@
                         courseSelect.disabled = false;
                         const compareCard = this.closest(".compare-card");
                         if (compareCard) compareCard.classList.add('active-slot');
-                        
+
                         orgData[orgId].courses.forEach(course => {
                             const option = document.createElement('option');
                             option.value = course.id;
@@ -4010,22 +4017,23 @@
                         const compareCard = this.closest(".compare-card");
                         if (compareCard) compareCard.classList.remove('active-slot');
                     }
-                    
+
                     updateComparison();
                 });
             });
 
             courseSelectors.forEach(select => {
-                select.addEventListener('change', function () {
+                select.addEventListener('change', function() {
                     const slot = this.getAttribute('data-slot');
                     const courseId = this.value;
-                    const orgId = document.querySelector(`.org-selector[data-slot="${slot}"]`).value;
+                    const orgId = document.querySelector(`.org-selector[data-slot="${slot}"]`)
+                        .value;
 
                     if (courseId && orgId) {
                         const courseData = orgData[orgId].courses.find(c => c.id == courseId);
-                        selections[slot] = { 
-                            orgName: orgData[orgId].name, 
-                            ...courseData 
+                        selections[slot] = {
+                            orgName: orgData[orgId].name,
+                            ...courseData
                         };
                     } else {
                         selections[slot] = null;
@@ -4061,7 +4069,10 @@
                     btn.onclick = () => {
                         const target = document.getElementById('row-' + p.key);
                         if (target) {
-                            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
                             target.style.backgroundColor = 'rgba(128, 92, 216, 0.05)';
                             setTimeout(() => target.style.backgroundColor = '', 2000);
                         }
@@ -4100,10 +4111,12 @@
                         if (p.isRating) {
                             const starCount = Math.round(val);
                             let stars = '';
-                            for(let i=1; i<=5; i++) {
-                                stars += `<i class="fa${i <= starCount ? 's' : 'r'} fa-star text-warning"></i>`;
+                            for (let i = 1; i <= 5; i++) {
+                                stars +=
+                                    `<i class="fa${i <= starCount ? 's' : 'r'} fa-star text-warning"></i>`;
                             }
-                            val = `<div class="rating-box">${stars} <span class="ms-1 text-dark fw-bold">${val}</span></div>`;
+                            val =
+                                `<div class="rating-box">${stars} <span class="ms-1 text-dark fw-bold">${val}</span></div>`;
                         }
                         bodyHtml += `<td>
                             <div class="matrix-value-card">
@@ -4123,10 +4136,13 @@
                     s.disabled = true;
                 });
                 document.querySelectorAll('.compare-card').forEach(c => c.classList.remove('active-slot'));
-                selections = { 1: null, 2: null, 3: null };
+                selections = {
+                    1: null,
+                    2: null,
+                    3: null
+                };
                 updateComparison();
             });
         });
     </script>
 @endpush
-
