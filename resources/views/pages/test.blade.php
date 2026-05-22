@@ -31,6 +31,8 @@
             color: #666;
             font-size: 13px;
             font-weight: 400;
+            text-wrap: nowrap;
+            padding: 0 10px;
         }
 
         .school-list li:not(:last-child)::after {
@@ -189,7 +191,7 @@
 
         .uni-card {
             background: #fff;
-            height: 82px;
+            min-height: 82px;
             border-radius: 18px;
             padding: 15px;
             display: flex;
@@ -232,7 +234,7 @@
         @media(max-width:991px) {
 
             .uni-card {
-                height: 75px;
+                min-height: 75px;
             }
 
         }
@@ -596,6 +598,9 @@
             .timeline-content{
                 padding-left: 20px;
             }
+            .timeline-section .card-box p{
+                font-size: 14px !important;
+            }
         }
 
         .timeline-section .animate {
@@ -633,8 +638,10 @@
             }
 
             .card-box h3 {
-                font-size: 28px;
+                font-size: 20px;
             }
+               
+
 
         }
 
@@ -644,7 +651,7 @@
                 padding-left: 20px;
             }
 
-            .find-btn{min-width: 80px;padding: 8px 20px;}
+            .find-btn{min-width: 80px;padding: 8px 20px; font-size: 12px; line-height: 18px;}
 
             .timeline-section .card-box{padding: 12px;}
         }
@@ -1678,6 +1685,32 @@
             padding: 70px 0;
             background: #f5f5f5;
         }
+        .param-tab-btn{
+
+    position:relative;
+
+    padding-right:20px;
+
+}
+
+.param-tab-btn::after{
+
+    content:"|";
+
+    position:absolute;
+
+    right:0;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#999;
+
+}
+.param-tab-btn:last-child::after{
+    display:none;
+}
 
         .heading-wrap {
             text-align: center;
@@ -1952,7 +1985,7 @@
 
             .heading h2,
             .heading h2 span {
-                font-size: 38px;
+                font-size: 38px !important;
             }
 
         }
@@ -1965,7 +1998,7 @@
 
             .heading h2,
             .heading h2 span {
-                font-size: 30px;
+                font-size: 30px !important;
             }
 
             .heading p {
@@ -2827,7 +2860,7 @@
 
         <div class="container">
 
-            <div class="section-heading">
+            <div class="section-heading heading">
 
                 <h2>
                     Scholarships & Benefits
@@ -3388,7 +3421,7 @@
             <div id="paramTabs" class="param-tabs-wrapper mb-4 mt-4 d-none">
                 <div class="d-flex align-items-center mb-2">
                     <i class="fas fa-filter me-2 text-primary"></i>
-                    <span class="fw-bold small text-uppercase text-white">Quick Jump</span>
+                    <span class="fw-bold small text-uppercase">Quick Jump</span>
                 </div>
                 <div class="param-tabs-scroll d-flex gap-2" style="overflow-x: auto; white-space: nowrap; padding-bottom: 10px;">
                     <!-- Tabs will be injected here -->
@@ -3503,7 +3536,7 @@
 
         <div class="container">
 
-            <div class="section-heading">
+            <div class="section-heading heading">
 
                 <h2>
                     <span>Noteworthy</span> Mentions
@@ -3591,7 +3624,7 @@
 
         <div class="container">
 
-            <div class="section-heading">
+            <div class="section-heading heading">
 
                 <h2>
                     <span>Top</span> Exams
