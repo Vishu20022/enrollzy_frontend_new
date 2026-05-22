@@ -15,6 +15,57 @@
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
     }
+    .mobile-drawer{
+
+    position:fixed;
+
+    left:-100%;
+
+    top:0;
+
+    width:320px;
+
+    height:100vh;
+
+    transition:.4s ease;
+
+    z-index:9999;
+
+}
+
+.mobile-drawer.open{
+
+    left:0;
+
+}
+
+.mobile-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.5);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.4s;
+
+    z-index:9998;
+
+}
+
+.mobile-overlay.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+
 </style>
 <header>
     <!-- ========================= -->
@@ -236,9 +287,52 @@
         </div>
     </nav>
     <script>
-        function closeMobileMenu() {
-            document.getElementById("mobileMenu").classList.remove("open");
-            document.getElementById("mobileMenuOverlay").classList.remove("show");
-        }
-    </script>
+
+const mobileToggleBtn = document.getElementById("mobileToggleBtn");
+
+const mobileMenu = document.getElementById("mobileMenu");
+
+const mobileOverlay = document.getElementById("mobileMenuOverlay");
+
+
+// OPEN
+mobileToggleBtn.addEventListener("click", function () {
+
+    mobileMenu.classList.add("open");
+
+    mobileOverlay.classList.add("show");
+
+});
+
+
+// CLOSE FUNCTION
+function closeMobileMenu() {
+
+    mobileMenu.classList.remove("open");
+
+    mobileOverlay.classList.remove("show");
+
+}
+
+
+// CLOSE WHEN CLICKING OVERLAY
+mobileOverlay.addEventListener("click", function(){
+
+    closeMobileMenu();
+
+});
+
+
+// ESC KEY SUPPORT
+document.addEventListener("keydown",function(e){
+
+    if(e.key==="Escape"){
+
+        closeMobileMenu();
+
+    }
+
+});
+
+</script>
 </header>
