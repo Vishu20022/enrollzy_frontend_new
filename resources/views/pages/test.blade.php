@@ -500,6 +500,12 @@
             background: #f4f4f4;
             overflow-x: hidden;
         }
+        @media (max-width: 576px) {
+    .scholarship-wrapper {
+        padding: 30px 20px;
+    }
+}
+        
 
         .section-heading {
             text-align: center;
@@ -1111,7 +1117,7 @@
             height: 100%;
 
             transition: .4s;
-
+    border-radius: 32px;
             box-shadow:
                 0 5px 12px rgba(0, 0, 0, .12);
 
@@ -2147,6 +2153,36 @@
             z-index: 2;
         }
 
+       /* Desktop */
+.custom-input::placeholder,
+.custom-textarea::placeholder{
+
+    opacity:0;
+
+}
+
+
+/* Mobile */
+
+@media(max-width:991px){
+
+    .form-side .input-label{
+
+        display:none;
+
+    }
+
+    .custom-input::placeholder,
+    .custom-textarea::placeholder{
+
+        opacity:1;
+
+        color:#999;
+
+    }
+
+}
+
         .form-side h2 {
 
             font-weight: 800;
@@ -2669,7 +2705,7 @@
 
             </div>
 
-
+<div class="scholarship-wrapper">
             <div class="row justify-content-center align-items-center g-4">
 
                 @forelse($home_benefits->take(4) as $index => $benefit)
@@ -2708,7 +2744,7 @@
                 @endforelse
 
             </div>
-
+</div>
         </div>
 
     </section>
@@ -3574,7 +3610,7 @@
 
                                     </div>
 
-                                    <input type="text" name="name" class="form-control custom-input" required>
+                                    <input type="text"  placeholder="Name" name="name" class="form-control custom-input" required>
 
                                 </div>
 
@@ -3589,7 +3625,7 @@
 
                                     </div>
 
-                                    <input type="tel" name="phone" class="form-control custom-input">
+                                    <input type="tel" placeholder="Mobile" name="phone" class="form-control custom-input">
 
                                 </div>
 
@@ -3605,7 +3641,7 @@
 
                                 </div>
 
-                                <input type="email" name="email" class="form-control custom-input" required>
+                                <input type="email"  placeholder="Email Address" name="email" class="form-control custom-input" required>
 
                             </div>
 
@@ -3617,7 +3653,7 @@
 
                             </div>
 
-                            <textarea name="message" class="form-control custom-textarea" required></textarea>
+                            <textarea name="message"  placeholder="Message" class="form-control custom-textarea" required></textarea>
 
 
                             <button type="submit" class="btn-theme-1 mt-3">
