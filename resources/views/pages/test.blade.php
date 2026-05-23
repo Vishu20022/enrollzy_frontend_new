@@ -4,230 +4,14 @@
 
 @push('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/test/header-nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/test/banner.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/test/common-title.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/test/university.css') }}">
     <style>
-        /* header nav */
-        .school-nav {
-            background: #fff;
-            padding: 20px 0;
-        }
-
-        .school-list {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .school-list li {
-            flex: 1;
-            text-align: center;
-            position: relative;
-        }
-
-        .school-list li a {
-            text-decoration: none;
-            color: #666;
-            font-size: 13px;
-            font-weight: 400;
-            text-wrap: nowrap;
-            padding: 0 10px;
-        }
-
-        .school-list li:not(:last-child)::after {
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1px;
-            height: 40px;
-            background: #bdbdbd;
-        }
-
-        @media(max-width:768px) {
-
-            .school-list {
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-
-            .school-list li {
-                min-width: 220px;
-            }
-
-            .school-list li a {
-                font-size: 13px;
-            }
-
-        }
-
-
-
-        /* carousel */
-        .hero-slider {
-            padding: 0;
-        }
-
-        .hero-slider .carousel-item img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-
-        .carousel-indicators [data-bs-target] {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #163c97;
-        }
-
-        .carousel-indicators [data-bs-target] {
-            width: 8px !important;
-            height: 8px !important;
-            border-radius: 50%;
-            background-color: #163c97 !important;
-
-            padding: 0 !important;
-            margin: 0 4px !important;
-
-            border: none !important;
-            opacity: .5;
-        }
-
-        .carousel-indicators {
-            bottom: 10px;
-        }
-
-        .slick-dots {
-            display: none;
-        }
-
-        @media(max-width:768px) {
-
-            .hero-slider .carousel-item img {
-                min-height: 220px;
-                object-fit: contain;
-            }
-
-        }
-
-
-
-
-
-        .featured-title {
-            font-size: 56px;
-            font-weight: 800;
-            color: #000;
-            margin-bottom: 20px;
-        }
-
-        .featured-desc {
-            max-width: 700px;
-            margin: auto;
-            line-height: 1.5;
-            color: #444;
-        }
-
-        .title-line {
-            width: 190px;
-            height: 12px;
-            background: #7d5ae7;
-            margin: 35px auto 0;
-            border-radius: 30px;
-        }
-
-        @media(max-width:768px) {
-
-
-            .featured-title {
-                font-size: 36px;
-            }
-
-
-
-            .title-line {
-                width: 120px;
-                height: 8px;
-            }
-
-        }
-
-        /* university */
-
-        .university-section {
-            padding: 50px 0;
-            background:
-                linear-gradient(135deg,
-                    #dce6f5,
-                    #dbe5f4,
-                    #cfd9ec);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .university-section::before {
-            content: '';
-            position: absolute;
-            width: 700px;
-            height: 700px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .18);
-            bottom: -350px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .uni-card {
-            background: #fff;
-            min-height: 82px;
-            border-radius: 18px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow:
-                0 4px 12px rgba(0, 0, 0, .15);
-
-            transition: .3s;
-
-            span {
-                line-height: 1.2;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-
-        .uni-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .uni-card img {
-            max-width: 100%;
-            max-height: 55px;
-            object-fit: contain;
-        }
-
-
-
-        @media(max-width:991px) {
-
-            .uni-card {
-                min-height: 75px;
-            }
-
-        }
-
-
         /* info */
         .info-section {
-            padding: 70px 0;
             position: relative;
             background:
                 linear-gradient(rgba(87, 61, 180, .55),
@@ -238,7 +22,9 @@
             background-size: cover;
             background-position: center;
             overflow: hidden;
+            transition: all .5s ease;
         }
+
 
         .custom-card {
             background: #fff;
@@ -270,6 +56,25 @@
                 0 6px 10px rgba(0, 0, 0, .2);
 
             margin-bottom: 18px;
+
+        }
+
+        .custom-card {
+
+            overflow: hidden;
+
+        }
+
+        .custom-card img {
+
+            transition: all .5s ease;
+
+        }
+
+        .custom-card:hover img {
+
+            transform:
+                scale(1.08) translateY(-8px);
 
         }
 
@@ -345,12 +150,14 @@
 
         /* about */
         .about-section {
-            padding: 70px 0;
             background: #f3eefc;
         }
 
         .info-row {
-            margin-bottom: 70px;
+            margin-bottom: 30px;
+        }
+        .info-row:hover img{
+            transform: scale(1.05);
         }
 
         .image-box {
@@ -434,9 +241,8 @@
 
         /* timeline */
         .timeline-section {
-            padding: 80px 0;
             position: relative;
-            overflow-x:hidden;
+            overflow-x: hidden;
         }
 
         .timeline-section .section-title {
@@ -458,7 +264,7 @@
             height: 8px;
             background: #7e5bef;
             border-radius: 20px;
-            margin: 20px auto 80px;
+            margin: 20px auto 50px;
         }
 
         .timeline-section .timeline {
@@ -488,7 +294,7 @@
 
         .timeline-section .timeline-item {
             position: relative;
-            margin-bottom: 70px;
+            margin-bottom: 40px;
         }
 
         .timeline-section .timeline-content {
@@ -562,13 +368,15 @@
             .timeline-section .card-box p {
                 font-size: 14px !important;
             }
-            .timeline-section .timeline-content{
+
+            .timeline-section .timeline-content {
                 width: 50%;
             }
-            .timeline-section .btn-theme-1{
+
+            .timeline-section .btn-theme-1 {
                 margin-top: 10px;
                 font-size: .8rem;
-                padding: 10px 10px; 
+                padding: 10px 10px;
                 border-radius: 20px;
                 line-height: 18px;
             }
@@ -689,7 +497,6 @@
 
         /* scholarship */
         .scholarship-section {
-            padding: 80px 0;
             background: #f4f4f4;
             overflow-x: hidden;
         }
@@ -722,10 +529,8 @@
 
         .scholar-card {
 
-            background:
-                linear-gradient(180deg,
-                    #86d6ff 0%,
-                    #0d3e9f 100%);
+            background: linear-gradient(180deg, #8EDEFF 0%, #05348A 100%);
+
             padding: 16px;
             border-radius: 32px;
             color: var(--plainclr);
@@ -802,7 +607,7 @@
             align-items: center;
             justify-content: center;
             gap: 25px;
-            margin-bottom: 55px;
+            margin-bottom: 40px;
         }
 
         .heading-wrap h2 {
@@ -994,7 +799,6 @@
 
         .custom-slider .content-box h2 {
             font-weight: 800;
-            margin-bottom: 25px;
         }
 
         .custom-slider .content-box p {
@@ -1129,7 +933,7 @@
 
                     background: #fff;
 
-                    padding: 22px 30px;
+                    padding: 16px 14px;
 
                     font-size: 20px;
 
@@ -1148,8 +952,12 @@
                     color: #d3d3d3;
                 }
 
-                .accordion-button:not(.collapsed) {
+                .accordion-button {
+                    font-size: 16px;
+                }
 
+                .accordion-button:not(.collapsed) {
+                    font-size: 16px;
                     background: #efebfb;
 
                     color: #8460e7;
@@ -1178,8 +986,8 @@
 
                 .accordion-body {
 
-                    padding: 10px 70px;
-
+                    padding: 10px 54px;
+                    font-size: 14px;
                     color: #444;
 
                     line-height: 1.7;
@@ -1223,7 +1031,7 @@
 
         }
 
-       
+
 
         @media(max-width:576px) {
 
@@ -1278,12 +1086,13 @@
 
         /* blog */
         .blog-section {
-            background: #f4f4f4;
+
+            background: #8dd8ff;
+            padding: 50px 0;
         }
 
         .blog-heading {
             text-align: center;
-            margin-bottom: 40px;
         }
 
         .blog-heading h2 {
@@ -1291,13 +1100,7 @@
             font-weight: 800;
         }
 
-        .blog-wrapper {
 
-            background: #8dd8ff;
-
-            padding: 50px 30px;
-
-        }
 
         .blog-card {
 
@@ -1350,7 +1153,7 @@
             background: #000;
             color: #fff;
 
-            padding: 8px 32px;
+            padding: 4px 18px;
 
             border: none;
 
@@ -1364,7 +1167,7 @@
             margin-top: -42px;
 
             position: relative;
-
+            font-size: 14px;
             z-index: 5;
         }
 
@@ -1398,13 +1201,7 @@
             color: #6846d5;
         }
 
-        @media(max-width:991px) {
-
-            .blog-card {
-                margin-bottom: 25px;
-            }
-
-        }
+       
 
         @media(max-width:576px) {
 
@@ -1429,13 +1226,12 @@
 
         /* Q&A */
         .qa-section {
-            padding: 70px 0;
-            background: #f4f4f4;
+
+            background: #b394f0;
         }
 
         .top-heading {
             text-align: center;
-            margin-bottom: 45px;
         }
 
         .top-heading h2 {
@@ -1459,12 +1255,16 @@
             border-radius: 20px;
         }
 
-        .qa-wrapper {
+        .qa-wrapper {}
 
-            background: #b394f0;
+        .qa-wrapper .left-side {
+            padding-right: 30px;
+        }
 
-            padding: 45px 25px;
-
+        @media (max-width:991px) {
+            .qa-wrapper .left-side {
+                padding-right: 0;
+            }
         }
 
         .left-side h3 {
@@ -1501,7 +1301,7 @@
 
             background: #fff;
 
-            padding: 30px;
+            padding: 20px;
 
             border-radius: 14px;
 
@@ -1521,13 +1321,14 @@
             line-height: 1.8;
             color: #444;
             font-size: 14px;
+            margin-bottom: 0;
         }
 
         .answer-card {
 
             background: #fff;
 
-            padding: 30px;
+            padding: 20px;
 
             border-radius: 14px;
 
@@ -1552,6 +1353,7 @@
             line-height: 1.8;
             color: #444;
             font-size: 14px;
+            margin-bottom: 0;
         }
 
         @media(max-width:991px) {
@@ -1591,7 +1393,7 @@
 
             .answer-card,
             .question-box {
-                padding: 20px;
+                padding: 10px;
             }
 
             .answer-card h4,
@@ -1611,6 +1413,14 @@
         .compare-section {
 
             background: #f5f5f5;
+            background:
+                linear-gradient(rgba(78, 56, 144, .65),
+                    rgba(78, 56, 144, .65)),
+
+                url('../images/comparison.png');
+
+            background-size: cover;
+            background-position: center;
         }
 
         .param-tab-btn {
@@ -1641,7 +1451,7 @@
 
         .heading-wrap {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
         }
 
         .heading-wrap h2 {
@@ -1665,19 +1475,6 @@
             margin: 20px auto 0;
         }
 
-        .compare-bg {
-
-            padding: 70px 0;
-
-            background:
-                linear-gradient(rgba(78, 56, 144, .65),
-                    rgba(78, 56, 144, .65)),
-
-                url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1400');
-
-            background-size: cover;
-            background-position: center;
-        }
 
         .compare-card {
 
@@ -1784,10 +1581,21 @@
 
         /* testimonial */
 
+        .text-testimonial .swiper-wrapper {
+            padding: 20px 0;
+        }
+
+        .testimonial-card img {
+            transition: all .5s ease;
+        }
+
+        .testimonial-card:hover img {
+            transform: scale(1.08) translateY(-8px);
+        }
 
         .heading {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
         }
 
         .heading h2 {
@@ -1878,7 +1686,7 @@
 
         .stars i {
             color: #f1cb18;
-            font-size: 22px;
+            font-size: 16px;
             margin: 0 2px;
         }
 
@@ -1938,7 +1746,7 @@
 
         .section-heading {
             text-align: center;
-            margin-bottom: 55px;
+            margin-bottom: 35px;
         }
 
         .section-heading h2,
@@ -2081,7 +1889,7 @@
 
         .section-heading {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 30px;
         }
 
         .section-heading h2 {
@@ -2170,6 +1978,17 @@
             line-height: 1.25;
 
             margin-bottom: 14px;
+            display: -webkit-box;
+
+            -webkit-line-clamp: 2;
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            line-height: 1.4;
         }
 
         .exam-card p {
@@ -2183,6 +2002,17 @@
             max-width: 150px;
 
             margin: 0;
+            display: -webkit-box;
+
+            -webkit-line-clamp: 2;
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            line-height: 1.4;
         }
 
         @media(max-width:991px) {
@@ -2192,7 +2022,7 @@
             }
 
             .exam-card {
-                margin-bottom: 30px;
+                margin-bottom: 14px;
             }
 
         }
@@ -2221,7 +2051,8 @@
             .exam-card h3 {
                 font-size: 14px;
             }
-            .exam-section .exam-card p{
+
+            .exam-section .exam-card p {
                 font-size: 12px !important;
             }
 
@@ -2256,11 +2087,39 @@
             background: #f3d53c;
         }
 
+        .left-panel img {
+
+            animation: floatImage 3s ease-in-out infinite;
+
+        }
+
+        @keyframes floatImage {
+
+            0% {
+
+                transform: translateY(0);
+
+            }
+
+            50% {
+
+                transform: translateY(-15px);
+
+            }
+
+            100% {
+
+                transform: translateY(0);
+
+            }
+
+        }
+
         .left-panel {
 
             background: #7c58e7;
 
-            min-height: 520px;
+            min-height: 400px;
 
             border-radius:
                 0 25px 25px 0;
@@ -2283,21 +2142,20 @@
         }
 
         .form-side {
-            padding: 50px;
+            padding: 20px 50px;
             position: relative;
             z-index: 2;
         }
 
         .form-side h2 {
 
-            font-size: 58px;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
         .form-side p {
             color: #444;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .input-label {
@@ -2317,7 +2175,7 @@
 
             border: none;
 
-            height: 48px;
+            height: 38px;
 
             border-radius: 40px;
 
@@ -2506,7 +2364,7 @@
 
             <div class="text-center">
                 <a href="{{ route('pages.home') }}"
-                    class="btn-theme-1 text-decoration-none d-inline-block text-center pt-2">
+                    class="btn-theme-1 mt-3 text-decoration-none d-inline-block text-center pt-2">
                     View More
                 </a>
             </div>
@@ -2992,28 +2850,25 @@
                                     <div class="left-image">
                                         <a href="{{ route('pages.alumni.detail', $alumnus->id) }}">
                                             <img src="{{ $imgUrl }}" alt="{{ $alumnus->name }}"
-                                                style="max-height: 400px; object-fit: cover; width: 100%;">
+                                                style=" object-fit: cover; width: 100%;">
                                         </a>
                                     </div>
 
 
-                                    <div class="content-box">
+                                    <div class="content-box text-center">
 
-                                        <h2 class="sub-heading">
+                                        <h2 class="sub-heading text-center">
                                             {{ $alumnus->name }}
                                         </h2>
 
-                                        <h4 class="text-white opacity-75 mt-2">{{ $alumnus->designation }}
-                                            {{ $alumnus->company ? '@ ' . $alumnus->company : '' }}</h4>
-
-                                        <p class="mt-3">
+                                       
+                                        <p class="mt-2 text-center">
                                             {{ $alumnus->experience_years ? $alumnus->experience_years . ' years of professional experience.' : '' }}
                                             Connect with our alumni working in top organizations worldwide to get real-world
                                             insights, career guidance, and mentorship.
                                         </p>
 
-                                        <button type="button" class="btn-theme-one mt-4 btn-book-session"
-                                            style="background: #2563eb; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; transition: all 0.3s ease;"
+                                        <button type="button" class="btn-theme-1 mt-2 btn-book-session"
                                             data-bs-toggle="modal" data-bs-target="#bookingModal"
                                             data-provider-id="{{ $alumnus->id }}" data-provider-type="alumni"
                                             data-provider-name="{{ $alumnus->name }}"
@@ -3109,17 +2964,24 @@
 
 
     @if ($blogs->count() > 0)
+        <section class="featured-section">
+            <div class="container">
+                <div class="row col-12">
+                    <div class="blog-heading">
+
+                        <h2 class="main-heading">
+                            Our Latest Blog
+                        </h2>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
         <section class="blog-section">
 
             <div class="container">
-
-                <div class="blog-heading">
-
-                    <h2 class="main-heading">
-                        Our Latest Blog
-                    </h2>
-
-                </div>
 
 
                 <div class="blog-wrapper">
@@ -3149,9 +3011,11 @@
                                             {{ $blog->title }}
                                         </h3>
 
-                                        <p class="blog-desc">
-                                            {!! Str::limit(strip_tags($blog->description), 100) !!}
-                                        </p>
+                                        @if (!empty($blog->description))
+                                            <p class="blog-desc">
+                                                {!! Str::limit(strip_tags($blog->description), 100) !!}
+                                            </p>
+                                        @endif
 
                                         <a href="{{ route('pages.blogs.detail', $blog->slug) }}" class="read-more">
                                             Read More →
@@ -3177,23 +3041,33 @@
 
 
     @if ($faqs->count() > 0)
+
+        <section class="featured-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="top-heading">
+
+                            <h2 class="main-heading">
+                                Questions & Answers
+                            </h2>
+
+                            <p>
+                                Here are some of the most commonly asked questions by our prospective students.
+                            </p>
+
+                            <div class="heading-line"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="qa-section">
 
             <div class="container">
 
-                <div class="top-heading">
 
-                    <h2 class="main-heading">
-                        Questions & Answers
-                    </h2>
-
-                    <p>
-                        Here are some of the most commonly asked questions by our prospective students.
-                    </p>
-
-                    <div class="heading-line"></div>
-
-                </div>
 
 
                 <div class="qa-wrapper">
@@ -3218,7 +3092,7 @@
 
                                 <div class="left-image">
 
-                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=900">
+                                    <img src="{{ asset('images/q-a.png') }}" alt="qa">
 
                                 </div>
 
@@ -3634,7 +3508,7 @@
 
     <section class="contact-section">
 
-        <div class="container">
+        <div class="container-fluid px-0">
 
             <div class="contact-box">
 
@@ -3664,7 +3538,7 @@
                             @csrf
                             <input type="hidden" name="subject" value="Contact Form Enquiry">
 
-                            <h2>
+                            <h2 class="main-heading">
                                 Contact Us
                             </h2>
 
@@ -3690,7 +3564,7 @@
 
                             <div class="row">
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 mb-2">
 
                                     <div class="input-label">
 
@@ -3705,11 +3579,11 @@
                                 </div>
 
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 mb-2">
 
                                     <div class="input-label">
 
-                                        <i class="fa-solid fa-circle-phone"></i>
+                                        <i class="fa-solid fa-phone"></i>
 
                                         <span>Mobile</span>
 
@@ -3721,7 +3595,7 @@
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="mb-2 d-none">
 
                                 <div class="input-label">
 
@@ -3746,7 +3620,7 @@
                             <textarea name="message" class="form-control custom-textarea" required></textarea>
 
 
-                            <button type="submit" class="send-btn">
+                            <button type="submit" class="btn-theme-1 mt-3">
 
                                 Send
 

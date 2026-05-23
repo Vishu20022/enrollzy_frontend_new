@@ -1,3 +1,8 @@
+<style>
+    #bookingModal{
+    z-index:99999;
+    }
+</style>
 <!-- Global Booking Modal -->
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -32,7 +37,7 @@
                         <div id="slotsGrid" class="d-flex flex-wrap gap-2" style="max-height: 250px; overflow-y: auto;">
                             <!-- Slots injected here -->
                         </div>
-                        <div id="noSlotsMsg" class="alert alert-warning d-none mt-2">
+                        <div id="noSlotsMsg" class="alert alert-warning d-none my-1 py-2">
                             <small><i class="fas fa-calendar-times me-1"></i> No available slots found for the upcoming dates.</small>
                         </div>
                     </div>
@@ -62,7 +67,7 @@
                         <div class="alert alert-info py-2" style="border-radius: 10px;">
                             <small><i class="fas fa-info-circle me-1"></i> Please <a href="{{ route('login') }}" class="fw-bold">Login</a> to book a session.</small>
                         </div>
-                        <button type="button" class="btn btn-primary w-100 py-3 fw-bold shadow-sm disabled" style="opacity: 0.7; border-radius: 12px;">
+                        <button type="button" class="btn-theme-1 w-100  disabled" style="opacity: 0.7; border-radius: 12px;">
                             Login to Book
                         </button>
                     @endauth
@@ -229,19 +234,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    responseDiv.innerHTML = `<div class="alert alert-success mt-2">${data.success}</div>`;
+                    responseDiv.innerHTML = `<div class="alert alert-success my-1">${data.success}</div>`;
                     setTimeout(() => {
                         window.location.href = "{{ route('appointments.mine') }}";
                     }, 1500);
                 } else {
-                    responseDiv.innerHTML = `<div class="alert alert-danger mt-2">${data.error || 'Something went wrong.'}</div>`;
+                    responseDiv.innerHTML = `<div class="alert alert-danger my-1">${data.error || 'Something went wrong.'}</div>`;
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = 'Confirm Booking';
                 }
             })
             .catch(error => {
                 console.error('Error submitting booking:', error);
-                responseDiv.innerHTML = `<div class="alert alert-danger mt-2">Error submitting booking. Please try again.</div>`;
+                responseDiv.innerHTML = `<div class="alert alert-danger my-1">Error submitting booking. Please try again.</div>`;
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Confirm Booking';
             });

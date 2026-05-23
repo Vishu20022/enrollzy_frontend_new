@@ -65,7 +65,9 @@
 
 }
 
-
+header .navbar .nav-link {
+    color: var(--darkclr);
+}
 </style>
 <header>
     <!-- ========================= -->
@@ -175,7 +177,7 @@
                 <ul class="navbar-nav ms-4 add-gap">
                     <!-- MEGA DROPDOWN START -->
                     <li class="nav-item position-static">
-                        <a class="nav-link fw-semibold" href="#" id="exploreMenu">Explore ▾</a>
+                        <a class="nav-link " href="#" id="exploreMenu">Explore ▾</a>
                         <!-- MEGA MENU -->
                         <div class="mega-menu shadow">
                             <div class="row">

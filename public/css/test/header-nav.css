@@ -1,0 +1,57 @@
+ /* header nav */
+        .school-nav {
+            background: #fff;
+            padding: 20px 0;
+        }
+
+        .school-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .school-list li {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .school-list li a {
+            text-decoration: none;
+            color: var(--darkclr);
+            font-size: 13px;
+            font-weight: 400;
+            text-wrap: nowrap;
+            padding: 0 10px;
+        }
+
+        .school-list li:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40px;
+            background: #bdbdbd;
+        }
+
+        @media(max-width:768px) {
+
+            .school-list {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .school-list li {
+                min-width: 220px;
+            }
+
+            .school-list li a {
+                font-size: 13px;
+            }
+
+        }

@@ -8,7 +8,7 @@
 }
 
 nav.navbar {
-  z-index: 999;
+  z-index: 99;
 }
 
 header {
@@ -238,4 +238,8 @@ header .auth-dropdown:hover .auth-popup {
 
    
 
+}
+
+header li a{
+  color: var(--darkclr);
 }

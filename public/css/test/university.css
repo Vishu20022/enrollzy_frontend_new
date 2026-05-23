@@ -1,0 +1,67 @@
+  /* university */
+
+        .university-section {
+            padding: 50px 0;
+            background:
+                linear-gradient(135deg,
+                    #dce6f5,
+                    #dbe5f4,
+                    #cfd9ec);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .university-section::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .18);
+            bottom: -350px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .uni-card {
+            background: #fff;
+            min-height: 82px;
+            border-radius: 18px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, .15);
+
+            transition: .3s;
+
+            span {
+                line-height: 1.2;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .uni-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .uni-card img {
+            max-width: 100%;
+            max-height: 55px;
+            object-fit: contain;
+        }
+
+
+
+        @media(max-width:991px) {
+
+            .uni-card {
+                min-height: 75px;
+            }
+
+        }
