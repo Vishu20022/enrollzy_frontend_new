@@ -74,7 +74,7 @@ class PageController extends Controller
         $company_marquees = CompanyMarquee::where('status', true)->orderBy('sort_order')->get();
         $exams = \App\Models\Exam::where('status', 'Active')->get();
 
-        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams'));
+        return view('pages.test', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams'));
     }
 
     public function blog()
