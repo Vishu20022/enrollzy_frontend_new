@@ -46,13 +46,21 @@
 
                 <div class="blog-featured-img">
                     @php
-                        $imgUrl = (str_starts_with($blog->image, 'http')) ? $blog->image : asset($blog->image);
+                        if (str_starts_with($blog->image, 'http')) {
+                            $imgUrl = $blog->image;
+                        } else {
+                            $imgUrl = rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($blog->image, '/');
+                        }
                     @endphp
                     <img src="{{ $imgUrl }}" alt="{{ $blog->title }}">
                 </div>
 
                 <div class="blog-content">
-                    {!! $blog->content !!}
+                    @php
+                        // Replace relative /uploads/ paths in content with absolute backend URLs
+                        $content = preg_replace('/src="\/uploads\//', 'src="' . rtrim(env('BACKEND_URL'), '/') . '/uploads/', $blog->content);
+                    @endphp
+                    {!! $content !!}
                 </div>
             </div>
 
@@ -63,7 +71,11 @@
                     <a href="{{ route('pages.blogs.detail', $rb->slug) }}" class="recent-post-item">
                         <div class="recent-post-img">
                             @php
-                                $rbImg = (str_starts_with($rb->image, 'http')) ? $rb->image : asset($rb->image);
+                                if (str_starts_with($rb->image, 'http')) {
+                                    $rbImg = $rb->image;
+                                } else {
+                                    $rbImg = rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($rb->image, '/');
+                                }
                             @endphp
                             <img src="{{ $rbImg }}" alt="{{ $rb->title }}">
                         </div>

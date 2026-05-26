@@ -114,7 +114,13 @@
                                     @if(is_array($section->content))
                                         <ul>
                                             @foreach($section->content as $item)
-                                                <li>{!! $item !!}</li>
+                                                @if(is_string($item))
+                                                    <li>{!! $item !!}</li>
+                                                @elseif(is_array($item) && isset($item['label']))
+                                                    <li>{!! $item['label'] !!}</li>
+                                                @else
+                                                    <li>{{ json_encode($item) }}</li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     @else
