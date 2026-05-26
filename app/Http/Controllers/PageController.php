@@ -72,9 +72,9 @@ class PageController extends Controller
         // Dynamic Trending Skills & Marquee
         $trending_skills = TrendingSkill::where('status', true)->orderBy('sort_order')->get();
         $company_marquees = CompanyMarquee::where('status', true)->orderBy('sort_order')->get();
-        $exams = \App\Models\Exam::where('status', 'Active')->get();
+        $exams = \App\Models\DynamicExam::where('status', 'Active')->get();
 
-        return view('pages.test', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams'));
+        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams'));
     }
 
     public function blog()
@@ -148,6 +148,12 @@ class PageController extends Controller
         return view('pages.alumni.show', compact('alumnus'));
     }
 
+    public function organisations()
+    {
+        $organisations = Organisation::where('status', true)->orderBy('name')->get();
+        return view('pages.organisations.index', compact('organisations'));
+    }
+
     public function organisationDetail($slug)
     {
         $organisation = Organisation::with([
@@ -166,9 +172,14 @@ class PageController extends Controller
             'accreditations',
             'admissionRoutes'
         ])->where('slug', $slug)->firstOrFail();
-
         $languages = \App\Models\Language::where('status', 1)->pluck('title', 'id');
 
         return view('pages.organisations.show', compact('organisation', 'languages'));
+    }
+
+    public function examDetail($slug)
+    {
+        $exam = \App\Models\DynamicExam::with('sections')->where('slug', $slug)->firstOrFail();
+        return view('pages.exams.show', compact('exam'));
     }
 }

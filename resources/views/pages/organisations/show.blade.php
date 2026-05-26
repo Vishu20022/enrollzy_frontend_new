@@ -59,11 +59,11 @@
     <div class="organisation-detail-wrapper" x-data="orgDetails">
         <!-- Hero Section -->
         <div class="org-hero"
-            style="background-image: url('{{ asset($organisation->cover_image_url ? $organisation->cover_image_url : 'images/default-cover.jpg') }}')">
+            style="background-image: url('{{ $organisation->cover_image_url ? env('BACKEND_URL') . '/' . $organisation->cover_image_url : asset('images/default-cover.jpg') }}')">
             <div class="container">
                 <div class="org-hero-content">
                     <div class="org-logo-wrapper">
-                        <img src="{{ asset($organisation->logo_url ? $organisation->logo_url : 'images/default-org.png') }}"
+                        <img src="{{ $organisation->logo_url ? env('BACKEND_URL') . '/' . $organisation->logo_url : asset('images/default-org.png') }}"
                             alt="{{ $organisation->name }}" class="org-logo-lg">
                     </div>
                     <div class="org-info">

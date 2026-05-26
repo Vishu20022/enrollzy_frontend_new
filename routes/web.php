@@ -146,8 +146,10 @@ Route::name('pages.')->group(function () {
     Route::get('/alumni/{id}', [PageController::class, 'alumnusDetail'])->name('alumni.detail');
 
     // Organisation Profiles
+    Route::get('/organisations', [PageController::class, 'organisations'])->name('organisations');
     Route::get('/organisations/{slug}', [PageController::class, 'organisationDetail'])->name('organisations.detail');
 
+    Route::get('/exams/{slug}', [PageController::class, 'examDetail'])->name('exams.detail');
 });
 
 
