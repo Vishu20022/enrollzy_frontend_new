@@ -42,24 +42,35 @@ if (menuItem && megaMenu) {
 }
 
 /* ============================================
-   MOBILE DRAWER — Toggle System (No Functions)
+   MOBILE DRAWER — Toggle System
 ============================================ */
 const mobileMenu = document.getElementById("mobileMenu");
 const mobileOverlay = document.getElementById("mobileMenuOverlay");
 const mobileToggleBtn = document.getElementById("mobileToggleBtn");
 
+window.closeMobileMenu = function () {
+    if (mobileMenu) mobileMenu.classList.remove("open");
+    if (mobileOverlay) mobileOverlay.classList.remove("show");
+};
+
 // CLICK to toggle drawer
 if (mobileToggleBtn) {
     mobileToggleBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("open");
-        mobileOverlay.classList.toggle("show");
+        mobileMenu.classList.add("open");
+        mobileOverlay.classList.add("show");
     });
 }
 
 // CLICK overlay to close
 if (mobileOverlay) {
     mobileOverlay.addEventListener("click", () => {
-        mobileMenu.classList.remove("open");
-        mobileOverlay.classList.remove("show");
+        window.closeMobileMenu();
     });
 }
+
+// ESC KEY SUPPORT
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+        window.closeMobileMenu();
+    }
+});

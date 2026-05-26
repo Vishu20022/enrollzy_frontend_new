@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommunityQuestion extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'question_text', 'image', 'is_verified', 'views'];
+    protected $fillable = ['user_id', 'category_id', 'question_text', 'image', 'is_verified', 'views', 'status', 'is_active'];
 
     public function user()
     {

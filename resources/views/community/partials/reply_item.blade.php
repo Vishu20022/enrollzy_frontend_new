@@ -4,7 +4,13 @@
             {{ substr($reply->user->name, 0, 1) }}
         </div>
         <div>
-            <h6 class="mb-0 small fw-bold">{{ $reply->user->name }}</h6>
+            <h6 class="mb-0 small fw-bold d-inline">{{ $reply->user->name }}</h6>
+            @if($reply->status == 'pending')
+                <span class="badge bg-warning text-dark ms-2" style="font-size: 9px;">Pending</span>
+            @elseif($reply->status == 'rejected')
+                <span class="badge bg-danger ms-2" style="font-size: 9px;">Rejected</span>
+            @endif
+            <br>
             <span class="text-muted" style="font-size: 10px;">{{ $reply->created_at->diffForHumans() }}</span>
         </div>
         
@@ -22,17 +28,31 @@
         </div>
     </div>
     
-    <p class="mb-0 text-dark small">{{ $reply->content }}</p>
+    <p class="mb-2 text-dark small">{{ $reply->content }}</p>
+
+    @if($reply->image)
+    <div class="mb-2">
+        <img src="{{ env('APP_ENV') == 'local' ? 'http://127.0.0.1:8000' : 'https://enrollzy.com' }}/{{ ltrim($reply->image, '/') }}" class="img-fluid rounded shadow-sm" style="max-height: 200px;">
+    </div>
+    @endif
 
     <!-- Nested Reply Form -->
     <div class="reply-form-wrap mt-2 d-none">
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control comment-input" placeholder="Reply to {{ $reply->user->name }}...">
-            <button class="btn btn-theme-two add-comment-btn" 
+        <div class="d-flex align-items-center mb-2">
+            <input type="text" class="form-control form-control-sm comment-input me-2" placeholder="Reply to {{ $reply->user->name }}...">
+            <label class="btn btn-outline-secondary btn-sm mb-0 d-flex align-items-center justify-content-center" style="width: 32px; height: 31px; cursor: pointer;" title="Attach Image">
+                <i class="fas fa-image"></i>
+                <input type="file" class="d-none reply-image-input" accept="image/*">
+            </label>
+            <button class="btn btn-sm btn-theme-two ms-2 add-comment-btn" 
                     data-question-id="{{ $reply->question_id }}" 
                     data-parent-id="{{ $reply->id }}">
                 Post
             </button>
+        </div>
+        <div class="reply-image-preview mt-2 d-none">
+            <img src="" class="img-thumbnail" style="max-height: 80px;">
+            <button class="btn btn-sm btn-danger remove-reply-image ms-2"><i class="fas fa-times"></i></button>
         </div>
     </div>
 

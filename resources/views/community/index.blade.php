@@ -85,8 +85,8 @@
                             </a>
 
                             @if($question->image)
-                            <div class="question-img mb-3 rounded overflow-hidden">
-                                <img src="{{ asset($question->image) }}" class="img-fluid" alt="Question Image">
+                            <div class="mb-3">
+                                <img src="{{ env('APP_ENV') == 'local' ? 'http://127.0.0.1:8000' : 'https://enrollzy.com' }}/{{ ltrim($question->image, '/') }}" class="img-fluid rounded mb-3">
                             </div>
                             @endif
 

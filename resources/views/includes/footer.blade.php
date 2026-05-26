@@ -6,41 +6,42 @@
             @php
                 $footerLinks = [
                     'Coursera' => [
-                        'About',
-                        'What We Offer',
-                        'Leadership',
-                        'Careers',
-                        'Catalog',
-                        'Coursera Plus',
-                        'Professional Certificates',
-                        'Degrees',
-                        'For Enterprise',
-                        'For Government',
-                        'For Campus',
-                        'Become a Partner',
-                        'Social Impact',
+                        'About' => '#',
+                        'What We Offer' => '#',
+                        'Leadership' => '#',
+                        'Careers' => '#',
+                        'Catalog' => '#',
+                        'Coursera Plus' => '#',
+                        'Professional Certificates' => '#',
+                        'Degrees' => '#',
+                        'For Enterprise' => '#',
+                        'For Government' => '#',
+                        'For Campus' => '#',
+                        'Become a Partner' => '#',
+                        'Social Impact' => '#',
                     ],
                     'Community' => [
-                        'Learners',
-                        'Partners',
-                        'Beta Testers',
-                        'Blog',
-                        'The Coursera Podcast',
-                        'Tech Blog',
+                        'Student Community' => route('pages.students.community'),
+                        'Learners' => '#',
+                        'Partners' => '#',
+                        'Beta Testers' => '#',
+                        'Blog' => '#',
+                        'The Coursera Podcast' => '#',
+                        'Tech Blog' => '#',
                     ],
                     'More' => [
-                        'Press',
-                        'Investors',
-                        'Terms',
-                        'Privacy',
-                        'Help',
-                        'Accessibility',
-                        'Contact',
-                        'Articles',
-                        'Directory',
-                        'Affiliates',
-                        'Modern Slavery Statement',
-                        'Cookies Preference Center',
+                        'Press' => '#',
+                        'Investors' => '#',
+                        'Terms' => '#',
+                        'Privacy' => '#',
+                        'Help' => '#',
+                        'Accessibility' => '#',
+                        'Contact' => '#',
+                        'Articles' => '#',
+                        'Directory' => '#',
+                        'Affiliates' => '#',
+                        'Modern Slavery Statement' => '#',
+                        'Cookies Preference Center' => '#',
                     ],
                 ];
             @endphp
@@ -50,9 +51,9 @@
                 <div class="col-lg-3 col-md-6">
                     <h6 class="footer-title">{{ $title }}</h6>
                     <ul class="footer-list">
-                        @foreach ($links as $link)
+                        @foreach ($links as $linkTitle => $url)
                             <li>
-                                <a href="#">{{ $link }}</a>
+                                <a href="{{ $url }}">{{ $linkTitle }}</a>
                             </li>
                         @endforeach
                     </ul>

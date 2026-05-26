@@ -25,9 +25,19 @@ class CommunityController extends Controller
         // Fetch Applications for Admissions (Latest active organisations)
         $applications = \App\Models\Organisation::where('status', true)->latest()->take(5)->get();
 
-        $query = CommunityQuestion::with(['user', 'category', 'likes', 'replies.user', 'replies.likes'])
-            ->where('is_verified', true)
+        $query = CommunityQuestion::with(['user', 'category', 'likes', 'replies' => function($q) {
+            $q->where('status', 'approved')->where('is_active', true);
+        }, 'replies.user', 'replies.likes'])
+            ->where('status', 'approved')
+            ->where('is_active', true)
             ->latest();
+
+        if (Auth::check()) {
+            // Also include current user's pending/rejected questions so they can see them
+            $query->orWhere(function($q) {
+                $q->where('user_id', Auth::id());
+            });
+        }
 
         if ($request->filled('category')) {
             $query->whereHas('category', function ($q) use ($request) {
@@ -53,7 +63,8 @@ class CommunityController extends Controller
 
         $data = $request->only(['question_text', 'category_id']);
         $data['user_id'] = Auth::id();
-        $data['is_verified'] = false; // Admin must verify
+        $data['status'] = 'pending';
+        $data['is_active'] = true;
 
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();

@@ -55,19 +55,30 @@ class InteractionController extends Controller
             'question_id' => 'required|exists:community_questions,id',
             'parent_id' => 'nullable|exists:community_replies,id',
             'content' => 'required|string',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        $reply = CommunityReply::create([
+        $data = [
             'user_id' => Auth::id(),
             'question_id' => $request->question_id,
             'parent_id' => $request->parent_id,
             'content' => $request->content,
-        ]);
+            'status' => 'pending',
+            'is_active' => true,
+        ];
+
+        if ($request->hasFile('image')) {
+            $imageName = time() . '_reply.' . $request->image->extension();
+            $request->image->move(public_path('images/community/replies'), $imageName);
+            $data['image'] = 'images/community/replies/' . $imageName;
+        }
+
+        $reply = CommunityReply::create($data);
 
         return response()->json([
             'success' => true,
             'reply' => $reply->load('user'),
-            'message' => 'Reply posted successfully.'
+            'message' => 'Reply posted successfully. It is now awaiting admin approval.'
         ]);
     }
 }

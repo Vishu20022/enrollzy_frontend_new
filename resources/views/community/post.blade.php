@@ -5,7 +5,7 @@
                 <div class="row g-4">
                     @forelse($questions as $question)
                     <div class="col-12">
-                        <div class="post-card">
+                        <div class="post-card" id="question-{{ $question->id }}">
 
                             <!-- Header -->
                             <div class="post-header justify-content-between">
@@ -19,7 +19,12 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h6 class="review text-muted small">#{{ $question->views }} Views</h6>
+                                    @if($question->status == 'pending')
+                                        <span class="badge bg-warning text-dark me-2">Pending Approval</span>
+                                    @elseif($question->status == 'rejected')
+                                        <span class="badge bg-danger me-2">Rejected</span>
+                                    @endif
+                                    <h6 class="review text-muted small d-inline">#{{ $question->views }} Views</h6>
                                 </div>
                             </div>
 
@@ -44,16 +49,29 @@
                                     💬 Comment ({{ $question->replies->count() }})
                                 </button>
 
-                                <button>
+                                <button class="share-btn" data-url="{{ url('/students-community') }}#question-{{ $question->id }}">
                                     🔗 Share
                                 </button>
                             </div>
 
                             <!-- Add Comment -->
                             <div class="add-comment d-none mt-3">
-                                <input type="text" class="form-control comment-input"
-                                    placeholder="{{ Auth::check() ? 'Write a comment...' : 'Please login to comment' }}"
-                                    {{ !Auth::check() ? 'disabled' : '' }}>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control comment-input me-2"
+                                        placeholder="{{ Auth::check() ? 'Write a comment...' : 'Please login to comment' }}"
+                                        {{ !Auth::check() ? 'disabled' : '' }}>
+                                    
+                                    @auth
+                                    <label class="btn btn-outline-secondary btn-sm mb-0 d-flex align-items-center justify-content-center" style="width: 40px; height: 38px; cursor: pointer;" title="Attach Image">
+                                        <i class="fas fa-image"></i>
+                                        <input type="file" class="d-none reply-image-input" accept="image/*">
+                                    </label>
+                                    @endauth
+                                </div>
+                                <div class="reply-image-preview mt-2 d-none">
+                                    <img src="" class="img-thumbnail" style="max-height: 100px;">
+                                    <button class="btn btn-sm btn-danger remove-reply-image ms-2"><i class="fas fa-times"></i></button>
+                                </div>
 
                                 @auth
                                 <button class="btn btn-theme-two btn-sm mt-3 add-comment-btn" 
@@ -119,7 +137,7 @@
                         @foreach($applications as $app)
                         <div class="application-item">
                             @if($app->logo_url)
-                            <img src="{{ asset($app->logo_url) }}" alt="{{ $app->name }}">
+                            <img src="{{ rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($app->logo_url, '/') }}" alt="{{ $app->name }}">
                             @else
                             <div class="bg-light rounded p-2 text-center d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: bold; color: #ccc;">U</div>
                             @endif
