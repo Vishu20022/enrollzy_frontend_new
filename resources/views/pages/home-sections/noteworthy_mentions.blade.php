@@ -56,7 +56,7 @@
 
                                         <div class="card-content">
 
-                                            <h5 class="text-white">
+                                            <h5>
                                                 {{ $mention->title }}
                                             </h5>
 

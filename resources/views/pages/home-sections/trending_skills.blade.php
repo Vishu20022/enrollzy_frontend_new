@@ -24,8 +24,7 @@
                         $cardClass = $index == 0 || $index == 3 ? 'top-card' : 'bottom-card';
                     @endphp
                     <div class="col-lg-3 col-md-6">
-
-                        <div class="scholar-card {{ $cardClass }}">
+                        <div class="scholar-card {{ $cardClass }} scholar-card-color-{{ $index % 4 }}">
 
                             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
 

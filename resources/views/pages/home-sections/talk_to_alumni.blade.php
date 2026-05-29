@@ -3,7 +3,7 @@
         <div class="container text-center">
 
             <h2 class="featured-title main-heading">
-                {!! $section->title ?? 'Alumnai' !!}
+                {!! $section->title ?? 'Alumni' !!}
             </h2>
 
             @if($section->subtitle)

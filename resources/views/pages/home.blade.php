@@ -3,6 +3,7 @@
 @section('title', 'Home')
 
 @push('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <style>
@@ -103,5 +104,19 @@
         window.enrollzyOrgData = @json($compData);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/home.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('.org-selector, .course-selector').select2({
+                width: '100%'
+            });
+
+            // Bridge Select2 changes back to native change event so home.js triggers
+            $('.org-selector, .course-selector').on('select2:select', function (e) {
+                this.dispatchEvent(new Event('change'));
+            });
+        });
+    </script>
 @endpush

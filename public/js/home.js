@@ -147,11 +147,6 @@
                     icon: 'fas fa-star'
                 },
                 {
-                    label: 'Eligibility',
-                    key: 'eligibility',
-                    icon: 'fas fa-user-check'
-                },
-                {
                     label: 'Admission Process',
                     key: 'admission',
                     icon: 'fas fa-file-signature'
@@ -209,6 +204,10 @@
                         courseSelect.disabled = true;
                         const compareCard = this.closest(".compare-card");
                         if (compareCard) compareCard.classList.remove('active-slot');
+                    }
+                    
+                    if (window.jQuery && $(courseSelect).data('select2')) {
+                        $(courseSelect).trigger('change.select2');
                     }
 
                     updateComparison();
@@ -323,10 +322,14 @@
             }
 
             resetBtn.addEventListener('click', function() {
-                orgSelectors.forEach(s => s.value = '');
+                orgSelectors.forEach(s => {
+                    s.value = '';
+                    if (window.jQuery && $(s).data('select2')) $(s).trigger('change.select2');
+                });
                 courseSelectors.forEach(s => {
                     s.innerHTML = '<option value="">Select Course</option>';
                     s.disabled = true;
+                    if (window.jQuery && $(s).data('select2')) $(s).trigger('change.select2');
                 });
                 document.querySelectorAll('.compare-card').forEach(c => c.classList.remove('active-slot'));
                 selections = {

@@ -23,8 +23,8 @@
 
                     <div class="row g-4">
 
-                        @foreach ($blogs->take(3) as $blog)
-                            <div class="col-lg-4 col-md-6">
+                        @foreach ($blogs->take(4) as $blog)
+                            <div class="col-lg-3 col-md-6">
 
                                 <div class="blog-card">
 
@@ -38,9 +38,9 @@
 
                                     <div class="blog-content">
 
-                                        <button class="update-btn">
+                                        <!-- <button class="update-btn">
                                             Update
-                                        </button>
+                                        </button> -->
 
                                         <h3 class="blog-title sub-heading-two">
                                             {{ $blog->title }}
