@@ -45,15 +45,15 @@
 
 @section('content')
     @php
-        $orgTypes = \App\Models\OrganisationType::where('status', true)->orderBy('sort_order')->get();
+        $headerLinks = \App\Models\HeaderLink::where('status', true)->orderBy('sort_order')->orderBy('title')->get();
     @endphp
-    @if ($orgTypes->count() > 0)
+    @if ($headerLinks->count() > 0)
         <section class="school-nav">
             <div class="container">
                 <ul class="school-list">
-                    @foreach ($orgTypes as $type)
+                    @foreach ($headerLinks as $link)
                         <li>
-                            <a href="#">{{ $type->title }}</a>
+                            <a href="{{ $link->url ?? '#' }}">{{ $link->title }}</a>
                         </li>
                     @endforeach
                 </ul>

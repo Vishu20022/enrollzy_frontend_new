@@ -182,4 +182,9 @@ class PageController extends Controller
         $exam = \App\Models\DynamicExam::with('sections')->where('slug', $slug)->firstOrFail();
         return view('pages.exams.show', compact('exam'));
     }
+    public function courseDetail($slug)
+    {
+        $course = \App\Models\Course::with(['programLevel', 'streamOffered', 'discipline'])->where('slug', $slug)->firstOrFail();
+        return view('pages.courses.show', compact('course'));
+    }
 }

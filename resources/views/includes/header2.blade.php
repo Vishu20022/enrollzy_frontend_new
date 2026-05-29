@@ -68,6 +68,58 @@
 header .navbar .nav-link {
     color: var(--darkclr);
 }
+
+.master-search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    display: none;
+    margin-top: 5px;
+}
+.master-search-dropdown .search-category-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #888;
+    padding: 8px 15px;
+    background: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+.master-search-dropdown .search-category-title:first-child {
+    border-top: none;
+    border-radius: 8px 8px 0 0;
+}
+.master-search-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.master-search-dropdown ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+.master-search-dropdown ul li a:hover {
+    background: #f1ecfc;
+    color: #805CD8;
+}
+.master-search-dropdown .no-results {
+    padding: 15px;
+    text-align: center;
+    color: #777;
+}
 </style>
 <header>
     <!-- ========================= -->
@@ -235,10 +287,15 @@ header .navbar .nav-link {
                     <!-- MEGA DROPDOWN END -->
                 </ul>
 
-                <div class="searchbtn">
-                    <input type="search" class="form-control" name="search" id="search"
-                        placeholder="🔍 Search...">
+                <div class="searchbtn mx-lg-4" style="width: 100%; max-width: 450px;" id="masterSearchContainer">
+                    <input type="search" class="form-control" name="search" id="masterSearchInput"
+                        placeholder="🔍 Search for organisation, courses, exams, etc..." autocomplete="off">
                     <button></button>
+                    
+                    <!-- Dropdown Results -->
+                    <div class="master-search-dropdown text-start" id="masterSearchDropdown">
+                        <!-- Content injected via JS -->
+                    </div>
                 </div>
 
                 <!-- RIGHT MENU -->
@@ -289,3 +346,76 @@ header .navbar .nav-link {
         </div>
     </nav>
 </header>
+
+@push('js')
+<script>
+$(document).ready(function() {
+    let searchTimeout;
+
+    $('#masterSearchInput').on('input', function() {
+        const query = $(this).val();
+        const dropdown = $('#masterSearchDropdown');
+        
+        if (query.length < 2) {
+            dropdown.hide();
+            return;
+        }
+
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            $.ajax({
+                url: '/api/master-search',
+                type: 'GET',
+                data: { query: query },
+                success: function(response) {
+                    let html = '';
+                    let hasResults = false;
+
+                    const cats = {
+                        'Organisations': response.organisations,
+                        'Courses': response.courses,
+                        'Exams': response.exams
+                    };
+
+                    for (const [category, items] of Object.entries(cats)) {
+                        if (items && items.length > 0) {
+                            hasResults = true;
+                            html += `<div class="search-category-title">${category}</div><ul>`;
+                            items.forEach(item => {
+                                const regex = new RegExp(`(${query})`, 'gi');
+                                const highlightedName = item.name.replace(regex, '<strong>$1</strong>');
+                                html += `<li><a href="${item.link}">${highlightedName}</a></li>`;
+                            });
+                            html += `</ul>`;
+                        }
+                    }
+
+                    if (!hasResults) {
+                        html = `<div class="no-results">No results found for "<b>${query}</b>"</div>`;
+                    }
+
+                    dropdown.html(html).show();
+                },
+                error: function() {
+                    dropdown.html(`<div class="no-results text-danger">Error fetching results.</div>`).show();
+                }
+            });
+        }, 300); // 300ms debounce
+    });
+
+    // Hide dropdown when clicking outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#masterSearchContainer').length) {
+            $('#masterSearchDropdown').hide();
+        }
+    });
+    
+    // Show dropdown again if input is focused and has text
+    $('#masterSearchInput').on('focus', function() {
+        if ($(this).val().length >= 2) {
+            $('#masterSearchDropdown').show();
+        }
+    });
+});
+</script>
+@endpush

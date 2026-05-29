@@ -101,6 +101,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-bookings', [BookingController::class, 'myBookings'])->name('appointments.mine');
 });
 
+// Master Search API
+Route::get('/api/master-search', [\App\Http\Controllers\SearchController::class, 'masterSearch'])->name('api.master.search');
+
 // Fetch Slots (Publicly accessible but booking requires login)
 Route::get('/api/slots/{type}/{id}', function ($type, $id) {
     if ($type === 'expert') {
@@ -150,6 +153,7 @@ Route::name('pages.')->group(function () {
     Route::get('/organisations/{slug}', [PageController::class, 'organisationDetail'])->name('organisations.detail');
 
     Route::get('/exams/{slug}', [PageController::class, 'examDetail'])->name('exams.detail');
+    Route::get('/courses/{slug}', [PageController::class, 'courseDetail'])->name('courses.detail');
 });
 
 
