@@ -3,17 +3,40 @@
         position: relative;
     }
 
+    .searchbtn input {
+        border-radius: 25px !important;
+        padding-left: 20px;
+        padding-right: 45px;
+        border: 1px solid #e2e8f0;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        transition: all 0.3s ease;
+        height: 45px;
+    }
+    .searchbtn input:focus {
+        box-shadow: 0 4px 12px rgba(128, 92, 216, 0.15);
+        border-color: #805CD8;
+    }
     .searchbtn button {
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 30px;
-        height: 100%;
-        background: #805CD8;
+        top: 50%;
+        right: 6px;
+        transform: translateY(-50%);
+        width: 34px;
+        height: 34px;
+        background: linear-gradient(135deg, #805CD8, #6b46c1);
+        color: white;
         border: none;
+        border-radius: 50%;
         outline: none;
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(128, 92, 216, 0.3);
+    }
+    .searchbtn button:hover {
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 4px 8px rgba(128, 92, 216, 0.4);
     }
     .mobile-drawer{
 
@@ -229,7 +252,7 @@ header .navbar .nav-link {
                 <ul class="navbar-nav ms-4 add-gap">
                     <!-- MEGA DROPDOWN START -->
                     <li class="nav-item position-static">
-                        <a class="nav-link " href="#" id="exploreMenu">Explore ▾</a>
+                        <a class="nav-link text-nowrap" href="#" id="exploreMenu">Explore ▾</a>
                         <!-- MEGA MENU -->
                         <div class="mega-menu shadow">
                             <div class="row">
@@ -281,16 +304,16 @@ header .navbar .nav-link {
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item"><a href="#!" class="nav-link">Get Certified</a></li>
-                    <li class="nav-item"><a href="#!" class="nav-link">Subscribe</a></li>
+                    <li class="nav-item"><a href="#!" class="nav-link text-nowrap">Get Certified</a></li>
+                    <li class="nav-item"><a href="#!" class="nav-link text-nowrap">Subscribe</a></li>
 
                     <!-- MEGA DROPDOWN END -->
                 </ul>
 
-                <div class="searchbtn mx-lg-4" style="width: 100%; max-width: 450px;" id="masterSearchContainer">
+                <div class="searchbtn mx-lg-4" style="width: 100%; max-width: 500px;" id="masterSearchContainer">
                     <input type="search" class="form-control" name="search" id="masterSearchInput"
-                        placeholder="🔍 Search for organisation, courses, exams, etc..." autocomplete="off">
-                    <button></button>
+                        placeholder="Search for organisation, courses, exams, etc..." autocomplete="off">
+                    <button><i class="fa-solid fa-search"></i></button>
                     
                     <!-- Dropdown Results -->
                     <div class="master-search-dropdown text-start" id="masterSearchDropdown">
@@ -301,7 +324,7 @@ header .navbar .nav-link {
                 <!-- RIGHT MENU -->
                 <ul class="navbar-nav ">
 
-                    <li class="nav-item"><a class="nav-link" href="#!">Enrollzy For Business</a></li>
+                    <li class="nav-item"><a class="nav-link text-nowrap" href="#!">Enrollzy For Business</a></li>
                     <li class="nav-item auth-dropdown">
                         <a class="nav-link user-icon" href="javascript:void(0)">
                             @auth
