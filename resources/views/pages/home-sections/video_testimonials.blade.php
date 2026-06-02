@@ -24,7 +24,19 @@
                         <div class="swiper-slide">
                             <div class="testimonial-card"
                                 style="background-image:linear-gradient(rgba(173, 41, 172, 0.35),rgba(111, 68, 117, 0.70)), url('{{ env('BACKEND_URL') . '/' . $video->thumbnail }}'); background-size: cover; background-position: center; min-height: 250px;">
-                                <a href="{{ $video->video_url }}" target="_blank"
+                                @php
+                                    $url = $video->video_url;
+                                    $params = [];
+                                    if ($video->autoplay) $params['autoplay'] = '1';
+                                    if ($video->muted) {
+                                        $params['mute'] = '1';
+                                        $params['muted'] = '1';
+                                    }
+                                    if (!empty($params)) {
+                                        $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . http_build_query($params);
+                                    }
+                                @endphp
+                                <a href="{{ $url }}" target="_blank"
                                     class="play-btn text-decoration-none text-white d-inline-flex align-items-center justify-content-center mb-3"
                                     style="width: 50px; height: 50px; background: #fff; backdrop-filter: blur(5px); border-radius: 50%;">
                                     <i class="fa-solid fa-play"></i>

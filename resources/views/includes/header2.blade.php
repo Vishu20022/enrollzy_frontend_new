@@ -10,7 +10,7 @@
         border: 1px solid #e2e8f0;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
         transition: all 0.3s ease;
-        height: 45px;
+        height: 40px;
     }
     .searchbtn input:focus {
         box-shadow: 0 4px 12px rgba(128, 92, 216, 0.15);
@@ -21,8 +21,8 @@
         top: 50%;
         right: 6px;
         transform: translateY(-50%);
-        width: 34px;
-        height: 34px;
+        width: 30px;
+        height: 30px;
         background: linear-gradient(135deg, #805CD8, #6b46c1);
         color: white;
         border: none;
@@ -234,7 +234,7 @@ header .navbar .nav-link {
             <a class="navbar-brand" href="{{ route('pages.home') }}">
                 @if ($site_settings->logo ?? false)
                     <img src="{{ env('BACKEND_URL') . '/' . $site_settings->logo }}"
-                        alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 45px;">
+                        alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 40px;">
                 @else
                     <span class="theme">{{ explode(' ', $site_settings->site_name ?? 'Your Logo')[0] }}</span>
                     <span>{{ implode(' ', array_slice(explode(' ', $site_settings->site_name ?? 'Your Logo'), 1)) }}</span>
@@ -368,6 +368,22 @@ header .navbar .nav-link {
             </div>
         </div>
     </nav>
+    @php
+        $headerLinks = \App\Models\HeaderLink::where('status', true)->orderBy('sort_order')->orderBy('title')->get();
+    @endphp
+    @if ($headerLinks->count() > 0)
+        <section class="school-nav">
+            <div class="container">
+                <ul class="school-list">
+                    @foreach ($headerLinks as $link)
+                        <li>
+                            <a href="{{ $link->url ?? '#' }}">{{ $link->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
+    @endif
 </header>
 
 @push('js')

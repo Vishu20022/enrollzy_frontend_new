@@ -2,8 +2,18 @@
 
         <div class="container text-center">
 
-            <h2 class="featured-title main-heading">
-                {!! $section->title ?? 'Our Trending Program' !!}
+            <h2 class="featured-title main-heading fw-bold">
+                @php
+                    $title = $section->title ?? 'Why Choose Us';
+                    if (strip_tags($title) === $title) {
+                        $words = explode(' ', $title);
+                        if (count($words) > 0) {
+                            $words[0] = '<span class="theme">' . $words[0] . '</span>';
+                            $title = implode(' ', $words);
+                        }
+                    }
+                @endphp
+                {!! $title !!}
             </h2>
         </div>
 

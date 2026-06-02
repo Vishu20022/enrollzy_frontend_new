@@ -29,10 +29,8 @@
                                 <div class="blog-card">
 
                                     <div class="blog-image">
-
                                         <img src="{{ env('BACKEND_URL') . '/' . $blog->image }}"
                                             alt="{{ $blog->title }}">
-
                                     </div>
 
 
@@ -43,7 +41,7 @@
                                         </button> -->
 
                                         <h3 class="blog-title sub-heading-two">
-                                            {{ $blog->title }}
+                                            {{ Str::limit($blog->title, 55) }}
                                         </h3>
 
                                         @if (!empty($blog->description))

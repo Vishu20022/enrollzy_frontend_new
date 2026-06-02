@@ -5,7 +5,7 @@
     position: relative;
     display: flex;
     align-items: flex-end;
-    padding-bottom: 50px;
+    padding-bottom: 25px;
 }
 
 .org-hero::before {
@@ -21,6 +21,17 @@
     display: flex;
     align-items: center;
     gap: 30px;
+}
+
+.org-logo-lg {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.org-title {
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+    font-size: 2.8rem;
 }
 
 .org-logo-wrapper {
@@ -42,18 +53,20 @@
 }
 
 .nav-link-custom {
-    padding: 15px 25px;
+    padding: 16px 30px;
     font-weight: 600;
-    color: var(--bodyclr);
+    font-size: 1.05rem;
+    color: #64748b;
     border-bottom: 3px solid transparent;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
 }
 
 .nav-link-custom:hover,
 .nav-link-custom.active {
     color: var(--themeprimaryclr);
     border-bottom-color: var(--themeprimaryclr);
+    background-color: #f8fafc;
 }
 
 .sidebar-wrapper {

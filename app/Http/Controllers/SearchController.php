@@ -22,7 +22,7 @@ class SearchController extends Controller
         }
 
         // Search Organisations
-        $organisations = Organisation::whereIn('status', [1, '1', true, 'Active', 'active'])
+        $organisations = Organisation::where('status', 1)
             ->where('name', 'LIKE', '%' . $query . '%')
             ->select('id', 'name', 'slug')
             ->take(5)
@@ -36,7 +36,7 @@ class SearchController extends Controller
             });
 
         // Search Courses
-        $courses = Course::whereIn('status', [1, '1', true, 'Active', 'active'])
+        $courses = Course::where('status', 1)
             ->where('name', 'LIKE', '%' . $query . '%')
             ->select('id', 'name', 'slug')
             ->take(5)
@@ -50,7 +50,7 @@ class SearchController extends Controller
             });
 
         // Search Exams
-        $exams = DynamicExam::whereIn('status', [1, '1', true, 'Active', 'active'])
+        $exams = DynamicExam::where('status', 1)
             ->where('name', 'LIKE', '%' . $query . '%')
             ->select('id', 'name', 'slug')
             ->take(5)

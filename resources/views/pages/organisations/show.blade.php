@@ -67,11 +67,10 @@
                             alt="{{ $organisation->name }}" class="org-logo-lg">
                     </div>
                     <div class="org-info">
-                        <h1 class="text-white fw-bold mb-2">{{ $organisation->name }}</h1>
-                        <p class="text-white-50 mb-0 d-flex align-items-center flex-wrap gap-2">
-                            <span><i
-                                    class="bi bi-geo-alt-fill me-1"></i>{{ $organisation->head_office_location ?? 'Location not available' }}</span>
-                            <span class="vr bg-white-50 mx-1"></span>
+                        <h1 class="text-white fw-bold mb-2 org-title">{{ $organisation->name }}</h1>
+                        <p class="mb-0 d-flex align-items-center flex-wrap gap-2 mt-2">
+                            <span class="badge bg-dark bg-opacity-75 text-white px-3 py-2 fs-6 fw-normal"><i
+                                    class="bi bi-geo-alt-fill text-danger me-1"></i>{{ $organisation->head_office_location ?? 'Location not available' }}</span>
                             <span class="badge bg-primary">{{ $organisation->organisationType->title ?? 'N/A' }}</span>
                             @if($organisation->university_type)
                                 <span class="badge bg-info text-dark">{{ $organisation->university_type }} University</span>
@@ -88,13 +87,18 @@
         <!-- Sub-Navigation Horizontal Bar -->
         <div class="org-detail-nav shadow-sm">
             <div class="container">
-                <div class="d-flex overflow-auto">
-                    <div class="nav-link-custom" :class="{ 'active': tab === 'about' }" @click="setActiveTab('about')">
-                        Organisation Info</div>
-                    <div class="nav-link-custom" :class="{ 'active': tab === 'campuses' }"
-                        @click="setActiveTab('campuses')">Campuses</div>
-                    <div class="nav-link-custom" :class="{ 'active': tab === 'courses' }" @click="setActiveTab('courses')">
-                        Courses</div>
+                <div class="row">
+                    <div class="col-lg-3 d-none d-lg-block"></div>
+                    <div class="col-lg-9">
+                        <div class="d-flex overflow-auto gap-2">
+                            <div class="nav-link-custom" :class="{ 'active': tab === 'about' }" @click="setActiveTab('about')">
+                                Organisation Info</div>
+                            <div class="nav-link-custom" :class="{ 'active': tab === 'campuses' }"
+                                @click="setActiveTab('campuses')">Campuses</div>
+                            <div class="nav-link-custom" :class="{ 'active': tab === 'courses' }" @click="setActiveTab('courses')">
+                                Courses</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -308,9 +312,9 @@
                                     <h5 class="fw-bold mt-4">About the Organisation</h5>
                                     <div class="mb-4 text-muted">
                                         @if($organisation->organisation_type_id == 1 || $organisation->organisation_type_id == 2)
-                                            {!! nl2br(e($organisation->about_university)) !!}
+                                            {!! $organisation->about_university !!}
                                         @else
-                                            {!! nl2br(e($organisation->about_organisation)) !!}
+                                            {!! $organisation->about_organisation !!}
                                         @endif
                                     </div>
 
@@ -351,7 +355,7 @@
                                     @if($organisation->vision_mission)
                                         <h5 class="fw-bold mt-4">Vision & Mission</h5>
                                         <div class="p-3 bg-light rounded text-muted fst-italic">
-                                            {!! nl2br(e($organisation->vision_mission)) !!}
+                                            {!! $organisation->vision_mission !!}
                                         </div>
                                     @endif
 
@@ -1288,12 +1292,12 @@
 
 
                         <!-- Specific Course Detail -->
-                        <div x-show="selectedCourseId" class="card detail-card p-4">
+                        <div x-show="selectedCourseId" class="card detail-card p-3">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div>
-                                    <h2 class="fw-bold mb-1"
+                                    <h3 class="fw-bold mb-1" style="font-size: 1.5rem; font-family: 'Inter', system-ui, sans-serif; color: #1e293b;"
                                         x-text="selectedCourse?.course?.name || selectedCourse?.academic_unit_name">
-                                    </h2>
+                                    </h3>
                                     <template x-if="selectedCourse?.campus">
                                         <small class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i><span
                                                 x-text="selectedCourse.campus.campus_name"></span></small>
@@ -1308,17 +1312,39 @@
                             </div>
 
                             <!-- Tabs for Course Detail -->
-                            <div class="nav nav-pills mb-3" id="courseDetailTabs" role="tablist">
-                                <button class="nav-link active me-2" data-bs-toggle="pill"
+                            <style>
+                                #courseDetailTabs {
+                                    gap: 0.5rem;
+                                }
+                                #courseDetailTabs .nav-link {
+                                    font-size: 13.5px;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 8px;
+                                    margin: 0 !important;
+                                    background-color: #f8f9fa;
+                                    color: #495057;
+                                    border: 1px solid #e9ecef;
+                                    font-weight: 500;
+                                }
+                                #courseDetailTabs .nav-link:hover {
+                                    background-color: #e2e8f0;
+                                }
+                                #courseDetailTabs .nav-link.active {
+                                    background-color: var(--themeprimaryclr);
+                                    color: white;
+                                    border-color: var(--themeprimaryclr);
+                                }
+                            </style>
+                            <div class="nav nav-pills mb-3 flex-wrap" id="courseDetailTabs" role="tablist">
+                                <button class="nav-link active" data-bs-toggle="pill"
                                     data-bs-target="#course-overview">Overview</button>
-                                <button class="nav-link me-2" data-bs-toggle="pill"
-                                    data-bs-target="#course-eligibility">Eligibility
-                                    & Admission</button>
-                                <button class="nav-link me-2" data-bs-toggle="pill" data-bs-target="#course-fees">Fees &
-                                    Scholarships</button>
                                 <button class="nav-link" data-bs-toggle="pill"
-                                    data-bs-target="#course-curriculum">Curriculum &
-                                    Career</button>
+                                    data-bs-target="#course-eligibility">Eligibility & Admission</button>
+                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#course-fees">Fees & Scholarships</button>
+                                <button class="nav-link" data-bs-toggle="pill"
+                                    data-bs-target="#course-curriculum">Curriculum & Career</button>
+                                <button class="nav-link" data-bs-toggle="pill"
+                                    data-bs-target="#course-admission-routes">Admission Route</button>
                             </div>
 
                             <div class="tab-content border p-4 rounded bg-white shadow-sm">
@@ -2106,6 +2132,62 @@
                                             </div>
                                         </template>
                                     </div>
+                                </div>
+
+                                <!-- Admission Route Tab -->
+                                <div class="tab-pane fade" id="course-admission-routes">
+                                    <h5 class="fw-bold mb-4">Available Admission Routes</h5>
+                                    
+                                    <template x-if="selectedCourse?.admission_routes && selectedCourse.admission_routes.length > 0">
+                                        <div class="d-flex flex-column gap-3">
+                                            <template x-for="route in selectedCourse.admission_routes" :key="route.id">
+                                                <div class="card border border-light shadow-sm">
+                                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1 text-dark" x-text="route.name"></h6>
+                                                            <small class="text-muted" x-text="route.description || 'Based on score or merit'"></small>
+                                                        </div>
+                                                        <a :href="route.details_url || '#'" class="btn btn-outline-primary btn-sm rounded-pill px-3">Check Details</a>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    
+                                    <template x-if="!selectedCourse?.admission_routes || selectedCourse.admission_routes.length === 0">
+                                        <!-- Static Example Fallback -->
+                                        <div class="d-flex flex-column gap-3">
+                                            <div class="card border border-light shadow-sm bg-white">
+                                                <div class="card-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1 text-dark"><i class="bi bi-journal-text text-primary me-2"></i>JEE Main</h6>
+                                                        <small class="text-muted">Admission based on JEE Main All India Rank</small>
+                                                    </div>
+                                                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Check Details</a>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card border border-light shadow-sm bg-white">
+                                                <div class="card-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1 text-dark"><i class="bi bi-building text-primary me-2"></i>University Entrance Test</h6>
+                                                        <small class="text-muted">Admission based on the university's own entrance exam score</small>
+                                                    </div>
+                                                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Check Details</a>
+                                                </div>
+                                            </div>
+
+                                            <div class="card border border-light shadow-sm bg-white">
+                                                <div class="card-body d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1 text-dark"><i class="bi bi-award text-primary me-2"></i>12th Merit Based</h6>
+                                                        <small class="text-muted">Direct admission based on 10+2 board exam percentage</small>
+                                                    </div>
+                                                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3">Check Details</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>

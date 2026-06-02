@@ -16,7 +16,19 @@
                     <div class="video-card">
                         <div class="video-thumb"
                              style="background-image:url('{{ env('BACKEND_URL') . '/' . $video->thumbnail }}')">
-                            <a href="{{ $video->video_url }}" target="_blank" class="play-btn">
+                            @php
+                                $url = $video->video_url;
+                                $params = [];
+                                if ($video->autoplay) $params['autoplay'] = '1';
+                                if ($video->muted) {
+                                    $params['mute'] = '1';
+                                    $params['muted'] = '1';
+                                }
+                                if (!empty($params)) {
+                                    $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . http_build_query($params);
+                                }
+                            @endphp
+                            <a href="{{ $url }}" target="_blank" class="play-btn">
                                 ▶
                             </a>
                         </div>

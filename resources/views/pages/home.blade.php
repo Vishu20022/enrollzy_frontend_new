@@ -45,23 +45,6 @@
 @endpush
 
 @section('content')
-    @php
-        $headerLinks = \App\Models\HeaderLink::where('status', true)->orderBy('sort_order')->orderBy('title')->get();
-    @endphp
-    @if ($headerLinks->count() > 0)
-        <section class="school-nav">
-            <div class="container">
-                <ul class="school-list">
-                    @foreach ($headerLinks as $link)
-                        <li>
-                            <a href="{{ $link->url ?? '#' }}">{{ $link->title }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </section>
-    @endif
-
 
     @foreach($homepage_sections as $section)
         @if(view()->exists('pages.home-sections.' . $section->section_key))

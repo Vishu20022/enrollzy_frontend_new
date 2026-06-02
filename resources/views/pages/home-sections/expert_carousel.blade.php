@@ -40,7 +40,7 @@
 
                         <div class="custom-card">
 
-                            <div class="card-image" style="height: 250px; overflow: hidden;">
+                            <div class="card-image" style="height: 150px; width: 150px; overflow: hidden; margin: 20px auto 10px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                                 <a href="{{ route('pages.experts.detail', $expert->id) }}">
                                     <img src="{{ $imgUrl }}" alt="{{ $expert->name }}"
                                         style="object-fit: cover; height: 100%; width: 100%;">

@@ -17,8 +17,16 @@ class OrganisationController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $organisations = $query->latest()->paginate(10);
-        return view('admin.organisations.index', compact('organisations'));
+        if ($request->filled('organisation_type_id')) {
+            $query->where('organisation_type_id', $request->organisation_type_id);
+        }
+
+        $perPage = $request->input('per_page', 10);
+        $organisations = $query->latest()->paginate($perPage)->withQueryString();
+        
+        $organisationTypes = \App\Models\OrganisationType::where('status', true)->get();
+
+        return view('admin.organisations.index', compact('organisations', 'organisationTypes'));
     }
 
     public function create()

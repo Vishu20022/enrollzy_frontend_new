@@ -171,7 +171,7 @@ class PageController extends Controller
             'organisationSubType',
             'accreditations',
             'admissionRoutes'
-        ])->where('slug', $slug)->firstOrFail();
+        ])->where('slug', $slug)->where('status', true)->firstOrFail();
         $languages = \App\Models\Language::where('status', 1)->pluck('title', 'id');
 
         return view('pages.organisations.show', compact('organisation', 'languages'));

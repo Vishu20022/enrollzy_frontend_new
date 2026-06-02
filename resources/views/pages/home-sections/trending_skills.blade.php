@@ -4,9 +4,19 @@
 
             <div class="section-heading heading">
 
-                <h2 class="main-heading">
-                {!! $section->title ?? 'Scholarships & Benefits' !!}
-            </h2>
+                <h2 class="main-heading fw-bold">
+                    @php
+                        $title = $section->title ?? 'Scholarships & Benefits';
+                        if (strip_tags($title) === $title) {
+                            $words = explode(' ', $title);
+                            if (count($words) > 0) {
+                                $words[0] = '<span class="theme">' . $words[0] . '</span>';
+                                $title = implode(' ', $words);
+                            }
+                        }
+                    @endphp
+                    {!! $title !!}
+                </h2>
 
                 <p>
                     Check out the top student benefits and programs designed for your success.
@@ -26,9 +36,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="scholar-card {{ $cardClass }} scholar-card-color-{{ $index % 4 }}">
 
-                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+                            <img src="{{ $benefit->icon ? env('BACKEND_URL') . '/' . $benefit->icon : 'https://cdn-icons-png.flaticon.com/512/3135/3135755.png' }}">
 
-                            <h3 class="sub-heading-two text-white">{{ $benefit->title }}</h3>
+                            <h3 class="sub-heading-two" style="color: #FFD700; text-decoration: underline; text-underline-offset: 4px;">{{ $benefit->title }}</h3>
 
                             <p class="text-white">
                                 {{ $benefit->content }}
@@ -45,7 +55,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="scholar-card top-card">
                             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
-                            <h3 class="sub-heading-two text-white">Lorem Ipsum</h3>
+                            <h3 class="sub-heading-two" style="color: #FFD700; text-decoration: underline; text-underline-offset: 4px;">Lorem Ipsum</h3>
                             <p class="text-white">Lorem Ipsum is simply dummy text of the printing and typesetting
                                 industry.</p>
                             <button class="learn-btn">Learn More</button>

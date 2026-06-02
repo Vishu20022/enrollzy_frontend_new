@@ -20,8 +20,8 @@
 
                 <div class="row justify-content-center g-4">
 
-                    @foreach ($exams->take(6) as $exam)
-                        <div class="col-lg-4 col-md-6">
+                    @foreach ($exams->take(8) as $exam)
+                        <div class="col-lg-3 col-md-6">
 
                             <a href="{{ route('pages.exams.detail', $exam->slug) }}" class="text-decoration-none">
                                 <div class="exam-card">

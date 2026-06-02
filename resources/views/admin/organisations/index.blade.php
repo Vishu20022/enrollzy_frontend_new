@@ -11,10 +11,34 @@
                     </div>
                     <div class="card-body">
                         <form action="" method="GET" class="mb-3">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search by name..."
-                                    value="{{ request('search') }}">
-                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            <div class="row gx-2">
+                                <div class="col-md-4 mb-2 mb-md-0">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by name..."
+                                        value="{{ request('search') }}">
+                                </div>
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <select name="organisation_type_id" class="form-select">
+                                        <option value="">All Types</option>
+                                        @if(isset($organisationTypes))
+                                            @foreach($organisationTypes as $type)
+                                                <option value="{{ $type->id }}" {{ request('organisation_type_id') == $type->id ? 'selected' : '' }}>
+                                                    {{ $type->title }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <select name="per_page" class="form-select">
+                                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10 per page</option>
+                                        <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25 per page</option>
+                                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50 per page</option>
+                                        <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100 per page</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary w-100" type="submit">Filter</button>
+                                </div>
                             </div>
                         </form>
 

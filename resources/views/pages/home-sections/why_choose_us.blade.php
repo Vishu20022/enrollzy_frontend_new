@@ -21,7 +21,7 @@
                         @if ($index % 2 == 0)
                             <div class="timeline-content left animate">
                                 <div class="image-box">
-                                    <img src="{{ $service->image ? rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($service->image, '/') : asset('images/Choose-enrollzy.png') }}" alt="{{ $service->title }}" style="border-radius: 50%; aspect-ratio: 1/1; object-fit: cover; width: 100%;">
+                                    <img src="{{ $service->image ? rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($service->image, '/') : asset('images/Choose-enrollzy.png') }}" alt="{{ $service->title }}" class="img-fluid">
                                 </div>
                             </div>
 
@@ -50,7 +50,7 @@
                             </div>
                             <div class="timeline-content right animate">
                                 <div class="image-box">
-                                    <img src="{{ $service->image ? rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($service->image, '/') : asset('images/Choose-enrollzy.png') }}" alt="{{ $service->title }}" style="border-radius: 50%; aspect-ratio: 1/1; object-fit: cover; width: 100%;">
+                                    <img src="{{ $service->image ? rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($service->image, '/') : asset('images/Choose-enrollzy.png') }}" alt="{{ $service->title }}" class="img-fluid">
                                 </div>
                             </div>
                         @endif
