@@ -112,12 +112,7 @@ header .auth-dropdown:hover .auth-popup {
   color: var(--themeprimaryclr);
 }
 
-/* Show on desktop hover */
-.nav-item:hover .mega-menu {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Removed hover rule in favor of JS click logic */
 
 .nav-item .mega-menu.hide-menu {
   opacity: 0;

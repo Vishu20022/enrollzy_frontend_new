@@ -1,3 +1,9 @@
+@php
+    $footerMenus = \App\Models\FooterMenu::with(['children' => function($q) {
+        $q->where('status', 1)->orderBy('sort_order');
+    }])->whereNull('parent_id')->where('status', 1)->orderBy('sort_order')->get();
+@endphp
+
 <footer class="site-footer premium-dark-footer mt-5 pt-5 pb-3">
     <div class="container">
         <div class="row g-4 mb-4">
@@ -12,41 +18,37 @@
                     @endif
                 </a>
                 <p class="footer-text lh-base mb-4 pe-lg-4">
-                    Empowering your future with world-class education. Discover, learn, and grow with top-rated courses and programs tailored for your success.
+                    {{ $site_settings->footer_description ?? 'Empowering your future with world-class education. Discover, learn, and grow with top-rated courses and programs tailored for your success.' }}
                 </p>
                 
                 {{-- Social Icons --}}
                 <div class="d-flex gap-3">
-                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                    @if(isset($site_settings->facebook_url) && $site_settings->facebook_url)
+                        <a href="{{ $site_settings->facebook_url }}" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                    @endif
+                    @if(isset($site_settings->twitter_url) && $site_settings->twitter_url)
+                        <a href="{{ $site_settings->twitter_url }}" target="_blank" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    @endif
+                    @if(isset($site_settings->instagram_url) && $site_settings->instagram_url)
+                        <a href="{{ $site_settings->instagram_url }}" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    @endif
+                    @if(isset($site_settings->linkedin_url) && $site_settings->linkedin_url)
+                        <a href="{{ $site_settings->linkedin_url }}" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                    @endif
                 </div>
             </div>
 
-            {{-- Column 2: Important Links --}}
+            {{-- Dynamic Footer Columns --}}
+            @foreach($footerMenus as $column)
             <div class="col-lg-2 col-md-3 col-6">
-                <h6 class="footer-heading fw-bold mb-4">Important Links</h6>
+                <h6 class="footer-heading fw-bold mb-4">{{ $column->title }}</h6>
                 <ul class="list-unstyled">
-                    <li class="mb-3"><a href="{{ url('/about') }}" class="footer-link">About Us</a></li>
-                    <li class="mb-3"><a href="{{ url('/courses') }}" class="footer-link">Browse Courses</a></li>
-                    <li class="mb-3"><a href="{{ url('/instructors') }}" class="footer-link">Our Instructors</a></li>
-                    <li class="mb-3"><a href="{{ url('/blog') }}" class="footer-link">Blog & News</a></li>
-                    <li class="mb-3"><a href="{{ url('/contact') }}" class="footer-link">Contact Us</a></li>
+                    @foreach($column->children as $link)
+                    <li class="mb-3"><a href="{{ $link->url ?: '#' }}" class="footer-link">{{ $link->title }}</a></li>
+                    @endforeach
                 </ul>
             </div>
-
-            {{-- Column 3: More --}}
-            <div class="col-lg-2 col-md-3 col-6">
-                <h6 class="footer-heading fw-bold mb-4">More</h6>
-                <ul class="list-unstyled">
-                    <li class="mb-3"><a href="{{ url('/privacy-policy') }}" class="footer-link">Privacy Policy</a></li>
-                    <li class="mb-3"><a href="{{ url('/terms-and-conditions') }}" class="footer-link">Terms & Conditions</a></li>
-                    <li class="mb-3"><a href="{{ url('/refund-policy') }}" class="footer-link">Refund Policy</a></li>
-                    <li class="mb-3"><a href="{{ url('/faq') }}" class="footer-link">FAQ / Help</a></li>
-                    <li class="mb-3"><a href="{{ url('/careers') }}" class="footer-link">Careers</a></li>
-                </ul>
-            </div>
+            @endforeach
 
             {{-- Right Column: Contact Information --}}
             <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
@@ -57,20 +59,20 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <span class="footer-text">
-                            123 Education Lane, Learning City,<br> ED 12345, Country
+                            {!! nl2br(e($site_settings->address ?? '123 Education Lane, Learning City, ED 12345, Country')) !!}
                         </span>
                     </li>
                     <li class="mb-4 d-flex align-items-center">
                         <div class="contact-icon me-3">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <a href="mailto:support@enrollzy.com" class="footer-link">support@enrollzy.com</a>
+                        <a href="mailto:{{ $site_settings->contact_email ?? 'support@enrollzy.com' }}" class="footer-link">{{ $site_settings->contact_email ?? 'support@enrollzy.com' }}</a>
                     </li>
                     <li class="mb-4 d-flex align-items-center">
                         <div class="contact-icon me-3">
                             <i class="fas fa-phone-alt"></i>
                         </div>
-                        <a href="tel:+1234567890" class="footer-link">+1 (234) 567-890</a>
+                        <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', $site_settings->contact_phone ?? '+1234567890') }}" class="footer-link">{{ $site_settings->contact_phone ?? '+1 (234) 567-890' }}</a>
                     </li>
                 </ul>
             </div>

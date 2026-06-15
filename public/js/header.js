@@ -1,45 +1,60 @@
 /* ============================================
-   DESKTOP MEGA MENU — Smooth Hover Logic
+   DESKTOP MEGA MENU & SIMPLE DROPDOWN — Click Logic
 ============================================ */
-const menuItem = document.querySelector(".nav-item");
-const megaMenu = document.querySelector(".mega-menu");
+const navItems = document.querySelectorAll(".nav-item");
 
-let closeTimer;
+navItems.forEach(item => {
+    const toggleLink = item.querySelector("a.nav-link");
+    const dropdownMenu = item.querySelector(".mega-menu, .simple-dropdown");
 
-if (menuItem && megaMenu) {
-    // SHOW MENU INSTANTLY
-    menuItem.addEventListener("mouseenter", () => {
-        clearTimeout(closeTimer);
-        megaMenu.style.display = "block";
+    if (toggleLink && dropdownMenu) {
+        // Toggle on click
+        toggleLink.addEventListener("click", (e) => {
+            // Only prevent default if it has sub-menus (we set href="javascript:void(0)")
+            if(toggleLink.getAttribute("href") === "javascript:void(0)") {
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                return; // Let normal links work
+            }
+            
+            // Close other open menus
+            document.querySelectorAll(".mega-menu, .simple-dropdown").forEach(menu => {
+                if(menu !== dropdownMenu) {
+                    menu.style.opacity = "0";
+                    menu.style.transform = "translateY(10px)";
+                    setTimeout(() => (menu.style.display = "none"), 200);
+                }
+            });
 
-        setTimeout(() => {
-            megaMenu.style.opacity = "1";
-            megaMenu.style.transform = "translateY(0px)";
-        }, 10);
-    });
+            // Toggle current menu
+            if (dropdownMenu.style.display === "block") {
+                dropdownMenu.style.opacity = "0";
+                dropdownMenu.style.transform = "translateY(10px)";
+                setTimeout(() => (dropdownMenu.style.display = "none"), 200);
+            } else {
+                dropdownMenu.style.display = "block";
+                setTimeout(() => {
+                    dropdownMenu.style.opacity = "1";
+                    dropdownMenu.style.transform = "translateY(0px)";
+                }, 10);
+            }
+        });
+    }
+});
 
-    // HIDE MENU — DELAYED (for smooth UX)
-    menuItem.addEventListener("mouseleave", () => {
-        closeTimer = setTimeout(() => {
-            megaMenu.style.opacity = "0";
-            megaMenu.style.transform = "translateY(10px)";
-            setTimeout(() => (megaMenu.style.display = "none"), 200);
-        }, 250);
-    });
-
-    // Prevent accidental close when moving slowly inside menu
-    megaMenu.addEventListener("mouseenter", () => {
-        clearTimeout(closeTimer);
-    });
-
-    megaMenu.addEventListener("mouseleave", () => {
-        closeTimer = setTimeout(() => {
-            megaMenu.style.opacity = "0";
-            megaMenu.style.transform = "translateY(10px)";
-            setTimeout(() => (megaMenu.style.display = "none"), 200);
-        }, 200);
-    });
-}
+// Close when clicking outside
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".nav-item")) {
+        document.querySelectorAll(".mega-menu, .simple-dropdown").forEach(menu => {
+            if (menu.style.display === "block") {
+                menu.style.opacity = "0";
+                menu.style.transform = "translateY(10px)";
+                setTimeout(() => (menu.style.display = "none"), 200);
+            }
+        });
+    }
+});
 
 /* ============================================
    MOBILE DRAWER — Toggle System

@@ -143,7 +143,47 @@ header .navbar .nav-link {
     text-align: center;
     color: #777;
 }
+
+/* ----------------------------------------------------
+   SIMPLE DROPDOWN (For 2-level menus)
+----------------------------------------------------- */
+.simple-dropdown {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    min-width: 200px;
+    background: #fff;
+    padding: 10px 0;
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    border-top: 1px solid #eee;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 1000;
+    border-radius: 0 0 8px 8px;
+}
+.simple-dropdown a {
+    text-decoration: none;
+    color: #333 !important;
+    display: block;
+    padding: 8px 20px;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+.simple-dropdown a:hover {
+    background: #f1ecfc;
+    color: #805CD8 !important;
+    padding-left: 25px;
+}
+/* Removed hover rule in favor of JS click logic */
 </style>
+@php
+    $mainHeaderMenus = \App\Models\HeaderMenu::with('children.children')
+        ->whereNull('parent_id')
+        ->where('status', 1)
+        ->orderBy('sort_order')
+        ->get();
+@endphp
 <header>
     <!-- ========================= -->
     <!--  MOBILE DRAWER OVERLAY   -->
@@ -200,14 +240,23 @@ header .navbar .nav-link {
 
         <!-- MENU LINKS -->
         <div class="drawer-menu px-3 py-2">
-            <div class="drawer-item">Explore roles <span>&gt;</span></div>
-            <div class="drawer-item">Explore categories <span>&gt;</span></div>
-            <div class="drawer-item">Trending skills <span>&gt;</span></div>
-            <div class="drawer-item">
-                Professional certificates <span>&gt;</span>
-            </div>
-            <div class="drawer-item">Earn an online degree <span>&gt;</span></div>
-            <div class="drawer-item">Certification exam prep <span>&gt;</span></div>
+            @foreach($mainHeaderMenus as $menu)
+                @if($menu->children->count() > 0)
+                    <div class="drawer-item fw-bold text-primary">{{ $menu->title }}</div>
+                    @foreach($menu->children as $child)
+                        @if($child->children->count() > 0)
+                            <div class="drawer-item ps-3 fw-bold">{{ $child->title }}</div>
+                            @foreach($child->children as $grandchild)
+                                <a href="{{ $grandchild->url ?: '#' }}" class="text-decoration-none text-dark"><div class="drawer-item ps-4">{{ $grandchild->title }} <span>&gt;</span></div></a>
+                            @endforeach
+                        @else
+                            <a href="{{ $child->url ?: '#' }}" class="text-decoration-none text-dark"><div class="drawer-item ps-3">{{ $child->title }} <span>&gt;</span></div></a>
+                        @endif
+                    @endforeach
+                @else
+                    <a href="{{ $menu->url ?: '#' }}" class="text-decoration-none text-dark"><div class="drawer-item">{{ $menu->title }} <span>&gt;</span></div></a>
+                @endif
+            @endforeach
         </div>
 
         <hr class="my-0" />
@@ -250,69 +299,60 @@ header .navbar .nav-link {
             <div class="collapse navbar-collapse add-flex-props" id="mainNav">
                 <!-- LEFT MENU -->
                 <ul class="navbar-nav ms-4 add-gap">
-                    <!-- MEGA DROPDOWN START -->
-                    <li class="nav-item position-static">
-                        <a class="nav-link text-nowrap" href="#" id="exploreMenu">Explore ▾</a>
-                        <!-- MEGA MENU -->
-                        <div class="mega-menu shadow">
-                            <div class="row">
-                                <!-- Column 1 -->
-                                <div class="col-lg-3 col-6 mb-4">
-                                    <div class="mega-title">Explore Roles</div>
-                                    <a href="#">Data Analyst</a>
-                                    <a href="#">Project Manager</a>
-                                    <a href="#">Cyber Security Analyst</a>
-                                    <a href="#">UX/UI Designer</a>
-                                    <a href="#">Social Media Specialist</a>
-                                    <a href="#">Business Intelligence</a>
-                                    <a href="#">View all</a>
-                                </div>
-
-                                <!-- Column 2 -->
-                                <div class="col-lg-3 col-6 mb-4">
-                                    <div class="mega-title">Explore Categories</div>
-                                    <a href="#">AI</a>
-                                    <a href="#">Business</a>
-                                    <a href="#">Data Science</a>
-                                    <a href="#">IT</a>
-                                    <a href="#">Healthcare</a>
-                                    <a href="#">Engineering</a>
-                                    <a href="#">View all</a>
-                                </div>
-
-                                <!-- Column 3 -->
-                                <div class="col-lg-3 col-6 mb-4">
-                                    <div class="mega-title">Certificates</div>
-                                    <a href="#">Business</a>
-                                    <a href="#">IT</a>
-                                    <a href="#">Data Science</a>
-                                    <a href="#">Computer Science</a>
-                                    <a href="#">View all</a>
-                                </div>
-
-                                <!-- Column 4 -->
-                                <div class="col-lg-3 col-6 mb-4">
-                                    <div class="mega-title">Trending Skills</div>
-                                    <a href="#">Python</a>
-                                    <a href="#">AI</a>
-                                    <a href="#">Machine Learning</a>
-                                    <a href="#">SQL</a>
-                                    <a href="#">Marketing</a>
-                                    <a href="#">Power BI</a>
-                                    <a href="#">View all</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item"><a href="#!" class="nav-link text-nowrap">Get Certified</a></li>
-                    <li class="nav-item"><a href="#!" class="nav-link text-nowrap">Subscribe</a></li>
-
-                    <!-- MEGA DROPDOWN END -->
+                    @foreach($mainHeaderMenus as $menu)
+                        @if($menu->children->count() > 0)
+                            @php
+                                $hasGrandchildren = false;
+                                foreach($menu->children as $child) {
+                                    if($child->children->count() > 0) {
+                                        $hasGrandchildren = true;
+                                        break;
+                                    }
+                                }
+                            @endphp
+                            @if($hasGrandchildren)
+                                <!-- MEGA DROPDOWN -->
+                                <li class="nav-item position-static">
+                                    <a class="nav-link text-nowrap" href="javascript:void(0)" id="menu-{{ $menu->id }}">{{ $menu->title }} ▾</a>
+                                    <div class="mega-menu shadow">
+                                        <div class="row">
+                                            @foreach($menu->children as $column)
+                                                <div class="col-lg-3 col-6 mb-4">
+                                                    @if($column->url)
+                                                        <a href="{{ $column->url }}" class="mega-title" style="text-decoration:none;">{{ $column->title }}</a>
+                                                    @else
+                                                        <div class="mega-title">{{ $column->title }}</div>
+                                                    @endif
+                                                    
+                                                    @foreach($column->children as $link)
+                                                        <a href="{{ $link->url ?: '#' }}">{{ $link->title }}</a>
+                                                    @endforeach
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </li>
+                            @else
+                                <!-- SIMPLE DROPDOWN -->
+                                <li class="nav-item position-relative">
+                                    <a class="nav-link text-nowrap" href="javascript:void(0)" id="menu-{{ $menu->id }}">{{ $menu->title }} ▾</a>
+                                    <div class="simple-dropdown shadow">
+                                        @foreach($menu->children as $link)
+                                            <a href="{{ $link->url ?: '#' }}">{{ $link->title }}</a>
+                                        @endforeach
+                                    </div>
+                                </li>
+                            @endif
+                        @else
+                            <!-- SIMPLE LINK -->
+                            <li class="nav-item"><a href="{{ $menu->url ?: '#' }}" class="nav-link text-nowrap">{{ $menu->title }}</a></li>
+                        @endif
+                    @endforeach
                 </ul>
 
                 <div class="searchbtn mx-lg-4" style="width: 100%; max-width: 500px;" id="masterSearchContainer">
                     <input type="search" class="form-control" name="search" id="masterSearchInput"
-                        placeholder="Search for organisation, courses, exams, etc..." autocomplete="off">
+                        placeholder="Search for organisation, exams, etc..." autocomplete="off">
                     <button><i class="fa-solid fa-search"></i></button>
                     
                     <!-- Dropdown Results -->
@@ -412,7 +452,6 @@ $(document).ready(function() {
 
                     const cats = {
                         'Organisations': response.organisations,
-                        'Courses': response.courses,
                         'Exams': response.exams
                     };
 

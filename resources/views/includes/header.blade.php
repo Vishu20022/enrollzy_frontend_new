@@ -202,7 +202,7 @@
                 </ul>
 
                 <div class="mx-lg-4 position-relative" style="width: 100%; max-width: 450px;" id="masterSearchContainer1">
-                    <input type="search" class="form-control" name="search" id="masterSearchInput1" placeholder="🔍 Search for organisation, courses, exams, etc..." autocomplete="off">
+                    <input type="search" class="form-control" name="search" id="masterSearchInput1" placeholder="🔍 Search for organisation, exams, etc..." autocomplete="off">
                     
                     <!-- Dropdown Results -->
                     <div class="master-search-dropdown text-start" id="masterSearchDropdown1">
@@ -286,7 +286,6 @@ $(document).ready(function() {
 
                     const cats = {
                         'Organisations': response.organisations,
-                        'Courses': response.courses,
                         'Exams': response.exams
                     };
 
