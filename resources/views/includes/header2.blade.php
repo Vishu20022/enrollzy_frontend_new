@@ -364,7 +364,7 @@ header .navbar .nav-link {
                 <!-- RIGHT MENU -->
                 <ul class="navbar-nav ">
 
-                    <li class="nav-item"><a class="nav-link text-nowrap" href="#!">Enrollzy For Business</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link text-nowrap" href="#!">Enrollzy For Business</a></li> -->
                     <li class="nav-item auth-dropdown">
                         <a class="nav-link user-icon" href="javascript:void(0)">
                             @auth

@@ -1,144 +1,51 @@
 @extends('layouts.master')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/login/register.css') }}">
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+<link rel="stylesheet" href="{{ asset('css/login/login-otp.css') }}">
 @endpush
 
 @section('content')
-<section class="register-section">
+
+<section class="login-section">
     <div class="container">
         <div class="row align-items-center min-vh-100">
 
-            <!-- LEFT ILLUSTRATION -->
+            <!-- LEFT IMAGE -->
             <div class="col-lg-6 d-none d-lg-flex justify-content-center">
-                <div class="register-illustration floating">
-                    <img src="{{ asset('images/auth/register.png') }}" alt="Register">
+                <div class="login-illustration floating">
+                    <img 
+                        src="{{ asset('images/auth/register.png') }}" 
+                        alt="Register Illustration">
                 </div>
             </div>
 
             <!-- RIGHT FORM -->
             <div class="col-lg-6">
-                <div class="register-card">
+                <div class="login-card">
 
-                    <h2 class="text-center mb-4">Create New Account</h2>
+                    <h2 class="mb-4 text-center">Create Your Account</h2>
 
-                    <form action="{{ route('register.submit') }}" method="POST">
-                        @csrf
-
-                        <!-- Full Name -->
-                        <div class="mb-3">
-                            <input
-                                type="text"
-                                name="name"
-                                class="form-control @error('name') is-invalid @enderror"
-                                placeholder="Full Name"
-                                value="{{ old('name') }}"
-                                required
-                            >
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Mobile -->
-                        <div class="mb-3">
-                            <div class="mobile-group">
-                                <span class="country-code">+91</span>
-                                <input
-                                    type="tel"
-                                    name="mobile"
-                                    class="form-control @error('mobile') is-invalid @enderror"
-                                    placeholder="Mobile Number"
-                                    value="{{ old('mobile') }}"
-                                    required
-                                >
-                            </div>
-                            @error('mobile')
-                                <div class="text-danger mt-1" style="font-size: 0.875em;">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                placeholder="Password"
-                                required
-                            >
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="mb-3">
-                            <input
-                                type="password"
-                                name="password_confirmation"
-                                class="form-control"
-                                placeholder="Confirm Password"
-                                required
-                            >
-                        </div>
+                    <div class="text-center mb-4">
+                        <p class="text-muted">Click the button below to register using your mobile number.</p>
                         
-                        <!-- Pincode -->
-                        {{-- <input type="text" class="form-control" placeholder="Pin Code"> --}}
-                        
-                        <!-- Address Row -->
-                        {{-- 
-                        <div class="row g-2">
-                             ... Address fields kept commented or removed if not needed for initial registration ...
-                        </div> 
-                        --}}
+                        <!-- MSG91 Widget Trigger Button -->
+                        <button type="button" id="sendOtpBtn" class="btn btn-theme-one w-100 btn-lg mb-3" onclick="initSendOTP(configuration)" disabled>
+                            <i class="fas fa-mobile-alt me-2"></i> Register with OTP
+                        </button>
+                    </div>
 
-                        <!-- Terms -->
-                        <div class="form-check mt-2">
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                id="terms"
-                                required
-                            >
-                            <label class="form-check-label" for="terms">
-                                I agree with <a href="#">Terms</a> and <a href="#">Privacy</a>
-                            </label>
-                        </div>
+                    <div class="divider">or</div>
 
-                        <!-- Submit -->
-                        <div id="registerActions">
-                            <button type="button" id="sendOtpBtn" class="btn btn-theme-one w-100 mt-2">
-                                Send OTP & Sign Up
-                            </button>
-                        </div>
+                    <div class="alt-login">
+                        <a href="{{route('login')}}" class="alt-btn text-center password w-100">
+                            🔐 Using Password
+                        </a>
+                    </div>
 
-                        <!-- OTP Verification Section (Hidden initially) -->
-                        <div id="otpSection" style="display: none;">
-                            <div class="divider">Verify OTP</div>
-                            <div class="mb-3">
-                                <input type="text" id="otpInput" class="form-control" placeholder="Enter 6-digit OTP" maxlength="6">
-                            </div>
-                            <button type="button" id="verifyOtpBtn" class="btn btn-success w-100">
-                                Verify & Complete Registration
-                            </button>
-                            <div class="text-center mt-2">
-                                <a href="javascript:void(0)" id="changeDetailsBtn" class="text-muted small">Change Details</a>
-                            </div>
-                        </div>
-
-                        <div id="recaptcha-container"></div>
-
-
-                        <!-- Footer -->
-                        <p class="register-footer mt-2">
-                            Already have an account?
-                            <a href="{{ route('login') }}">Sign In</a>
-                        </p>
-
-                    </form>
+                    <p class="signup-text mt-4 text-center">
+                        Already have an account?
+                        <a href="{{route('login')}}" class="fw-bold">Sign In</a>
+                    </p>
 
                 </div>
             </div>
@@ -147,98 +54,76 @@
     </div>
 </section>
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDISZTQSab0rRd8ARiadaQgokmCRwgbP-A",
-        authDomain: "enrollzy.firebaseapp.com",
-        projectId: "enrollzy",
-        storageBucket: "enrollzy.firebasestorage.app",
-        messagingSenderId: "323478887040",
-        appId: "1:323478887040:web:c8631fc5981e15ac37a465",
-        measurementId: "G-YWST0ZBBME"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-        'size': 'invisible'
-    });
-
-    document.getElementById('sendOtpBtn').addEventListener('click', function() {
-        const name = document.querySelector('input[name="name"]').value;
-        const mobile = document.querySelector('input[name="mobile"]').value;
-        const password = document.querySelector('input[name="password"]').value;
-        const password_confirmation = document.querySelector('input[name="password_confirmation"]').value;
-
-        if (!name || mobile.length !== 10 || !password || password !== password_confirmation) {
-            alert("Please fill all fields correctly. Passwords must match.");
-            return;
-        }
-
-        const phoneNumber = "+91" + mobile;
-        const appVerifier = window.recaptchaVerifier;
-
-        document.getElementById('sendOtpBtn').disabled = true;
-        document.getElementById('sendOtpBtn').innerText = "Sending OTP...";
-
-        auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-            .then((confirmationResult) => {
-                window.confirmationResult = confirmationResult;
-                document.getElementById('registerActions').style.display = 'none';
-                document.getElementById('otpSection').style.display = 'block';
-                
-                // Optional: Store registration data in session via hidden form or AJAX if needed
-                // But we'll just submit it all at once at the end.
-            }).catch((error) => {
-                alert("Error: " + error.message);
-                document.getElementById('sendOtpBtn').disabled = false;
-                document.getElementById('sendOtpBtn').innerText = "Send OTP & Sign Up";
-            });
-    });
-
-    document.getElementById('verifyOtpBtn').addEventListener('click', function() {
-        const code = document.getElementById('otpInput').value;
-        const formData = new FormData(document.querySelector('form'));
-        
-        document.getElementById('verifyOtpBtn').disabled = true;
-        document.getElementById('verifyOtpBtn').innerText = "Verifying...";
-
-        window.confirmationResult.confirm(code).then((result) => {
-            const user = result.user;
+<!-- MSG91 Configuration -->
+<script type="text/javascript">
+    var configuration = {
+        widgetId: "36666f6c696d323833353533",
+        tokenAuth: "531665T6dGSx75SC386a2febdcP1",
+        identifier: "", // optional
+        success: (data) => {
+            console.log('success response', data);
             
-            // Add firebase token and otp to form data
-            formData.append('firebase_token', user.accessToken);
-            formData.append('otp', code);
+            if (data.message) {
+                // Show loading state
+                Swal.fire({
+                    title: 'Verifying...',
+                    text: 'Please wait while we set up your account.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
-            fetch("{{ route('register.submit') }}", {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      window.location.href = data.redirect;
-                  } else {
-                      alert(data.message || "Registration failed");
-                      document.getElementById('verifyOtpBtn').disabled = false;
-                      document.getElementById('verifyOtpBtn').innerText = "Verify & Complete Registration";
-                  }
-              });
-        }).catch((error) => {
-            alert("Invalid OTP: " + error.message);
-            document.getElementById('verifyOtpBtn').disabled = false;
-            document.getElementById('verifyOtpBtn').innerText = "Verify & Complete Registration";
-        });
-    });
-
-    document.getElementById('changeDetailsBtn').addEventListener('click', function() {
-        document.getElementById('registerActions').style.display = 'block';
-        document.getElementById('otpSection').style.display = 'none';
-        document.getElementById('sendOtpBtn').disabled = false;
-        document.getElementById('sendOtpBtn').innerText = "Send OTP & Sign Up";
-    });
+                // Send the token to the backend OTP verify endpoint (which handles auto-registration)
+                fetch("{{ route('otp.verify.submit') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        token: data.message
+                    })
+                }).then(response => response.json())
+                .then(res => {
+                    if (res.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Welcome!',
+                            text: 'Account created and logged in successfully.',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = res.redirect;
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: res.message || 'Registration failed.'
+                        });
+                    }
+                }).catch(error => {
+                    console.error("Backend Verification Error", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong during verification!'
+                    });
+                });
+            }
+        },
+        failure: (error) => {
+            console.log('failure reason', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'OTP Failed',
+                text: 'Could not complete OTP verification.'
+            });
+        }
+    };
 </script>
+<script type="text/javascript" src="https://verify.msg91.com/otp-provider.js" onload="document.getElementById('sendOtpBtn').disabled = false;"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @endsection

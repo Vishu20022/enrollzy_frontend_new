@@ -64,15 +64,41 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'mobile' => ['required', 'digits:10', 'unique:users,mobile'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'firebase_token' => ['required'], // Ensure token is passed from frontend
+            'msg91_token' => ['required'], // Ensure MSG91 token is passed from frontend
         ]);
 
-        // In a real app, you would verify the firebase_token here using Firebase Admin SDK
-        // For now, we trust the frontend verification as requested
+        // Verify the MSG91 token securely
+        $authKey = env('MSG91_AUTH_KEY', '509095AeRzdoYXdas69e1d083P1');
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->withBody(json_encode([
+            'authkey' => $authKey,
+            'access-token' => $request->msg91_token
+        ]), 'application/json')->post('https://control.msg91.com/api/v5/widget/verifyAccessToken');
+
+        $data = $response->json();
+
+        if (!$response->successful() || ($data['type'] ?? '') !== 'success') {
+            return response()->json([
+                'success' => false,
+                'message' => 'OTP verification failed. Please try again.'
+            ], 422);
+        }
+
+        $verifiedMobile = $data['message'] ?? '';
+        $phone = substr($verifiedMobile, -10);
+
+        if ($phone !== $request->mobile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The verified mobile number does not match the registration number.'
+            ], 422);
+        }
 
         $user = User::create([
             'name' => $request->name,
-            'mobile' => $request->mobile,
+            'mobile' => $phone,
             'password' => Hash::make($request->password),
             'email' => null,
         ]);
@@ -119,25 +145,53 @@ class AuthController extends Controller
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'mobile' => 'required|digits:10',
-            'firebase_token' => 'required'
+            'token' => 'required'
         ]);
 
-        $mobile = $request->mobile;
-        
-        // Verify Firebase Token here in production
-        
-        $user = User::where('mobile', $mobile)->first();
-        if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+        $authKey = env('MSG91_AUTH_KEY', '509095AeRzdoYXdas69e1d083P1'); // Fallback to a default if not set
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->withBody(json_encode([
+            'authkey' => $authKey,
+            'access-token' => $request->token
+        ]), 'application/json')->post('https://control.msg91.com/api/v5/widget/verifyAccessToken');
+
+        $data = $response->json();
+
+        if ($response->successful() && ($data['type'] ?? '') == 'success') {
+            $mobile = $data['message'] ?? '';
+            if (!$mobile) {
+                return response()->json(['success' => false, 'message' => 'Invalid response from MSG91'], 422);
+            }
+
+            // Extract the 10-digit number
+            $phone = substr($mobile, -10);
+
+            $user = User::where('mobile', $phone)->first();
+            
+            if (!$user) {
+                // Auto-register the user if they don't exist
+                $user = User::create([
+                    'name' => 'User', // default name
+                    'mobile' => $phone,
+                    'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(10)),
+                    'email' => null,
+                ]);
+            }
+
+            Auth::login($user, true);
+            session()->forget(['mobile', 'otp_type']); 
+
+            return response()->json([
+                'success' => true,
+                'redirect' => route('pages.home')
+            ]);
         }
 
-        Auth::login($user);
-        session()->forget(['mobile', 'otp_type']); 
-        
         return response()->json([
-            'success' => true,
-            'redirect' => route('pages.home')
-        ]);
+            'success' => false,
+            'message' => $data['message'] ?? 'OTP verification failed. Please try again.'
+        ], 422);
     }
 }
