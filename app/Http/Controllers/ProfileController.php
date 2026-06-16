@@ -26,13 +26,34 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'mobile' => ['nullable', 'string', 'max:15'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 
-        $user->update([
+        $data = [
             'name' => $request->name,
+            'email' => $request->email,
             'mobile' => $request->mobile,
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            
+            // Move to public/images/profiles directly
+            $destinationPath = public_path('images/profiles');
+            
+            // Delete old image if it exists
+            if ($user->image && file_exists(public_path('images/profiles/' . $user->image))) {
+                unlink(public_path('images/profiles/' . $user->image));
+            }
+
+            $file->move($destinationPath, $filename);
+            $data['image'] = $filename;
+        }
+
+        $user->update($data);
 
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }

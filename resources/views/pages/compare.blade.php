@@ -23,61 +23,21 @@
 
     <section class="compare-section">
         <div class="container">
-            <div class="text-center mb-5">
+            <div class="text-center mb-3">
                 <h2 class="fw-bold">Make an Informed Decision</h2>
                 <p class="text-muted">Select up to 4 courses from different campuses and departments to compare them side-by-side.</p>
             </div>
 
-            <div class="compare-bg">
-                <div class="row g-4 justify-content-center">
-                    @for ($i = 1; $i <= 4; $i++)
-                        <div class="col-lg-3 col-md-6">
-                            <div class="compare-card" data-slot-card="{{ $i }}">
-                                <div class="card-top">
-                                    <span class="option-tag">OPTION {{ $i }}</span>
-                                    <i class="fas fa-university text-muted fs-4"></i>
-                                </div>
-
-                                <div class="field">
-                                    <label>Campus</label>
-                                    <select class="form-select campus-selector" data-slot="{{ $i }}">
-                                        <option value="">Select Campus</option>
-                                        @foreach ($campuses as $campus)
-                                            <option value="{{ $campus->id }}">{{ $campus->campus_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="field">
-                                    <label>Department</label>
-                                    <select class="form-select dept-selector" data-slot="{{ $i }}" disabled>
-                                        <option value="">Select Department</option>
-                                    </select>
-                                </div>
-
-                                <div class="field">
-                                    <label>Course</label>
-                                    <select class="form-select course-selector" data-slot="{{ $i }}" disabled>
-                                        <option value="">Select Course</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    @endfor
-                </div>
+            <div class="text-center mb-3">
+                <button type="button" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm" data-bs-toggle="modal" data-bs-target="#courseSelectionModal">
+                    <i class="fas fa-layer-group me-2"></i> Select Courses to Compare
+                </button>
             </div>
 
-            <!-- Parameters Quick Access -->
-            <div id="paramTabs" class="param-tabs-wrapper mb-4 mt-4 d-none">
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-filter me-2 text-primary"></i>
-                    <span class="fw-bold small text-uppercase">Quick Jump</span>
-                </div>
-                <div class="param-tabs-scroll d-flex gap-2" style="overflow-x: auto; padding-bottom: 10px;"></div>
-            </div>
+
 
             <!-- Comparison Matrix -->
-            <div id="comparisonResults" class="comparison-matrix-wrapper d-none mt-4 p-3">
+            <div id="comparisonResults" class="comparison-matrix-wrapper d-none mt-3 p-3">
                 <div class="table-responsive">
                     <table class="table comparison-matrix-table mb-0">
                         <thead>
@@ -105,6 +65,107 @@
             </div>
         </div>
     </section>
+
+    <!-- Unified Selection Modal -->
+    <div class="modal fade selection-modal" id="courseSelectionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Select Courses to Compare</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4 justify-content-center">
+                        @for ($i = 1; $i <= 4; $i++)
+                            <div class="col-lg-3 col-md-6">
+                                <div class="compare-card slot-card-{{ $i }}" data-slot-card="{{ $i }}">
+                                    <!-- Empty State -->
+                                    <div class="empty-state" id="empty-state-{{ $i }}">
+                                        <button class="btn btn-outline-dashed w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="switchToEditing({{ $i }})">
+                                            <i class="fas fa-plus mb-2 fs-4"></i>
+                                            <span class="fw-bold">Add Campus</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Editing State (Dropdowns) -->
+                                    <div class="editing-state d-none" id="editing-state-{{ $i }}">
+                                        <div class="card-top">
+                                            <span class="option-tag">OPTION {{ $i }}</span>
+                                            <button class="btn btn-sm btn-link text-muted p-0" onclick="switchToEmpty({{ $i }})"><i class="fas fa-times"></i></button>
+                                        </div>
+
+                                        <div class="field">
+                                            <label>Campus</label>
+                                            <select class="form-select campus-selector" data-slot="{{ $i }}">
+                                                <option value="">Select Campus</option>
+                                                @foreach ($campuses as $campus)
+                                                    <option value="{{ $campus->id }}">{{ $campus->campus_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="field">
+                                            <label>Department</label>
+                                            <select class="form-select dept-selector" data-slot="{{ $i }}" disabled>
+                                                <option value="">Select Department</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="field mb-0">
+                                            <label>Course</label>
+                                            <select class="form-select course-selector" data-slot="{{ $i }}" disabled>
+                                                <option value="">Select Course</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filled State -->
+                                    <div class="filled-state d-none" id="filled-state-{{ $i }}">
+                                        <div class="card-top">
+                                            <span class="option-tag text-white bg-white bg-opacity-25">OPTION {{ $i }}</span>
+                                            <div class="filled-actions">
+                                                <button class="btn btn-sm btn-link text-white p-0 me-2" onclick="switchToEditing({{ $i }})"><i class="fas fa-pencil-alt"></i></button>
+                                                <button class="btn btn-sm btn-link text-white p-0" onclick="switchToEmpty({{ $i }})"><i class="fas fa-times"></i></button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="filled-content mt-3 text-white">
+                                            <div class="small text-uppercase opacity-75 fw-bold mb-1">Campus</div>
+                                            <h5 class="fw-bold mb-3" id="filled-campus-{{ $i }}">Campus Name</h5>
+                                            
+                                            <div class="small text-uppercase opacity-75 fw-bold mb-1">Department</div>
+                                            <div class="fw-bold mb-3" id="filled-dept-{{ $i }}">Dept Name</div>
+                                            
+                                            <div class="small text-uppercase opacity-75 fw-bold mb-1">Course</div>
+                                            <div class="fw-bold" id="filled-course-{{ $i }}">Course Name</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-top">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-5 shadow-sm" id="confirmSelectionBtn" data-bs-dismiss="modal">Compare Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Read More Modal -->
+    <div class="modal fade" id="readMoreModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 20px 50px rgba(0,0,0,0.1);">
+                <div class="modal-header bg-light" style="border-radius: 20px 20px 0 0; padding: 20px 30px; border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold text-dark" id="readMoreModalTitle" style="font-size: 1.3rem;">Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="readMoreModalBody" style="font-size: 1rem; line-height: 1.7; color: #475569;">
+                    <!-- Content goes here -->
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('js')
@@ -303,7 +364,6 @@
                 { label: 'Total Reviews', key: 'total_reviews', icon: 'fas fa-comment-dots' },
                 { label: 'Individual Reviews', key: 'individual_reviews', icon: 'fas fa-comments', isReview: true }
             );
-
             let selections = { 1: null, 2: null, 3: null, 4: null };
 
             // 1. Campus Change -> Populate Departments
@@ -331,8 +391,6 @@
                             deptSelect.appendChild(option);
                         });
                     }
-                    
-                    updateComparison();
                 });
             });
 
@@ -359,8 +417,6 @@
                             courseSelect.appendChild(option);
                         });
                     }
-
-                    updateComparison();
                 });
             });
 
@@ -430,14 +486,54 @@
                         });
 
                         selections[slot] = rowData;
+                        switchToFilled(slot, rowData);
                     } else {
-                        this.closest('.compare-card').classList.remove('active-slot');
                         selections[slot] = null;
                     }
-
-                    updateComparison();
                 });
             });
+
+            // Confirm Selection Button
+            document.getElementById('confirmSelectionBtn').addEventListener('click', function() {
+                updateComparison();
+            });
+
+            window.switchToEditing = function(slot) {
+                document.getElementById('empty-state-' + slot).classList.add('d-none');
+                document.getElementById('filled-state-' + slot).classList.add('d-none');
+                document.getElementById('editing-state-' + slot).classList.remove('d-none');
+                document.querySelector('.slot-card-' + slot).classList.remove('state-filled');
+            };
+
+            window.switchToEmpty = function(slot) {
+                document.getElementById('editing-state-' + slot).classList.add('d-none');
+                document.getElementById('filled-state-' + slot).classList.add('d-none');
+                document.getElementById('empty-state-' + slot).classList.remove('d-none');
+                document.querySelector('.slot-card-' + slot).classList.remove('state-filled');
+                
+                // Reset dropdowns for this slot
+                document.querySelector(`.campus-selector[data-slot="${slot}"]`).value = '';
+                let deptSelect = document.querySelector(`.dept-selector[data-slot="${slot}"]`);
+                deptSelect.innerHTML = '<option value="">Select Department</option>';
+                deptSelect.disabled = true;
+                let courseSelect = document.querySelector(`.course-selector[data-slot="${slot}"]`);
+                courseSelect.innerHTML = '<option value="">Select Course</option>';
+                courseSelect.disabled = true;
+                
+                selections[slot] = null;
+            };
+
+            window.switchToFilled = function(slot, rowData) {
+                document.getElementById('empty-state-' + slot).classList.add('d-none');
+                document.getElementById('editing-state-' + slot).classList.add('d-none');
+                
+                document.getElementById('filled-campus-' + slot).textContent = rowData.campusName;
+                document.getElementById('filled-dept-' + slot).textContent = rowData.deptName;
+                document.getElementById('filled-course-' + slot).textContent = rowData.name;
+                
+                document.getElementById('filled-state-' + slot).classList.remove('d-none');
+                document.querySelector('.slot-card-' + slot).classList.add('state-filled');
+            };
 
             function updateComparison() {
                 const activeSelections = Object.values(selections).filter(s => s !== null);
@@ -445,33 +541,44 @@
                 if (activeSelections.length > 0) {
                     emptyMessage.classList.add('d-none');
                     resultsDiv.classList.remove('d-none');
-                    paramTabs.classList.remove('d-none');
-                    renderTabs();
                     renderMatrix(activeSelections);
                 } else {
                     emptyMessage.classList.remove('d-none');
                     resultsDiv.classList.add('d-none');
-                    paramTabs.classList.add('d-none');
                 }
             }
 
-            function renderTabs() {
-                const scrollContainer = paramTabs.querySelector('.param-tabs-scroll');
-                scrollContainer.innerHTML = '';
-                params.filter(p => !p.isSectionHeader).forEach(p => {
-                    const btn = document.createElement('div');
-                    btn.className = 'param-tab-btn';
-                    btn.innerHTML = `<i class="${p.icon} me-1 small"></i> ${p.label}`;
-                    btn.onclick = () => {
-                        const target = document.getElementById('row-' + p.key);
-                        if (target) {
-                            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            target.style.backgroundColor = 'rgba(13, 110, 253, 0.05)';
-                            setTimeout(() => target.style.backgroundColor = '', 2000);
-                        }
-                    };
-                    scrollContainer.appendChild(btn);
-                });
+            window.readMoreData = {};
+            let readMoreCounter = 0;
+
+            window.showReadMore = function(id) {
+                const data = window.readMoreData[id];
+                if(data) {
+                    document.getElementById('readMoreModalTitle').textContent = data.title;
+                    document.getElementById('readMoreModalBody').innerHTML = data.content;
+                    new bootstrap.Modal(document.getElementById('readMoreModal')).show();
+                }
+            };
+
+            function createReadMoreHtml(title, htmlContent) {
+                if (!htmlContent || typeof htmlContent !== 'string') return htmlContent;
+                let temp = document.createElement('div');
+                temp.innerHTML = htmlContent;
+                let textContent = temp.textContent || temp.innerText || "";
+                
+                if (textContent.length > 150) {
+                    let snippet = textContent.substring(0, 150) + '...';
+                    let id = 'rm_' + (++readMoreCounter);
+                    window.readMoreData[id] = { title: title, content: htmlContent };
+                    
+                    return `<div class="read-more-wrapper text-start">
+                        <span class="text-muted" style="display:block; font-size: 0.9rem; line-height:1.6;">${snippet}</span>
+                        <button class="btn btn-link btn-sm p-0 mt-2 fw-bold text-primary" style="text-decoration: none;" onclick="showReadMore('${id}')">
+                            Read More <i class="fas fa-angle-right ms-1"></i>
+                        </button>
+                    </div>`;
+                }
+                return htmlContent;
             }
 
             function renderMatrix(activeData) {
@@ -515,11 +622,19 @@
                         let val = item[p.key] || 'N/A';
                         let badgeClass = '';
                         let strVal = String(val);
-                        if (val !== 'N/A' && !p.isReview && !p.isRating && (strVal.includes('₹') || strVal.includes('%') || p.key.includes('rank') || p.key.includes('year'))) {
+                        
+                        // If it's a massive text block, strip HTML to check length
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = strVal;
+                        let rawTextLen = (tempDiv.textContent || tempDiv.innerText || "").length;
+
+                        // Only apply badges to short strings (e.g. raw values like '₹50,000' or '#1 Rank'), NOT massive paragraphs!
+                        let isShortValue = rawTextLen < 100;
+
+                        if (val !== 'N/A' && !p.isReview && !p.isRating && isShortValue && (strVal.includes('₹') || strVal.includes('%') || p.key.includes('rank') || p.key.includes('year'))) {
                             badgeClass = p.key.includes('rank') ? 'primary' : (strVal.includes('₹') ? 'success' : 'badge-value');
                             val = `<span class="badge-value ${badgeClass}">${val}</span>`;
-                        }
-                        if (p.isRating && val !== 'N/A') {
+                        } else if (p.isRating && val !== 'N/A') {
                             const starCount = Math.round(val);
                             let stars = '';
                             for(let i=1; i<=5; i++) {
@@ -540,6 +655,9 @@
                             </div>`;
                         } else if (p.isReview) {
                             val = '-';
+                        } else if (val !== 'N/A' && !strVal.includes('<i class="fas fa-check')) {
+                            // Apply Read More logic to standard text/html fields
+                            val = createReadMoreHtml(p.label, strVal);
                         }
 
                         bodyHtml += `<td>
