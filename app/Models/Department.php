@@ -60,6 +60,8 @@ class Department extends Model
         'confidence_score',
         'created_by',
         'last_updated_on',
+        'college_reviews',
+        'placement_statistics',
     ];
 
     protected $casts = [
@@ -79,6 +81,8 @@ class Department extends Model
         'last_updated_on' => 'datetime',
         'established_year' => 'integer',
         'confidence_score' => 'decimal:2',
+        'college_reviews' => 'array',
+        'placement_statistics' => 'array',
     ];
 
     public $incrementing = false;
@@ -126,7 +130,7 @@ class Department extends Model
      */
     protected static function slugExists($slug, $ignoreId = null)
     {
-        $query = static::where('slug', $slug);
+        $query = static::withTrashed()->where('slug', $slug);
 
         if ($ignoreId) {
             $query->where('id', '!=', $ignoreId);

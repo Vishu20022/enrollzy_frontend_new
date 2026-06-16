@@ -27,6 +27,7 @@ class OrganisationCourse extends Model
         'stream_offered_id',
         'discipline_id',
         'specialization_id',
+        'specialization_ids',
         'rating',
         'industrial_collaboration',
         'internship_ranking',
@@ -35,6 +36,7 @@ class OrganisationCourse extends Model
         'department_id',
         'entrance_exam_id',
         'entrance_exam_ids',
+        'entrance_exam_category',
 
         // Core Identity
         'academic_unit_name',
@@ -181,6 +183,7 @@ class OrganisationCourse extends Model
         'course_languages' => 'array',
         'results_years_available' => 'array',
         'entrance_exam_ids' => 'array',
+        'specialization_ids' => 'array',
 
         'special_educator_available' => 'boolean',
         'school_counsellor_available' => 'boolean',

@@ -21,6 +21,14 @@
 
         </div>
 
+        @if(!request()->routeIs('pages.compare'))
+        <div class="container text-center mt-3">
+            <a href="{{ route('pages.compare') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                Go to Dedicated Comparison Page <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+        @endif
+
     </section>
 
     <section class="compare-section">

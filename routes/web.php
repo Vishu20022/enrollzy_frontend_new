@@ -135,6 +135,9 @@ Route::name('pages.')->group(function () {
     Route::get('/degrees', [PageController::class, 'degrees'])
         ->name('degrees');
 
+    Route::get('/compare', [PageController::class, 'compare'])
+        ->name('compare');
+
     Route::get('/students-community', [CommunityController::class, 'index'])->name('students.community');
 
     Route::get('/my-learning', [PageController::class, 'myLearning'])

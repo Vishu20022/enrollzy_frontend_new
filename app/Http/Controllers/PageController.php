@@ -16,9 +16,28 @@ use App\Models\OrganisationCourse;
 use App\Models\Course;
 use App\Models\TrendingSkill;
 use App\Models\CompanyMarquee;
+use App\Models\Campus;
+use App\Models\Facility;
 
 class PageController extends Controller
 {
+    public function compare()
+    {
+        $campuses = Campus::with([
+            'organisation',
+            'departments' => function ($q) {
+                $q->where('status', true);
+            },
+            'departments.courses' => function ($q) {
+                $q->where('status', true)->with(['course', 'programLevel', 'specialization', 'entranceExam']);
+            }
+        ])->where('status', true)->get();
+
+        $allFacilities = Facility::where('status', 1)->get();
+
+        return view('pages.compare', compact('campuses', 'allFacilities'));
+    }
+
     public function home()
     {
         $experts = Expert::latest()->get();
