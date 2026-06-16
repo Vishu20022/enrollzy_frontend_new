@@ -56,6 +56,16 @@ class PageController extends Controller
         $site_settings = \App\Models\Setting::first();
         $is_show_full_banner = $site_settings->is_show_full_banner ?? 0;
 
+        $campuses = Campus::with([
+            'organisation',
+            'departments' => function ($q) {
+                $q->where('status', true);
+            },
+            'departments.courses' => function ($q) {
+                $q->where('status', true)->with(['course', 'programLevel', 'specialization', 'entranceExam']);
+            }
+        ])->where('status', true)->get();
+
         $hero_sliders = HeroSlider::where('is_active', true)
             ->when($is_show_full_banner == 1, function ($query) {
                 return $query->where('image_type', 'Full Banner');
@@ -93,7 +103,7 @@ class PageController extends Controller
         $company_marquees = CompanyMarquee::where('status', true)->orderBy('sort_order')->get();
         $exams = \App\Models\DynamicExam::where('status', 'Active')->get();
 
-        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams'));
+        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams', 'is_show_full_banner', 'campuses'));
     }
 
     public function blog()

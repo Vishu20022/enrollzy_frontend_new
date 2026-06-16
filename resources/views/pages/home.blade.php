@@ -58,48 +58,7 @@
 @endsection
 
 @push('js')
-    @php
-        $compData = $organisations->mapWithKeys(function ($org) {
-            return [
-                $org->id => [
-                    'name' => $org->name,
-                    'courses' => $org->courses->map(function ($c) {
-                        return [
-                            'id' => $c->id,
-                            'name' => $c->course->name ?? 'N/A',
-                            'fee' => $c->fees ?? 'N/A',
-                            'mode' => $c->mode ?? 'N/A',
-                            'duration' => $c->duration ?? 'N/A',
-                            'rating' => $c->rating ?? 0,
-                            'placement' => strip_tags($c->placement_details) ?: 'N/A',
-                            'eligibility' => strip_tags($c->eligibility) ?: 'N/A',
-                            'admission' => strip_tags($c->admission_process) ?: 'N/A',
-                            'roi' => $c->roi ?: 'N/A',
-                            'industrial' => strip_tags($c->industrial_collaboration) ?: 'N/A',
-                            'internship' => $c->internship_ranking ?: 'N/A',
-                        ];
-                    }),
-                ],
-            ];
-        });
-    @endphp
-    <script>
-        window.enrollzyOrgData = @json($compData);
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{ asset('js/home.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            // Initialize Select2
-            $('.org-selector, .course-selector').select2({
-                width: '100%'
-            });
-
-            // Bridge Select2 changes back to native change event so home.js triggers
-            $('.org-selector, .course-selector').on('select2:select', function (e) {
-                this.dispatchEvent(new Event('change'));
-            });
-        });
-    </script>
+    <script src="{{ asset('js/home.js') }}?v={{ time() }}"></script>
 @endpush

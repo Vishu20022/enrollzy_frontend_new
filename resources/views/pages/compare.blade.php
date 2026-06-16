@@ -67,91 +67,7 @@
     </section>
 
     <!-- Unified Selection Modal -->
-    <div class="modal fade selection-modal" id="courseSelectionModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold">Select Courses to Compare</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-4 justify-content-center">
-                        @for ($i = 1; $i <= 4; $i++)
-                            <div class="col-lg-3 col-md-6">
-                                <div class="compare-card slot-card-{{ $i }}" data-slot-card="{{ $i }}">
-                                    <!-- Empty State -->
-                                    <div class="empty-state" id="empty-state-{{ $i }}">
-                                        <button class="btn btn-outline-dashed w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="switchToEditing({{ $i }})">
-                                            <i class="fas fa-plus mb-2 fs-4"></i>
-                                            <span class="fw-bold">Add Campus</span>
-                                        </button>
-                                    </div>
-
-                                    <!-- Editing State (Dropdowns) -->
-                                    <div class="editing-state d-none" id="editing-state-{{ $i }}">
-                                        <div class="card-top">
-                                            <span class="option-tag">OPTION {{ $i }}</span>
-                                            <button class="btn btn-sm btn-link text-muted p-0" onclick="switchToEmpty({{ $i }})"><i class="fas fa-times"></i></button>
-                                        </div>
-
-                                        <div class="field">
-                                            <label>Campus</label>
-                                            <select class="form-select campus-selector" data-slot="{{ $i }}">
-                                                <option value="">Select Campus</option>
-                                                @foreach ($campuses as $campus)
-                                                    <option value="{{ $campus->id }}">{{ $campus->campus_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="field">
-                                            <label>Department</label>
-                                            <select class="form-select dept-selector" data-slot="{{ $i }}" disabled>
-                                                <option value="">Select Department</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="field mb-0">
-                                            <label>Course</label>
-                                            <select class="form-select course-selector" data-slot="{{ $i }}" disabled>
-                                                <option value="">Select Course</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Filled State -->
-                                    <div class="filled-state d-none" id="filled-state-{{ $i }}">
-                                        <div class="card-top">
-                                            <span class="option-tag text-white bg-white bg-opacity-25">OPTION {{ $i }}</span>
-                                            <div class="filled-actions">
-                                                <button class="btn btn-sm btn-link text-white p-0 me-2" onclick="switchToEditing({{ $i }})"><i class="fas fa-pencil-alt"></i></button>
-                                                <button class="btn btn-sm btn-link text-white p-0" onclick="switchToEmpty({{ $i }})"><i class="fas fa-times"></i></button>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="filled-content mt-3 text-white">
-                                            <div class="small text-uppercase opacity-75 fw-bold mb-1">Campus</div>
-                                            <h5 class="fw-bold mb-3" id="filled-campus-{{ $i }}">Campus Name</h5>
-                                            
-                                            <div class="small text-uppercase opacity-75 fw-bold mb-1">Department</div>
-                                            <div class="fw-bold mb-3" id="filled-dept-{{ $i }}">Dept Name</div>
-                                            
-                                            <div class="small text-uppercase opacity-75 fw-bold mb-1">Course</div>
-                                            <div class="fw-bold" id="filled-course-{{ $i }}">Course Name</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endfor
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center border-top">
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-5 shadow-sm" id="confirmSelectionBtn" data-bs-dismiss="modal">Compare Now</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('partials.compare-modal')
     <!-- Read More Modal -->
     <div class="modal fade" id="readMoreModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
@@ -169,110 +85,9 @@
 @endsection
 
 @push('js')
-    @php
-        $maxClassProfileYear = 0;
-        $maxPlacementYear = 0;
-
-        $compData = $campuses->mapWithKeys(function($campus) use (&$maxClassProfileYear, &$maxPlacementYear) {
-            $cpList = is_array($campus->class_profile) ? $campus->class_profile : [];
-            $cp = count($cpList) > 0 ? end($cpList) : [];
-            
-            $mapped = [$campus->id => [
-                'name' => $campus->campus_name,
-                'location' => $campus->city . ($campus->state ? ', ' . $campus->state : ''),
-                'ownership' => $campus->ownership_model ?? 'N/A',
-                'type_of_institute' => $campus->campus_type ?? 'N/A',
-                'college_type' => $campus->organisation->org_type ?? 'N/A',
-                'establishment_year' => $campus->established_year ?? 'N/A',
-                'campus_size' => $campus->campus_area_acres ? $campus->campus_area_acres . ' Acres' : 'N/A',
-                'total_courses_offered' => $campus->departments->flatMap->courses->count(),
-                'c360_rank' => 'N/A',
-                'c360_rating' => 'N/A',
-                'nirf_overall' => $campus->organisation->nirf_rank_overall ?? 'N/A',
-                'nirf_category' => $campus->organisation->nirf_rank_category ?? 'N/A',
-                'approvals' => is_array($campus->organisation->statutory_approvals) ? implode(', ', $campus->organisation->statutory_approvals) : ($campus->organisation->statutory_approvals ?: 'N/A'),
-                'accreditations' => $campus->organisation->naac_accredited ? 'NAAC' . ($campus->organisation->naac_grade ? ' (' . $campus->organisation->naac_grade . ')' : '') : 'N/A',
-                'total_students' => $cp['total_students'] ?? 'N/A',
-                'total_faculty' => $cp['total_faculty'] ?? 'N/A',
-                'total_male_students' => $cp['total_male_students'] ?? 'N/A',
-                'total_female_students' => $cp['total_female_students'] ?? 'N/A',
-                'total_students_outside_state' => $cp['total_outside_state'] ?? 'N/A',
-                'facilities' => is_array($campus->facilities) ? $campus->facilities : [],
-                'class_profile_year' => $cp['year'] ?? 'N/A',
-                'departments' => $campus->departments->mapWithKeys(function($dept) use (&$maxPlacementYear) {
-                    $placementStats = is_array($dept->placement_statistics) ? $dept->placement_statistics : [];
-                    $latestPlacement = count($placementStats) > 0 
-                        ? end($placementStats) 
-                        : [];
-                        
-                    if (isset($latestPlacement['year']) && is_numeric($latestPlacement['year'])) {
-                        $maxPlacementYear = max($maxPlacementYear, $latestPlacement['year']);
-                    }
-
-                    $reviewsList = is_array($dept->college_reviews) ? $dept->college_reviews : [];
-                    $reviews = count($reviewsList) > 0 ? end($reviewsList) : [];
-                    return [$dept->id => [
-                        'name' => $dept->department_name,
-                        'placement_year' => $latestPlacement['year'] ?? 'N/A',
-                        'rating_infrastructure' => $reviews['infrastructure'] ?? 'N/A',
-                        'rating_campus_life' => $reviews['campus_life'] ?? 'N/A',
-                        'rating_academics' => $reviews['academics'] ?? 'N/A',
-                        'rating_placements' => $reviews['placements'] ?? 'N/A',
-                        'rating_value_for_money' => $reviews['value_for_money'] ?? 'N/A',
-                        'total_reviews' => count($reviewsList) > 0 ? count($reviewsList) : 'N/A',
-                        'individual_reviews' => [],
-                        'dept_students_placed' => $latestPlacement['dept_students_placed'] ?? 'N/A',
-                        'dept_graduating_students' => $latestPlacement['dept_graduating_students'] ?? 'N/A',
-                        'dept_placement_percentage' => isset($latestPlacement['dept_placement_percentage']) ? $latestPlacement['dept_placement_percentage'] . '%' : 'N/A',
-                        'dept_median_salary' => isset($latestPlacement['dept_median_salary']) ? '₹' . $latestPlacement['dept_median_salary'] . ' LPA' : 'N/A',
-                        'dept_higher_studies' => $latestPlacement['dept_higher_studies'] ?? 'N/A',
-                        'overall_students_placed' => $latestPlacement['overall_students_placed'] ?? 'N/A',
-                        'overall_graduating_students' => $latestPlacement['overall_graduating_students'] ?? 'N/A',
-                        'overall_placement_percentage' => isset($latestPlacement['overall_placement_percentage']) ? $latestPlacement['overall_placement_percentage'] . '%' : 'N/A',
-                        'overall_median_salary' => isset($latestPlacement['overall_median_salary']) ? '₹' . $latestPlacement['overall_median_salary'] . ' LPA' : 'N/A',
-                        'overall_higher_studies' => $latestPlacement['overall_higher_studies'] ?? 'N/A',
-                        'courses' => $dept->courses->map(function($c) {
-                            return [
-                                'id' => $c->id,
-                                'name' => $c->course->name ?? 'N/A',
-                                'course_credential' => $c->programLevel->name ?? ($c->course->programLevel->name ?? 'N/A'),
-                                'degree' => $c->course->name ?? 'N/A',
-                                'branch' => $c->specialization->name ?? ($c->course->discipline->name ?? 'N/A'),
-                                'duration' => $c->duration ? $c->duration . ' Years' : ($c->course->duration ? $c->course->duration . ' Years' : 'N/A'),
-                                'mode' => $c->mode ?? 'N/A',
-                                'approved_intake' => $c->student_strength ?? 'N/A',
-                                'fees' => $c->total_fees ? '₹ ' . $c->total_fees : ($c->fees ? '₹ ' . $c->fees : 'N/A'),
-                                'exams_accepted' => $c->entranceExam->name ?? 'N/A',
-                                'course_approval' => 'N/A',
-                                'admission_details' => strip_tags($c->admission_process) ?: 'N/A',
-                                'eligibility_criteria' => strip_tags($c->eligibility) ?: 'N/A',
-                                'fees_structure' => strip_tags($c->fees_structure) ?: 'N/A',
-                                'curriculum' => strip_tags($c->curriculum) ?: 'N/A',
-                                'career_prospects' => strip_tags($c->career_prospects) ?: 'N/A',
-                                'placement_details' => strip_tags($c->placement_details) ?: 'N/A',
-                                'industrial_collaboration' => strip_tags($c->industrial_collaboration) ?: 'N/A',
-                                'internship_ranking' => strip_tags($c->internship_ranking) ?: 'N/A',
-                                'total_scholarships' => 'N/A',
-                                'highest_scholarship_authority' => 'N/A'
-                            ];
-                        })
-                    ]];
-                })
-            ]];
-
-            if (isset($cp['year']) && is_numeric($cp['year'])) {
-                $maxClassProfileYear = max($maxClassProfileYear, $cp['year']);
-            }
-
-            return $mapped;
-        });
-
-        $maxClassProfileYear = $maxClassProfileYear ?: 'N/A';
-        $maxPlacementYear = $maxPlacementYear ?: 'N/A';
-    @endphp
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const data = @json($compData);
+            const data = window.compareModalData || {};
 
             const campusSelectors = document.querySelectorAll('.campus-selector');
             const deptSelectors = document.querySelectorAll('.dept-selector');
@@ -301,7 +116,7 @@
                 { label: 'NIRF Rank (Engg & Arch)', key: 'nirf_category', icon: 'fas fa-award' },
                 { label: 'Approvals', key: 'approvals', icon: 'fas fa-check-circle' },
                 { label: 'Accreditations', key: 'accreditations', icon: 'fas fa-certificate' },
-                { isSectionHeader: true, label: 'Placement Statistics', subtitle: `Data presented for the year ${@json($maxPlacementYear)}` },
+                { isSectionHeader: true, label: 'Placement Statistics', subtitle: `Data presented for the year ${window.maxPlacementYear || 'N/A'}` },
                 { label: 'Data Year', key: 'placement_year', icon: 'fas fa-calendar-alt' },
                 { label: 'Total Students Placed (In Engineering and Architecture)', key: 'dept_students_placed', icon: 'fas fa-user-check' },
                 { label: 'Graduating Students (In Engineering and Architecture)', key: 'dept_graduating_students', icon: 'fas fa-user-graduate' },
@@ -335,7 +150,7 @@
                 { label: 'Total Fees', key: 'fees', icon: 'fas fa-money-bill-wave' },
                 { label: 'Total Scholarships Provided', key: 'total_scholarships', icon: 'fas fa-hand-holding-usd' },
                 { label: 'Highest Scholarship Providing Authority', key: 'highest_scholarship_authority', icon: 'fas fa-university' },
-                { isSectionHeader: true, label: 'Class Profile', subtitle: `Data presented for the year ${@json($maxClassProfileYear)}` },
+                { isSectionHeader: true, label: 'Class Profile', subtitle: `Data presented for the year ${window.maxClassProfileYear || 'N/A'}` },
                 { label: 'Data Year', key: 'class_profile_year', icon: 'fas fa-calendar-alt' },
                 { label: 'Total Students', key: 'total_students', icon: 'fas fa-users' },
                 { label: 'Total Faculty', key: 'total_faculty', icon: 'fas fa-chalkboard-teacher' },
@@ -364,184 +179,79 @@
                 { label: 'Total Reviews', key: 'total_reviews', icon: 'fas fa-comment-dots' },
                 { label: 'Individual Reviews', key: 'individual_reviews', icon: 'fas fa-comments', isReview: true }
             );
-            let selections = { 1: null, 2: null, 3: null, 4: null };
+            window.updateComparison = function() {
+                const activeData = [];
+                const currentSelections = window.selections || {};
+                
+                for (let i = 1; i <= 4; i++) {
+                    const sel = currentSelections[i];
+                    if (sel && data[sel.campusId]) {
+                        const campus = data[sel.campusId];
+                        const dept = campus.departments[sel.deptId];
+                        if (dept) {
+                            const courseData = dept.courses.find(c => c.id == sel.courseId);
+                            if (courseData) {
+                                let rowData = { 
+                                    campusName: campus.name,
+                                    deptName: dept.name,
+                                    location: campus.location,
+                                    ownership: campus.ownership,
+                                    type_of_institute: campus.type_of_institute,
+                                    college_type: campus.college_type,
+                                    establishment_year: campus.establishment_year,
+                                    campus_size: campus.campus_size,
+                                    total_courses_offered: campus.total_courses_offered,
+                                    c360_rank: campus.c360_rank,
+                                    c360_rating: campus.c360_rating,
+                                    nirf_overall: campus.nirf_overall,
+                                    nirf_category: campus.nirf_category,
+                                    approvals: campus.approvals,
+                                    accreditations: campus.accreditations,
+                                    class_profile_year: campus.class_profile_year,
+                                    total_students: campus.total_students,
+                                    total_faculty: campus.total_faculty,
+                                    total_male_students: campus.total_male_students,
+                                    total_female_students: campus.total_female_students,
+                                    total_students_outside_state: campus.total_students_outside_state,
+                                    placement_year: dept.placement_year,
+                                    dept_students_placed: dept.dept_students_placed,
+                                    dept_graduating_students: dept.dept_graduating_students,
+                                    dept_placement_percentage: dept.dept_placement_percentage,
+                                    dept_median_salary: dept.dept_median_salary,
+                                    dept_higher_studies: dept.dept_higher_studies,
+                                    overall_students_placed: dept.overall_students_placed,
+                                    overall_graduating_students: dept.overall_graduating_students,
+                                    overall_placement_percentage: dept.overall_placement_percentage,
+                                    overall_median_salary: dept.overall_median_salary,
+                                    overall_higher_studies: dept.overall_higher_studies,
+                                    rating_infrastructure: dept.rating_infrastructure,
+                                    rating_campus_life: dept.rating_campus_life,
+                                    rating_academics: dept.rating_academics,
+                                    rating_placements: dept.rating_placements,
+                                    rating_value_for_money: dept.rating_value_for_money,
+                                    total_reviews: dept.total_reviews,
+                                    individual_reviews: dept.individual_reviews,
+                                    ...courseData 
+                                };
 
-            // 1. Campus Change -> Populate Departments
-            campusSelectors.forEach(select => {
-                select.addEventListener('change', function () {
-                    const slot = this.getAttribute('data-slot');
-                    const campusId = this.value;
-                    const deptSelect = document.querySelector(`.dept-selector[data-slot="${slot}"]`);
-                    const courseSelect = document.querySelector(`.course-selector[data-slot="${slot}"]`);
-                    
-                    deptSelect.innerHTML = '<option value="">Select Department</option>';
-                    courseSelect.innerHTML = '<option value="">Select Course</option>';
-                    deptSelect.disabled = true;
-                    courseSelect.disabled = true;
-                    selections[slot] = null;
-                    this.closest('.compare-card').classList.remove('active-slot');
+                                masterFacilities.forEach(f => {
+                                    if (campus.facilities && campus.facilities.includes(f.id)) {
+                                        rowData['facility_' + f.id] = '<i class="fas fa-check text-success fs-5"></i>';
+                                    } else {
+                                        rowData['facility_' + f.id] = '';
+                                    }
+                                });
 
-                    if (campusId && data[campusId]) {
-                        deptSelect.disabled = false;
-                        const depts = data[campusId].departments;
-                        Object.keys(depts).forEach(deptId => {
-                            const option = document.createElement('option');
-                            option.value = deptId;
-                            option.textContent = depts[deptId].name;
-                            deptSelect.appendChild(option);
-                        });
-                    }
-                });
-            });
-
-            // 2. Department Change -> Populate Courses
-            deptSelectors.forEach(select => {
-                select.addEventListener('change', function () {
-                    const slot = this.getAttribute('data-slot');
-                    const campusId = document.querySelector(`.campus-selector[data-slot="${slot}"]`).value;
-                    const deptId = this.value;
-                    const courseSelect = document.querySelector(`.course-selector[data-slot="${slot}"]`);
-
-                    courseSelect.innerHTML = '<option value="">Select Course</option>';
-                    courseSelect.disabled = true;
-                    selections[slot] = null;
-                    this.closest('.compare-card').classList.remove('active-slot');
-
-                    if (campusId && deptId && data[campusId].departments[deptId]) {
-                        courseSelect.disabled = false;
-                        const courses = data[campusId].departments[deptId].courses;
-                        courses.forEach(course => {
-                            const option = document.createElement('option');
-                            option.value = course.id;
-                            option.textContent = course.name;
-                            courseSelect.appendChild(option);
-                        });
-                    }
-                });
-            });
-
-            // 3. Course Change -> Set Selection
-            courseSelectors.forEach(select => {
-                select.addEventListener('change', function () {
-                    const slot = this.getAttribute('data-slot');
-                    const campusId = document.querySelector(`.campus-selector[data-slot="${slot}"]`).value;
-                    const deptId = document.querySelector(`.dept-selector[data-slot="${slot}"]`).value;
-                    const courseId = this.value;
-
-                    if (campusId && deptId && courseId) {
-                        const campus = data[campusId];
-                        const dept = campus.departments[deptId];
-                        const courseData = dept.courses.find(c => c.id == courseId);
-                        
-                        this.closest('.compare-card').classList.add('active-slot');
-                        let rowData = { 
-                            campusName: campus.name,
-                            deptName: dept.name,
-                            location: campus.location,
-                            ownership: campus.ownership,
-                            type_of_institute: campus.type_of_institute,
-                            college_type: campus.college_type,
-                            establishment_year: campus.establishment_year,
-                            campus_size: campus.campus_size,
-                            total_courses_offered: campus.total_courses_offered,
-                            c360_rank: campus.c360_rank,
-                            c360_rating: campus.c360_rating,
-                            nirf_overall: campus.nirf_overall,
-                            nirf_category: campus.nirf_category,
-                            approvals: campus.approvals,
-                            accreditations: campus.accreditations,
-                            class_profile_year: campus.class_profile_year,
-                            total_students: campus.total_students,
-                            total_faculty: campus.total_faculty,
-                            total_male_students: campus.total_male_students,
-                            total_female_students: campus.total_female_students,
-                            total_students_outside_state: campus.total_students_outside_state,
-                            placement_year: dept.placement_year,
-                            dept_students_placed: dept.dept_students_placed,
-                            dept_graduating_students: dept.dept_graduating_students,
-                            dept_placement_percentage: dept.dept_placement_percentage,
-                            dept_median_salary: dept.dept_median_salary,
-                            dept_higher_studies: dept.dept_higher_studies,
-                            overall_students_placed: dept.overall_students_placed,
-                            overall_graduating_students: dept.overall_graduating_students,
-                            overall_placement_percentage: dept.overall_placement_percentage,
-                            overall_median_salary: dept.overall_median_salary,
-                            overall_higher_studies: dept.overall_higher_studies,
-                            rating_infrastructure: dept.rating_infrastructure,
-                            rating_campus_life: dept.rating_campus_life,
-                            rating_academics: dept.rating_academics,
-                            rating_placements: dept.rating_placements,
-                            rating_value_for_money: dept.rating_value_for_money,
-                            total_reviews: dept.total_reviews,
-                            individual_reviews: dept.individual_reviews,
-                            ...courseData 
-                        };
-
-                        masterFacilities.forEach(f => {
-                            if (campus.facilities && campus.facilities.includes(f.id)) {
-                                rowData['facility_' + f.id] = '<i class="fas fa-check text-success fs-5"></i>';
-                            } else {
-                                rowData['facility_' + f.id] = '';
+                                activeData.push(rowData);
                             }
-                        });
-
-                        selections[slot] = rowData;
-                        switchToFilled(slot, rowData);
-                    } else {
-                        selections[slot] = null;
+                        }
                     }
-                });
-            });
+                }
 
-            // Confirm Selection Button
-            document.getElementById('confirmSelectionBtn').addEventListener('click', function() {
-                updateComparison();
-            });
-
-            window.switchToEditing = function(slot) {
-                document.getElementById('empty-state-' + slot).classList.add('d-none');
-                document.getElementById('filled-state-' + slot).classList.add('d-none');
-                document.getElementById('editing-state-' + slot).classList.remove('d-none');
-                document.querySelector('.slot-card-' + slot).classList.remove('state-filled');
-            };
-
-            window.switchToEmpty = function(slot) {
-                document.getElementById('editing-state-' + slot).classList.add('d-none');
-                document.getElementById('filled-state-' + slot).classList.add('d-none');
-                document.getElementById('empty-state-' + slot).classList.remove('d-none');
-                document.querySelector('.slot-card-' + slot).classList.remove('state-filled');
-                
-                // Reset dropdowns for this slot
-                document.querySelector(`.campus-selector[data-slot="${slot}"]`).value = '';
-                let deptSelect = document.querySelector(`.dept-selector[data-slot="${slot}"]`);
-                deptSelect.innerHTML = '<option value="">Select Department</option>';
-                deptSelect.disabled = true;
-                let courseSelect = document.querySelector(`.course-selector[data-slot="${slot}"]`);
-                courseSelect.innerHTML = '<option value="">Select Course</option>';
-                courseSelect.disabled = true;
-                
-                selections[slot] = null;
-            };
-
-            window.switchToFilled = function(slot, rowData) {
-                document.getElementById('empty-state-' + slot).classList.add('d-none');
-                document.getElementById('editing-state-' + slot).classList.add('d-none');
-                
-                document.getElementById('filled-campus-' + slot).textContent = rowData.campusName;
-                document.getElementById('filled-dept-' + slot).textContent = rowData.deptName;
-                document.getElementById('filled-course-' + slot).textContent = rowData.name;
-                
-                document.getElementById('filled-state-' + slot).classList.remove('d-none');
-                document.querySelector('.slot-card-' + slot).classList.add('state-filled');
-            };
-
-            function updateComparison() {
-                const activeSelections = Object.values(selections).filter(s => s !== null);
-
-                if (activeSelections.length > 0) {
+                if (activeData.length > 0) {
                     emptyMessage.classList.add('d-none');
                     resultsDiv.classList.remove('d-none');
-                    renderMatrix(activeSelections);
+                    renderMatrix(activeData);
                 } else {
                     emptyMessage.classList.remove('d-none');
                     resultsDiv.classList.add('d-none');
@@ -676,9 +386,21 @@
                 deptSelectors.forEach(s => { s.innerHTML = '<option value="">Select Department</option>'; s.disabled = true; });
                 courseSelectors.forEach(s => { s.innerHTML = '<option value="">Select Course</option>'; s.disabled = true; });
                 document.querySelectorAll('.compare-card').forEach(c => c.classList.remove('active-slot'));
-                selections = { 1: null, 2: null, 3: null, 4: null };
-                updateComparison();
+                window.selections = { 1: null, 2: null, 3: null, 4: null };
+                sessionStorage.removeItem('enrollzy_compare_slots');
+                window.updateComparison();
             });
+
+            // Load from session storage on initial load
+            try {
+                const storedSelections = sessionStorage.getItem('enrollzy_compare_slots');
+                if (storedSelections) {
+                    window.selections = JSON.parse(storedSelections);
+                    window.updateComparison();
+                }
+            } catch (e) {
+                console.error("Failed to parse selections from storage", e);
+            }
         });
     </script>
 @endpush

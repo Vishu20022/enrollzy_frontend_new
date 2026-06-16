@@ -1,7 +1,5 @@
     <section class="featured-section">
-
         <div class="container text-center">
-
             <h2 class="featured-title main-heading">
                 {!! $section->title ?? 'Comparison' !!}
             </h2>
@@ -10,144 +8,30 @@
             <p class="featured-desc">
                 {{ $section->subtitle }}
             </p>
-        @else
+            @else
             <p class="featured-desc">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's
+                Compare multiple institutions and courses side-by-side to find the perfect fit for your academic journey.
             </p>
-        @endif
+            @endif
 
             <div class="title-line"></div>
-
         </div>
-
-        @if(!request()->routeIs('pages.compare'))
-        <div class="container text-center mt-3">
-            <a href="{{ route('pages.compare') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                Go to Dedicated Comparison Page <i class="fas fa-arrow-right ms-2"></i>
-            </a>
-        </div>
-        @endif
-
     </section>
 
-    <section class="compare-section">
-
-        <div class="container">
-            <div class="compare-bg">
-
-                <div class="container">
-
-                    <div class="row g-4 justify-content-center">
-
-                        @for ($i = 1; $i <= 3; $i++)
-                            <div class="col-lg-4 col-md-6">
-
-                                <div class="compare-card" data-slot-card="{{ $i }}">
-
-                                    <div class="card-top">
-
-                                        <span class="option-tag">
-                                            OPTION {{ $i }}
-                                        </span>
-
-                                        <img src="{{ asset('images/Vector.svg') }}" alt="img">
-
-                                    </div>
-
-
-                                    <div class="field">
-
-                                        <label>
-                                            UNIVERSITY
-                                        </label>
-
-                                        <select class="form-select org-selector" data-slot="{{ $i }}">
-
-                                            <option value="">
-                                                Choose Institution
-                                            </option>
-                                            @foreach ($organisations as $org)
-                                                <option value="{{ $org->id }}">{{ $org->name }}</option>
-                                            @endforeach
-
-                                        </select>
-
-                                    </div>
-
-
-                                    <div class="field">
-
-                                        <label>
-                                            Program
-                                        </label>
-
-                                        <select class="form-select course-selector" data-slot="{{ $i }}"
-                                            disabled>
-
-                                            <option value="">
-                                                Select Course
-                                            </option>
-
-                                        </select>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        @endfor
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Parameters Quick Access -->
-            <div id="paramTabs" class="param-tabs-wrapper mb-4 mt-4 d-none">
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-filter me-2 text-primary"></i>
-                    <span class="fw-bold small text-uppercase">Quick Jump</span>
-                </div>
-                <div class="param-tabs-scroll d-flex gap-2"
-                    style="overflow-x: auto; white-space: nowrap; padding-bottom: 10px;">
-                    <!-- Tabs will be injected here -->
-                </div>
-            </div>
-
-            <!-- Comparison Matrix -->
-            <div id="comparisonResults"
-                class="comparison-matrix-wrapper d-none shadow-premium rounded-4 overflow-hidden border-0 mt-4 bg-white p-3">
-                <div class="table-responsive">
-                    <table class="table comparison-matrix-table mb-0">
-                        <thead>
-                            <tr id="matrixHead">
-                                <th class="params-column py-4 ps-4">
-                                    <div class="fs-5 fw-bold text-dark">Comparison</div>
-                                    <div class="small text-muted fw-normal">Key Performance Indicators</div>
-                                </th>
-                                <!-- Slot headers injected here -->
-                            </tr>
-                        </thead>
-                        <tbody id="matrixBody">
-                            <!-- Comparison rows injected here -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="text-center py-4 bg-light border-top mt-3">
-                    <button id="resetComparison" class="btn btn-dark rounded-pill px-5 py-2 shadow-sm">
-                        <i class="fas fa-undo me-2"></i> Reset Comparison
-                    </button>
-                </div>
-            </div>
-
-            <div id="emptyMessage"></div>
-
+    <section class="compare-section text-center" style="background: linear-gradient(135deg, #4e3890 0%, #7f5ae8 100%); position: relative; overflow: hidden; padding: 80px 0;">
+        <div class="container" style="position: relative; z-index: 2;">
+            <h3 class="text-white mb-4 fw-bold" style="font-size: 2rem;">Ready to make an informed decision?</h3>
+            <button type="button" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg" data-bs-toggle="modal" data-bs-target="#courseSelectionModal" style="font-size: 1.2rem; letter-spacing: 1px; color: #4e3890 !important; transition: transform 0.3s ease; border: none;">
+                <i class="fas fa-layer-group me-2"></i> SELECT COURSES TO COMPARE
+            </button>
+            <p class="text-white mt-4 mb-0" style="font-size: 1.1rem; opacity: 0.9;">Choose up to 4 programs to compare fees, placements, ratings, and more!</p>
         </div>
-
+        <!-- Decorative overlay from theme -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('{{ asset('images/comparison.png') }}') center/cover; opacity: 0.15; z-index: 1;"></div>
     </section>
+
+    <!-- Include the Unified Selection Modal here so it works on the homepage -->
+    @include('partials.compare-modal')
 
 
 
