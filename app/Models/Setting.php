@@ -11,6 +11,9 @@ class Setting extends Model
         'meta_keywords', 'contact_email', 'contact_phone', 'address', 'footer_text',
         'hero_title', 'hero_description', 'hero_features', 'hero_cta_1_text', 
         'hero_cta_1_link', 'hero_cta_1_new_tab', 'hero_cta_2_text', 'hero_cta_2_link', 
-        'hero_cta_2_new_tab'
+        'hero_cta_2_new_tab',
+        'play_store_link', 'app_store_link', 'toll_free_number', 'whatsapp_number',
+        'footer_qr_image', 'facebook_url', 'twitter_url', 'instagram_url', 
+        'linkedin_url', 'youtube_url', 'footer_description'
     ];
 }

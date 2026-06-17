@@ -342,13 +342,13 @@
 
                 {{-- Homepage Setup Group --}}
                 <li class="nav-item">
-                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->is('admin/homepage-sections*', 'admin/hero-sliders*', 'admin/home-services*', 'admin/home-benefits*') ? 'active' : 'collapsed' }}"
+                    <a class="nav-link d-flex justify-content-between align-items-center {{ request()->is('admin/homepage-sections*', 'admin/hero-sliders*', 'admin/home-services*', 'admin/home-benefits*', 'admin/pages*') ? 'active' : 'collapsed' }}"
                         data-bs-toggle="collapse" href="#homepageMenu" role="button"
-                        aria-expanded="{{ request()->is('admin/homepage-sections*', 'admin/hero-sliders*', 'admin/home-services*', 'admin/home-benefits*') ? 'true' : 'false' }}">
+                        aria-expanded="{{ request()->is('admin/homepage-sections*', 'admin/hero-sliders*', 'admin/home-services*', 'admin/home-benefits*', 'admin/pages*') ? 'true' : 'false' }}">
                         <span><i class="fas fa-home"></i> Homepage Setup</span>
                         <i class="fas fa-chevron-down small menu-arrow"></i>
                     </a>
-                    <div class="collapse {{ request()->is('admin/homepage-sections*', 'admin/hero-sliders*', 'admin/home-services*', 'admin/home-benefits*') ? 'show' : '' }}"
+                    <div class="collapse {{ request()->is('admin/homepage-sections*', 'admin/hero-sliders*', 'admin/home-services*', 'admin/home-benefits*', 'admin/pages*') ? 'show' : '' }}"
                         id="homepageMenu">
                         <ul class="nav flex-column ps-3">
                             <li><a class="nav-link sub-link {{ request()->routeIs('homepage-sections.index') ? 'active' : '' }}"
@@ -359,6 +359,8 @@
                                     href="{{ route('admin.home-services.index') }}">Specialized Courses</a></li>
                             <li><a class="nav-link sub-link {{ request()->routeIs('admin.home-benefits.*') ? 'active' : '' }}"
                                     href="{{ route('admin.home-benefits.index') }}">Why Choose Us</a></li>
+                            <li><a class="nav-link sub-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}"
+                                    href="{{ route('admin.pages.index') }}">Dynamic Pages</a></li>
                         </ul>
                     </div>
                 </li>

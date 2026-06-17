@@ -18,6 +18,7 @@ use App\Models\TrendingSkill;
 use App\Models\CompanyMarquee;
 use App\Models\Campus;
 use App\Models\Facility;
+use App\Models\Page;
 
 class PageController extends Controller
 {
@@ -215,5 +216,11 @@ class PageController extends Controller
     {
         $course = \App\Models\Course::with(['programLevel', 'streamOffered', 'discipline'])->where('slug', $slug)->firstOrFail();
         return view('pages.courses.show', compact('course'));
+    }
+
+    public function dynamicPage($slug)
+    {
+        $page = \App\Models\Page::where('slug', $slug)->where('status', 1)->firstOrFail();
+        return view('pages.dynamic-page', compact('page'));
     }
 }

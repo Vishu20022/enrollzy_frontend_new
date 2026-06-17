@@ -156,7 +156,9 @@ Route::name('pages.')->group(function () {
     Route::get('/organisations/{slug}', [PageController::class, 'organisationDetail'])->name('organisations.detail');
 
     Route::get('/exams/{slug}', [PageController::class, 'examDetail'])->name('exams.detail');
-    Route::get('/courses/{slug}', [PageController::class, 'courseDetail'])->name('courses.detail');
+    
+    // Dynamic Pages (Privacy Policy, Terms, etc.)
+    Route::get('/page/{slug}', [PageController::class, 'dynamicPage'])->name('dynamic');
 });
 
 
