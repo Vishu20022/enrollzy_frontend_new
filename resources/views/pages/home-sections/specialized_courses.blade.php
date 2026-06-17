@@ -69,7 +69,7 @@
                                         200,
                                     ) !!}
                                 </p>
-                                <a href="{{ route('pages.organisations.detail', $org->slug) }}"
+                                <a href="{{ $org->detail_url }}"
                                     class="btn-theme-2 text-decoration-none d-inline-block text-center pt-2">
                                     Learn More
                                 </a>
@@ -91,7 +91,7 @@
                                         200,
                                     ) !!}
                                 </p>
-                                <a href="{{ route('pages.organisations.detail', $org->slug) }}"
+                                <a href="{{ $org->detail_url }}"
                                     class="btn-theme-2  text-decoration-none d-inline-block text-center pt-2">
                                     Learn More
                                 </a>

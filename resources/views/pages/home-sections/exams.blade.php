@@ -18,10 +18,10 @@
                 </div>
 
 
-                <div class="row justify-content-center g-4">
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 justify-content-center g-4">
 
-                    @foreach ($exams->take(8) as $exam)
-                        <div class="col-lg-3 col-md-6">
+                    @foreach ($exams->take(10) as $exam)
+                        <div class="col">
 
                             <a href="{{ route('pages.exams.detail', $exam->slug) }}" class="text-decoration-none">
                                 <div class="exam-card">

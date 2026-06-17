@@ -145,7 +145,7 @@
                                 <strong>{{ $app->name }}</strong>
                                 <p>Admissions 2026</p>
                             </div>
-                            <a href="{{ route('pages.organisations.detail', $app->slug) }}" class="btn btn-apply">Apply</a>
+                            <a href="{{ $app->detail_url }}" class="btn btn-apply">Apply</a>
                         </div>
                         @endforeach
                     </div>

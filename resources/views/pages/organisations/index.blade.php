@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Featured Universities')
+@section('title', $pageTitle ?? 'Organisations')
 
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -89,8 +89,8 @@
 <div class="page-wrapper-bg">
     <div class="premium-header">
         <div class="container">
-            <h1 class="main-heading">All Featured Universities</h1>
-            <p class="text-muted mt-3">Explore our complete list of partner universities and institutions driving global education.</p>
+            <h1 class="main-heading">All {{ $pageTitle ?? 'Organisations' }}</h1>
+            <p class="text-muted mt-3">Explore our complete list of {{ strtolower($pageTitle ?? 'partner organisations') }}.</p>
         </div>
     </div>
 
@@ -100,7 +100,7 @@
                 <div class="row g-5 justify-content-center align-items-center">
                     @foreach ($organisations as $org)
                         <div class="col-lg-2 col-md-3 col-6">
-                            <a href="{{ route('pages.organisations.detail', $org->slug) }}" 
+                            <a href="{{ $org->detail_url }}" 
                                class="text-decoration-none uni-card premium-org-card {{ $org->logo_url ? 'rounded-circle' : 'rounded-circle' }}"
                                 @if ($org->logo_url)
                                     style="background-image: url('{{ env('BACKEND_URL') . '/' . $org->logo_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1;"

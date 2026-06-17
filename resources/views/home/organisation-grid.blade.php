@@ -13,7 +13,7 @@
         <div class="row g-4">
             @foreach ($organisations as $org)
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <a href="{{ route('pages.organisations.detail', $org->slug) }}" class="text-decoration-none">
+                    <a href="{{ $org->detail_url }}" class="text-decoration-none">
                         <div class="organisation-card h-100">
                             <img src="{{ $org->logo_url ? env('BACKEND_URL') . '/' . $org->logo_url : asset('images/default-org.png') }}"
                                 alt="{{ $org->name }}" class="org-logo">

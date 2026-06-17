@@ -181,7 +181,10 @@ class PageController extends Controller
 
     public function organisations()
     {
-        $organisations = Organisation::where('status', true)->orderBy('name')->get();
+        $organisations = Organisation::where('status', true)
+            ->whereIn('organisation_type_id', [1, 2])
+            ->orderBy('name')
+            ->get();
         return view('pages.organisations.index', compact('organisations'));
     }
 

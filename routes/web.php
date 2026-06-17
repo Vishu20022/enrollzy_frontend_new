@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\OrganisationController;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\CommunityController;
@@ -151,7 +152,16 @@ Route::name('pages.')->group(function () {
     Route::get('/alumni', [PageController::class, 'alumni'])->name('alumni');
     Route::get('/alumni/{id}', [PageController::class, 'alumnusDetail'])->name('alumni.detail');
 
-    // Organisation Profiles
+    // Dynamic Organisation Types
+    $orgTypes = ['universities', 'colleges', 'institutes', 'schools', 'exam-bodies', 'counselling-bodies', 'regulatory-bodies', 'government-agencies'];
+    foreach ($orgTypes as $type) {
+        Route::get('/' . $type, [OrganisationController::class, 'index'])->defaults('type_slug', $type)->name('organisations.' . $type);
+    }
+    Route::get('/{type_slug}/{slug}', [OrganisationController::class, 'show'])
+        ->whereIn('type_slug', $orgTypes)
+        ->name('organisations.detail.dynamic');
+
+    // Keep legacy for compatibility or replace entirely (commented out the old ones just in case)
     Route::get('/organisations', [PageController::class, 'organisations'])->name('organisations');
     Route::get('/organisations/{slug}', [PageController::class, 'organisationDetail'])->name('organisations.detail');
 

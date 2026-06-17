@@ -340,6 +340,28 @@ class Organisation extends Model
         });
     }
 
+    public function getDetailUrlAttribute()
+    {
+        $typeMap = [
+            1 => 'universities',
+            2 => 'colleges',
+            3 => 'institutes',
+            4 => 'schools',
+            5 => 'exam-bodies',
+            6 => 'counselling-bodies',
+            7 => 'regulatory-bodies',
+            8 => 'government-agencies',
+        ];
+        
+        $type_slug = $typeMap[$this->organisation_type_id] ?? 'organisations';
+        
+        if ($type_slug === 'organisations') {
+            return url('/organisations/' . $this->slug);
+        }
+
+        return route('pages.organisations.detail.dynamic', ['type_slug' => $type_slug, 'slug' => $this->slug]);
+    }
+
     public function departments()
     {
         return $this->hasMany(Department::class);

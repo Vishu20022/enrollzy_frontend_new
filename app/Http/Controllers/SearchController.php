@@ -31,7 +31,7 @@ class SearchController extends Controller
                 return [
                     'id' => $org->id,
                     'name' => $org->name,
-                    'link' => route('pages.organisations.detail', ['slug' => $org->slug])
+                    'link' => $org->detail_url
                 ];
             });
 

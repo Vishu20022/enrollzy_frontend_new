@@ -33,7 +33,7 @@
                 @foreach ($organisations->take(12) as $org)
                 
                     <div class="col-lg-2 col-md-4 col-6">
-                        <a href="{{ route('pages.organisations.detail', $org->slug) }}" 
+                        <a href="{{ $org->detail_url }}" 
                            class="text-decoration-none uni-card {{ $org->logo_url ? 'rounded-circle' : '' }}"
                             @if ($org->logo_url)
                                 style="background-image: url('{{ env('BACKEND_URL') . '/' . $org->logo_url }}'); background-size: contain; background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1; width: 70%; margin: 0 auto; display: flex; align-items: center; justify-content: center; background-color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05);"
