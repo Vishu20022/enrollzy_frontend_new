@@ -89,8 +89,8 @@
 <div class="page-wrapper-bg">
     <div class="premium-header">
         <div class="container">
-            <h1 class="main-heading">All {{ $pageTitle ?? 'Organisations' }}</h1>
-            <p class="text-muted mt-3">Explore our complete list of {{ strtolower($pageTitle ?? 'partner organisations') }}.</p>
+            <h1 class="main-heading">{{ $pageTitle ?? 'All Organisations' }}</h1>
+            <p class="text-muted mt-3">Explore our complete list of {{ strtolower(str_replace('All ', '', $pageTitle) ?? 'partner organisations') }}.</p>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 @if($institute_marquees->count() > 0)
-    <section class="company-marquee-section pt-5 pb-5 bg-light">
+    <section class="school-marquee-section pt-5 pb-5 bg-light">
         <div class="container text-center mb-4">
             <h2 class="featured-title main-heading">
                 {!! $section->title ?? ($institute_marquees->first()->heading ?? 'Top Institutes') !!}

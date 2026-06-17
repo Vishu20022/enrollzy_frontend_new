@@ -1,4 +1,4 @@
-<section class="company-marquee">
+<section class="school-marquee">
     <div class="container">
 
         <div class="marquee-wrapper">

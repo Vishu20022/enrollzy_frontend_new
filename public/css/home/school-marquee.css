@@ -1,26 +1,26 @@
-.company-marquee {
+.school-marquee {
   background: var(--plainclr);
   overflow: hidden;
 }
-.company-marquee .marquee-wrapper {
+.school-marquee .marquee-wrapper {
   width: 100%;
   overflow: hidden;
   position: relative;
   padding: 2rem 0;
 }
-.company-marquee .marquee-track {
+.school-marquee .marquee-track {
   display: flex;
   width: -moz-max-content;
   width: max-content;
   /* pause on hover */
 }
-.company-marquee .marquee-track:hover {
+.school-marquee .marquee-track:hover {
   animation-play-state: paused;
 }
-.company-marquee .marquee-group {
+.school-marquee .marquee-group {
   display: flex;
 }
-.company-marquee .logo-card {
+.school-marquee .logo-card {
   min-width: 180px;
   height: 80px;
   margin: 0 18px;
@@ -32,7 +32,7 @@
   justify-content: center;
   transition: all 0.3s ease;
 }
-.company-marquee .logo-card img {
+.school-marquee .logo-card img {
   max-width: 140px;
   max-height: 40px;
   -o-object-fit: contain;
@@ -41,11 +41,11 @@
   filter: grayscale(100%);
   transition: all 0.3s ease;
 }
-.company-marquee .logo-card:hover {
+.school-marquee .logo-card:hover {
   transform: translateY(-6px) scale(1.05);
   box-shadow: var(--shadow-lg);
 }
-.company-marquee .logo-card:hover img {
+.school-marquee .logo-card:hover img {
   filter: grayscale(0%);
 }
 
@@ -74,11 +74,11 @@
 }
 /* Mobile optimization */
 @media (max-width: 768px) {
-  .company-marquee .logo-card {
+  .school-marquee .logo-card {
     min-width: 140px;
     height: 64px;
   }
-  .company-marquee .logo-card img {
+  .school-marquee .logo-card img {
     max-height: 32px;
   }
-}/*# sourceMappingURL=company-marquee.css.map */
+}/*# sourceMappingURL=school-marquee.css.map */
