@@ -89,32 +89,40 @@
 <div class="page-wrapper-bg">
     <div class="premium-header">
         <div class="container">
-            <h1 class="main-heading">{{ $pageTitle ?? 'All Organisations' }}</h1>
-            <p class="text-muted mt-3">Explore our complete list of {{ strtolower(str_replace('All ', '', $pageTitle) ?? 'partner organisations') }}.</p>
+            <h1 class="main-heading">All Exams</h1>
+            <p class="text-muted mt-3">Explore our complete list of competitive exams.</p>
         </div>
     </div>
 
-    <section class="pt-0 position-relative">
+    <section class="exam-section pt-5 position-relative">
         <div class="container">
             <div class="premium-grid-wrapper">
-                <div class="row g-5 justify-content-center align-items-center">
-                    @foreach ($organisations as $org)
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <a href="{{ $org->detail_url }}" 
-                               class="text-decoration-none uni-card premium-org-card {{ $org->logo_url ? 'rounded-circle' : 'rounded-circle' }}"
-                                @if ($org->logo_url)
-                                    style="background-image: url('{{ env('BACKEND_URL') . '/' . $org->logo_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1;"
-                                @else
-                                    style="aspect-ratio: 1/1; background: #f1f5f9; display: flex; align-items: center;"
-                                @endif
-                            >
-                                @if (!$org->logo_url)
-                                    <span class="fw-bold text-center px-3 w-100"
-                                        style="font-size: 12px; color: #334155; line-height: 1.4;">{{ $org->name }}</span>
-                                @endif
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 justify-content-center g-4">
+                    @foreach ($exams as $exam)
+                        <div class="col">
+                            <a href="{{ route('pages.exams.detail', $exam->slug) }}" class="text-decoration-none">
+                                <div class="exam-card">
+
+                                    <div class="exam-icon">
+                                        <img src="{{ $exam->logo ? env('BACKEND_URL') . '/' . $exam->logo : asset('images/upsc.jpg') }}" alt="icon">
+                                    </div>
+
+                                    <h3 class="text-dark">
+                                        {{ $exam->name }}
+                                    </h3>
+
+                                    <p class="text-muted">
+                                        {{ $exam->exam_type }} | {{ is_array($exam->exam_category) ? implode(', ', $exam->exam_category) : $exam->exam_category }}
+                                    </p>
+
+                                </div>
                             </a>
                         </div>
                     @endforeach
+                </div>
+                
+                <div class="mt-5 d-flex justify-content-center">
+                    {{ $exams->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

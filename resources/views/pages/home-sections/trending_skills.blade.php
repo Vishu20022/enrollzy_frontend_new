@@ -65,6 +65,9 @@
 
             </div>
 </div>
+            <div class="text-center mt-5">
+                <a href="{{ route('pages.scholarships.index') }}" class="btn btn-primary rounded-pill px-5 py-2 fw-bold">View More</a>
+            </div>
         </div>
 
     </section>

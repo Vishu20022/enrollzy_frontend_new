@@ -89,32 +89,45 @@
 <div class="page-wrapper-bg">
     <div class="premium-header">
         <div class="container">
-            <h1 class="main-heading">{{ $pageTitle ?? 'All Organisations' }}</h1>
-            <p class="text-muted mt-3">Explore our complete list of {{ strtolower(str_replace('All ', '', $pageTitle) ?? 'partner organisations') }}.</p>
+            <h1 class="main-heading">Scholarships & Benefits</h1>
+            <p class="text-muted mt-3">Check out the top student benefits and programs designed for your success.</p>
         </div>
     </div>
 
-    <section class="pt-0 position-relative">
+    <section class="scholarship-section pt-5 position-relative">
         <div class="container">
             <div class="premium-grid-wrapper">
-                <div class="row g-5 justify-content-center align-items-center">
-                    @foreach ($organisations as $org)
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <a href="{{ $org->detail_url }}" 
-                               class="text-decoration-none uni-card premium-org-card {{ $org->logo_url ? 'rounded-circle' : 'rounded-circle' }}"
-                                @if ($org->logo_url)
-                                    style="background-image: url('{{ env('BACKEND_URL') . '/' . $org->logo_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1;"
-                                @else
-                                    style="aspect-ratio: 1/1; background: #f1f5f9; display: flex; align-items: center;"
-                                @endif
-                            >
-                                @if (!$org->logo_url)
-                                    <span class="fw-bold text-center px-3 w-100"
-                                        style="font-size: 12px; color: #334155; line-height: 1.4;">{{ $org->name }}</span>
-                                @endif
-                            </a>
-                        </div>
-                    @endforeach
+                <div class="scholarship-wrapper w-100">
+                    <div class="row justify-content-center align-items-stretch g-4">
+                        @forelse($scholarships as $index => $benefit)
+                            <div class="col-lg-3 col-md-6 d-flex">
+                                <div class="scholar-card scholar-card-color-{{ $index % 4 }} w-100" style="margin-top: 0 !important; margin-bottom: 0 !important;">
+
+                                    <img src="{{ $benefit->icon ? env('BACKEND_URL') . '/' . $benefit->icon : 'https://cdn-icons-png.flaticon.com/512/3135/3135755.png' }}">
+
+                                    <h3 class="sub-heading-two" style="color: #FFD700; text-decoration: underline; text-underline-offset: 4px;">{{ $benefit->title }}</h3>
+
+                                    <p class="text-white">
+                                        {{ $benefit->content }}
+                                    </p>
+
+                                    <button class="btn-theme-3 mt-auto">
+                                        Learn More
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        @empty
+                            <div class="col-12 text-center text-muted py-5">
+                                No scholarships available at the moment.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+                
+                <div class="mt-5 d-flex justify-content-center w-100">
+                    {{ $scholarships->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

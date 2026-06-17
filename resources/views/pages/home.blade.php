@@ -5,7 +5,7 @@
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ date('YmdHis') }}">
     <style>
         .marquee-container {
             width: 100%;
@@ -69,5 +69,5 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{ asset('js/home.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/home.js') }}?v={{ date('YmdHis') }}"></script>
 @endpush

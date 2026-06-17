@@ -34,7 +34,7 @@ class PageController extends Controller
             }
         ])->where('status', true)->get();
 
-        $allFacilities = Facility::where('status', 1)->get();
+        $allFacilities = Facility::where('status', 'Active')->get();
 
         return view('pages.compare', compact('campuses', 'allFacilities'));
     }
@@ -206,10 +206,14 @@ class PageController extends Controller
             'accreditations',
             'admissionRoutes'
         ])->where('slug', $slug)->where('status', true)->firstOrFail();
-        $languages = \App\Models\Language::where('status', 1)->pluck('title', 'id');
+        $languages = \App\Models\Language::where('status', 'Active')->pluck('title', 'id');
 
         return view('pages.organisations.show', compact('organisation', 'languages'));
     }
+
+    public function scholarshipsIndex() { $scholarships = \App\Models\HomeBenefit::where('status', true)->orderBy('sort_order')->paginate(12); return view('pages.scholarships.index', compact('scholarships')); }
+
+    public function examsIndex() { $exams = \App\Models\DynamicExam::where('status', 'Active')->orderBy('id', 'desc')->paginate(12); return view('pages.exams.index', compact('exams')); }
 
     public function examDetail($slug)
     {
@@ -224,7 +228,7 @@ class PageController extends Controller
 
     public function dynamicPage($slug)
     {
-        $page = \App\Models\Page::where('slug', $slug)->where('status', 1)->firstOrFail();
+        $page = \App\Models\Page::where('slug', $slug)->where('status', 'Active')->firstOrFail();
         return view('pages.dynamic-page', compact('page'));
     }
 }
