@@ -12,7 +12,6 @@
   display: flex;
   width: -moz-max-content;
   width: max-content;
-  animation: marquee-scroll 25s linear infinite;
   /* pause on hover */
 }
 .company-marquee .marquee-track:hover {
@@ -51,13 +50,27 @@
 }
 
 /* Infinite scroll animation */
-@keyframes marquee-scroll {
+@keyframes marquee-scroll-rtl {
   from {
     transform: translateX(0);
   }
   to {
     transform: translateX(-50%);
   }
+}
+@keyframes marquee-scroll-ltr {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.marquee-track.dir-rtl {
+  animation: marquee-scroll-rtl 25s linear infinite;
+}
+.marquee-track.dir-ltr {
+  animation: marquee-scroll-ltr 25s linear infinite;
 }
 /* Mobile optimization */
 @media (max-width: 768px) {

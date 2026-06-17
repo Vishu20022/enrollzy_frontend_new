@@ -17,7 +17,6 @@
         .marquee-track {
             display: flex;
             width: fit-content;
-            animation: scrollMarquee 30s linear infinite;
             align-items: center;
         }
         .marquee-item {
@@ -37,9 +36,19 @@
             filter: grayscale(0%);
             transform: scale(1.1);
         }
-        @keyframes scrollMarquee {
+        @keyframes scrollMarqueeRTL {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollMarqueeLTR {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        .marquee-track.dir-rtl {
+            animation: scrollMarqueeRTL 30s linear infinite;
+        }
+        .marquee-track.dir-ltr {
+            animation: scrollMarqueeLTR 30s linear infinite;
         }
     </style>
 @endpush

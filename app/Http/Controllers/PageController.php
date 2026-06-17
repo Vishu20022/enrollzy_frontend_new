@@ -102,9 +102,10 @@ class PageController extends Controller
         // Dynamic Trending Skills & Marquee
         $trending_skills = TrendingSkill::where('status', true)->orderBy('sort_order')->get();
         $company_marquees = CompanyMarquee::where('status', true)->orderBy('sort_order')->get();
+        $institute_marquees = \App\Models\InstituteMarquee::where('status', true)->orderBy('sort_order')->get();
         $exams = \App\Models\DynamicExam::where('status', 'Active')->get();
 
-        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'exams', 'is_show_full_banner', 'campuses'));
+        return view('pages.home', compact('experts', 'site_alumni', 'faqs', 'testimonials', 'blogs', 'organisations', 'hero_sliders', 'video_testimonials', 'noteworthy_categories', 'unique_courses', 'homepage_sections', 'home_services', 'home_benefits', 'trending_skills', 'company_marquees', 'institute_marquees', 'exams', 'is_show_full_banner', 'campuses'));
     }
 
     public function blog()
