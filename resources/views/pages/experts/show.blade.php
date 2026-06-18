@@ -11,7 +11,7 @@
                 <div class="card border-0 shadow-sm sticky-top" style="border-radius: 20px; top: 100px;">
                     <div class="card-body p-4 text-center">
                         @php
-                            $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : asset($expert->img)) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
+                            $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : env('BACKEND_URL') . '/' . ltrim($expert->img, '/')) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
                         @endphp
                         <img src="{{ $imgUrl }}" class="rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;" alt="{{ $expert->name }}">
                         <h3 class="fw-bold mb-1">{{ $expert->name }}</h3>

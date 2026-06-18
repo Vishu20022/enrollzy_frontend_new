@@ -18,7 +18,7 @@
                     <div class="expert-card h-100 shadow-sm border-0" style="border-radius: 15px; overflow: hidden; background: #fff;">
                         <div class="image-wrap position-relative">
                             @php
-                                $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : asset($expert->img)) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
+                                $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : env('BACKEND_URL') . '/' . ltrim($expert->img, '/')) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
                             @endphp
                             <img src="{{ $imgUrl }}" class="w-100" style="height: 250px; object-fit: cover;" alt="{{ $expert->name }}">
                             <div class="rating position-absolute top-0 end-0 m-3 px-2 py-1 bg-white rounded shadow-sm small">⭐ {{ $expert->rating }}</div>

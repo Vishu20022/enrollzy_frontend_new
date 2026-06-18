@@ -45,10 +45,10 @@
             100% { transform: translateX(0); }
         }
         .marquee-track.dir-rtl {
-            animation: scrollMarqueeRTL 30s linear infinite;
+            animation: scrollMarqueeRTL var(--marquee-duration, 30s) linear infinite;
         }
         .marquee-track.dir-ltr {
-            animation: scrollMarqueeLTR 30s linear infinite;
+            animation: scrollMarqueeLTR var(--marquee-duration, 30s) linear infinite;
         }
     </style>
 @endpush

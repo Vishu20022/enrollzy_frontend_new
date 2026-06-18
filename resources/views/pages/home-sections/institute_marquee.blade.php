@@ -16,21 +16,35 @@
             <div class="title-line"></div>
         </div>
         <div class="marquee-container">
-            @php $direction = $institute_marquees->first()->direction ?? 'rtl'; @endphp
-            <div class="marquee-track dir-{{ strtolower($direction) }}">
+            @php 
+                $direction = $institute_marquees->first()->direction ?? 'rtl'; 
+                $duration = max(30, $institute_marquees->count() * 5); 
+            @endphp
+            <div class="marquee-track dir-{{ strtolower($direction) }}" style="--marquee-duration: {{ $duration }}s;">
                 @foreach($institute_marquees as $marquee)
                     <div class="marquee-item" title="{{ $marquee->name }}">
-                        <img src="{{ env('BACKEND_URL') . '/' . $marquee->logo }}" alt="{{ $marquee->name }}">
+                        @if($marquee->logo_url)
+                            <a href="{{ $marquee->logo_url }}" target="_blank">
+                                <img src="{{ env('BACKEND_URL') . '/' . $marquee->logo }}" alt="{{ $marquee->name }}">
+                            </a>
+                        @else
+                            <img src="{{ env('BACKEND_URL') . '/' . $marquee->logo }}" alt="{{ $marquee->name }}">
+                        @endif
                     </div>
                 @endforeach
                 <!-- Duplicate for seamless scroll -->
                 @foreach($institute_marquees as $marquee)
                     <div class="marquee-item" title="{{ $marquee->name }}">
-                        <img src="{{ env('BACKEND_URL') . '/' . $marquee->logo }}" alt="{{ $marquee->name }}">
+                        @if($marquee->logo_url)
+                            <a href="{{ $marquee->logo_url }}" target="_blank">
+                                <img src="{{ env('BACKEND_URL') . '/' . $marquee->logo }}" alt="{{ $marquee->name }}">
+                            </a>
+                        @else
+                            <img src="{{ env('BACKEND_URL') . '/' . $marquee->logo }}" alt="{{ $marquee->name }}">
+                        @endif
                     </div>
                 @endforeach
             </div>
         </div>
     </section>
     @endif
-

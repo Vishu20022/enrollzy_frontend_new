@@ -231,4 +231,13 @@ class PageController extends Controller
         $page = \App\Models\Page::where('slug', $slug)->where('status', 'Active')->firstOrFail();
         return view('pages.dynamic-page', compact('page'));
     }
+
+    public function aboutUs()
+    {
+        $page = \App\Models\AboutUsPage::first();
+        $offers = \App\Models\AboutUsOffer::orderBy('sort_order')->get();
+        $features = \App\Models\AboutUsFeature::orderBy('sort_order')->get();
+        $impacts = \App\Models\AboutUsImpact::orderBy('sort_order')->get();
+        return view('pages.about-us', compact('page', 'offers', 'features', 'impacts'));
+    }
 }

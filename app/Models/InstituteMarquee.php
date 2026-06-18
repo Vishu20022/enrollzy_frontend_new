@@ -9,7 +9,7 @@ class InstituteMarquee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['logo', 'name', 'heading', 'subheading', 'sort_order', 'status', 'direction'];
+    protected $fillable = ['logo', 'name', 'heading', 'subheading', 'sort_order', 'status', 'direction', 'logo_url'];
 
     protected $casts = [
         'status' => 'boolean',
