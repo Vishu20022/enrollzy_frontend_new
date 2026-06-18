@@ -34,7 +34,7 @@
                     <div class="blog-card">
                         <div class="blog-img">
                             @php
-                                $imgUrl = (str_starts_with($blog->image, 'http')) ? $blog->image : asset($blog->image);
+                                $imgUrl = (str_starts_with($blog->image, 'http')) ? $blog->image : ($blog->image ? rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($blog->image, '/') : '');
                             @endphp
                             <img src="{{ $imgUrl }}" alt="{{ $blog->title }}">
                         </div>
