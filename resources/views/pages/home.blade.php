@@ -29,11 +29,11 @@
             max-width: 100%;
             max-height: 70px;
             object-fit: contain;
-            filter: grayscale(100%);
+            filter: grayscale(0%);
             transition: 0.3s all ease;
         }
         .marquee-item img:hover {
-            filter: grayscale(0%);
+            filter: grayscale(100%);
             transform: scale(1.1);
         }
         @keyframes scrollMarqueeRTL {
