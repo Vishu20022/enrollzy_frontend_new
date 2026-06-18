@@ -501,16 +501,8 @@
                 width: 150px;
             }
 
-            .timeline-content {
-                padding-left: 14px;
-            }
-
             .timeline-section .card-box p {
                 font-size: 14px !important;
-            }
-
-            .timeline-section .timeline-content {
-                width: 50%;
             }
 
             .timeline-section .btn-theme-1 {
@@ -537,48 +529,83 @@
         }
 
         @media(max-width:991px) {
-
-            .timeline::before {
-                left: 20px;
+            .timeline::before,
+            .timeline-progress {
+                display: none; /* Hide timeline line on mobile and tablet for a cleaner stacked look */
             }
 
             .timeline-content {
                 width: 100%;
-                padding-left: 50px;
+                padding-left: 0;
+                padding-right: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
 
-            .right,
-            .left {
-                margin: 0;
+            .timeline-item {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 50px;
+            }
+            
+            /* Ensure the image always comes before the text on mobile, regardless of alternating layout */
+            .timeline-section .timeline-item:nth-child(odd) {
+                flex-direction: column-reverse;
+            }
+            
+            .timeline-section .timeline-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .timeline-section .right,
+            .timeline-section .left {
+                margin: 0 !important;
+                width: 100% !important;
             }
 
             .image-box {
-                margin-bottom: 30px;
+                margin-bottom: 20px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            
+            .timeline-section .image-box img {
+                max-width: 250px;
+                width: 100%;
+                height: auto;
+            }
+
+            .card-box {
+                text-align: center;
+                padding: 30px 20px;
+                width: 100%;
             }
 
             .card-box h3 {
-                font-size: 20px;
+                font-size: 22px;
             }
-
-
-
+            
+            .find-btn {
+                margin-left: auto;
+                margin-right: auto;
+            }
         }
 
-        @media (min-width:350px) and (max-width:767px) {
-
-            .timeline-content {
-                padding-left: 20px;
-            }
-
-            .find-btn {
-                min-width: 80px;
-                padding: 8px 20px;
-                font-size: 12px;
-                line-height: 18px;
-            }
-
+        @media (max-width:767px) {
             .timeline-section .card-box {
-                padding: 12px;
+                padding: 20px 15px;
+            }
+            
+            .card-box h3 {
+                font-size: 20px;
+            }
+            
+            .find-btn {
+                min-width: 120px;
+                padding: 10px 25px;
+                font-size: 14px;
             }
         }
 
