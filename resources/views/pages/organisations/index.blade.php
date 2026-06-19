@@ -99,11 +99,11 @@
             <div class="premium-grid-wrapper">
                 <div class="row g-5 justify-content-center align-items-center">
                     @foreach ($organisations as $org)
-                        <div class="col-lg-2 col-md-3 col-6">
+                        <div class="col-lg-2 col-md-3 col-6 text-center mb-4">
                             <a href="{{ $org->detail_url }}" 
-                               class="text-decoration-none uni-card premium-org-card {{ $org->logo_url ? 'rounded-circle' : 'rounded-circle' }}"
+                               class="text-decoration-none uni-card premium-org-card {{ $org->logo_url ? 'rounded-circle' : 'rounded-circle' }} mx-auto mb-3"
                                 @if ($org->logo_url)
-                                    style="background-image: url('{{ env('BACKEND_URL') . '/' . $org->logo_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1;"
+                                    style="background-image: url('{{ env('BACKEND_URL') . '/' . $org->logo_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat; aspect-ratio: 1/1; display: block;"
                                 @else
                                     style="aspect-ratio: 1/1; background: #f1f5f9; display: flex; align-items: center;"
                                 @endif
@@ -112,6 +112,11 @@
                                     <span class="fw-bold text-center px-3 w-100"
                                         style="font-size: 12px; color: #334155; line-height: 1.4;">{{ $org->name }}</span>
                                 @endif
+                            </a>
+                            <a href="{{ $org->detail_url }}" class="text-decoration-none">
+                                <h6 class="fw-bold mb-0 text-dark" style="font-size: 14px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;">
+                                    {{ $org->name }}
+                                </h6>
                             </a>
                         </div>
                     @endforeach
