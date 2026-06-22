@@ -240,4 +240,23 @@ class PageController extends Controller
         $impacts = \App\Models\AboutUsImpact::orderBy('sort_order')->get();
         return view('pages.about-us', compact('page', 'offers', 'features', 'impacts'));
     }
+
+    public function faq()
+    {
+        $categories = \App\Models\FaqCategory::whereNull('parent_id')
+            ->with(['faqs' => function($q) {
+                $q->where('status', 1)->orderBy('sort_order');
+            }, 'allChildren'])
+            ->where('status', 1)
+            ->get();
+            
+        // We'll also need a flattened collection of all categories for the tab-content panes
+        $allCategories = \App\Models\FaqCategory::with(['faqs' => function($q) {
+                $q->where('status', 1)->orderBy('sort_order');
+            }])
+            ->where('status', 1)
+            ->get();
+            
+        return view('pages.faq', compact('categories', 'allCategories'));
+    }
 }
