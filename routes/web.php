@@ -13,6 +13,12 @@ use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteProtectionController;
 use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\CareerRoadmapController;
+
+// Career Roadmap
+Route::get('/career-roadmap', [CareerRoadmapController::class, 'index'])->name('career-roadmap');
+Route::get('/career-roadmap/api/stage/{stageId}', [CareerRoadmapController::class, 'getStageDetails'])->name('career-roadmap.api.stage');
+Route::get('/career-roadmap/api/stream/{streamId}', [CareerRoadmapController::class, 'getStreamDetails'])->name('career-roadmap.api.stream');
 
 // 🛡️ Site Protection Wall
 Route::get('/under-construction', [SiteProtectionController::class, 'index'])->name('site.protection.login');
