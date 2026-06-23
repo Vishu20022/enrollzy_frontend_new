@@ -238,7 +238,8 @@ class PageController extends Controller
         $offers = \App\Models\AboutUsOffer::orderBy('sort_order')->get();
         $features = \App\Models\AboutUsFeature::orderBy('sort_order')->get();
         $impacts = \App\Models\AboutUsImpact::orderBy('sort_order')->get();
-        return view('pages.about-us', compact('page', 'offers', 'features', 'impacts'));
+        $teams = \App\Models\AboutUsTeam::orderBy('sort_order')->get();
+        return view('pages.about-us', compact('page', 'offers', 'features', 'impacts', 'teams'));
     }
 
     public function contactUs()
