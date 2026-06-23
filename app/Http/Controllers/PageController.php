@@ -241,6 +241,12 @@ class PageController extends Controller
         return view('pages.about-us', compact('page', 'offers', 'features', 'impacts'));
     }
 
+    public function contactUs()
+    {
+        $contactUs = \App\Models\ContactUsDetail::first();
+        return view('pages.contact-us', compact('contactUs'));
+    }
+
     public function faq()
     {
         $categories = \App\Models\FaqCategory::whereNull('parent_id')
