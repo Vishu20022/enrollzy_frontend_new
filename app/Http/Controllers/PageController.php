@@ -238,6 +238,23 @@ class PageController extends Controller
         $offers = \App\Models\AboutUsOffer::orderBy('sort_order')->get();
         $features = \App\Models\AboutUsFeature::orderBy('sort_order')->get();
         $impacts = \App\Models\AboutUsImpact::orderBy('sort_order')->get();
+        
+        $organisationCount = \App\Models\Organisation::count();
+        $courseCount = \App\Models\Course::count();
+
+        foreach ($impacts as $impact) {
+            $baseCount = (int) preg_replace('/[^0-9]/', '', $impact->count_text);
+            $labelLower = strtolower($impact->label);
+            
+            if (str_contains($labelLower, 'institution') || str_contains($labelLower, 'organisation') || str_contains($labelLower, 'institute')) {
+                $impact->count_text = (string)($baseCount + $organisationCount);
+            } elseif (str_contains($labelLower, 'program') || str_contains($labelLower, 'course')) {
+                $impact->count_text = (string)($baseCount + $courseCount);
+            } else {
+                $impact->count_text = (string)$baseCount;
+            }
+        }
+
         $teams = \App\Models\AboutUsTeam::orderBy('sort_order')->get();
         return view('pages.about-us', compact('page', 'offers', 'features', 'impacts', 'teams'));
     }
