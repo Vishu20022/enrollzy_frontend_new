@@ -173,7 +173,7 @@ class AuthController extends Controller
             if (!$user) {
                 // Auto-register the user if they don't exist
                 $user = User::create([
-                    'name' => 'User', // default name
+                    'name' => null,
                     'mobile' => $phone,
                     'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(10)),
                     'email' => null,

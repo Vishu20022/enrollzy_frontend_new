@@ -57,4 +57,31 @@ class ProfileController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
+
+    /**
+     * Update only the user's name.
+     */
+    public function updateName(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+        ]);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Name updated successfully!',
+                'name' => $user->name,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Name updated successfully!');
+    }
 }
+

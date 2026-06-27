@@ -47,6 +47,12 @@
 
     @include('includes.booking-modal')
 
+    @auth
+        @if(empty(auth()->user()->name) || strtolower(trim(auth()->user()->name)) === 'user')
+            @include('includes.name-update-modal')
+        @endif
+    @endauth
+
     <script src="{{asset('js/jquery-3.7.1.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

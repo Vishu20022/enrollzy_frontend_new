@@ -17,9 +17,9 @@
                     @endif
                 </a>
                 
-                <h5 class="text-white mb-4">
+                <p class="mb-4" style="font-size: 0.88rem; line-height: 1.6; color: #cbd5e0;">
                     {{ $site_settings->footer_description ?? 'Get the right guidance with us' }}
-                </h5>
+                </p>
 
                 <div class="row align-items-center mb-4">
                     <div class="col-7">
@@ -55,6 +55,15 @@
                         @endif
                     </div>
                 </div>
+
+                @if(isset($site_settings->address) && $site_settings->address)
+                    <div class="mb-4">
+                        <h6 class="text-white mb-2 fw-normal">Address :</h6>
+                        <p class="mb-0" style="font-size: 0.88rem; line-height: 1.5; color: #a0aec0 !important;">
+                            {!! nl2br(e($site_settings->address)) !!}
+                        </p>
+                    </div>
+                @endif
 
                 <div class="d-flex gap-3 flex-wrap">
                     @if(isset($site_settings) && $site_settings->toll_free_number)

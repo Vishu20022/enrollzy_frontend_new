@@ -102,6 +102,7 @@ Route::middleware('auth')->group(function () {
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/update-name', [ProfileController::class, 'updateName'])->name('profile.updateName');
 
     // Booking Action
     Route::post('/book-appointment', [BookingController::class, 'store'])->name('appointments.book');
