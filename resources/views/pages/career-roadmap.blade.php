@@ -233,6 +233,33 @@
     .badge-soft-purple { background: #f5f3ff; color: #7c3aed; }
     .badge-soft-secondary { background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; font-weight: 500; }
 
+    /* Long Description Content Styling */
+    .long-description-content b, 
+    .long-description-content strong {
+        font-weight: bold !important;
+    }
+    .long-description-content i, 
+    .long-description-content em {
+        font-style: italic !important;
+    }
+    .long-description-content u {
+        text-decoration: underline !important;
+    }
+    .long-description-content p {
+        margin-bottom: 0.5rem;
+    }
+    .long-description-content p:last-child {
+        margin-bottom: 0;
+    }
+    .long-description-content ul, 
+    .long-description-content ol {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+    }
+    .long-description-content li {
+        margin-bottom: 0.25rem;
+    }
+
     /* Animations */
     .fade-in {
         animation: fadeIn 0.3s ease forwards;
@@ -300,6 +327,7 @@
                     <div class="action-card d-flex flex-column h-100" style="background-color: #ffffff; border-color: #cbd5e1;">
                         <h6 class="fw-bold mb-2 action-title" style="font-size: 0.95rem;">${sub.title}</h6>
                         <p class="text-muted small mb-3 flex-grow-1" style="line-height: 1.5;">${sub.description || ''}</p>
+                        ${sub.long_description ? `<div class="text-dark small mb-3 w-100 long-description-content" style="line-height: 1.6;">${sub.long_description}</div>` : ''}
                         
                         <div class="mt-auto d-flex flex-column align-items-start gap-2">
                             ${badge ? `<span class="badge ${badgeClass} rounded-pill px-3 py-2">${badge}</span>` : ''}
@@ -507,6 +535,7 @@
                                     ${hasChildren ? `<i class="fas fa-chevron-down text-primary opacity-50 ms-2 mt-1 toggle-icon-${card.id}"></i>` : ''}
                                 </div>
                                 <p class="text-muted small mb-3 flex-grow-1" style="line-height: 1.5;">${card.description || ''}</p>
+                                ${card.long_description ? `<div class="text-dark small mb-3 w-100 long-description-content" style="line-height: 1.6;">${card.long_description}</div>` : ''}
                                 
                                 <div class="mt-auto d-flex flex-column align-items-start gap-2">
                                     ${badge ? `<span class="badge ${badgeClass} rounded-pill px-3 py-2">${badge}</span>` : ''}

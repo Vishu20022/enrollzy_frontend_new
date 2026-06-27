@@ -25,7 +25,7 @@ class PageController extends Controller
     public function compare()
     {
         $campuses = Campus::with([
-            'organisation',
+            'organisation.organisationType',
             'departments' => function ($q) {
                 $q->where('status', true);
             },

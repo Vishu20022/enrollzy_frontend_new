@@ -97,9 +97,9 @@
         $mapped = [$campus->id => [
             'name' => $campus->campus_name,
             'location' => $campus->city . ($campus->state ? ', ' . $campus->state : ''),
-            'ownership' => $campus->ownership_model ?? 'N/A',
+            'ownership' => $campus->organisation->ownership_type ?? 'N/A',
             'type_of_institute' => $campus->campus_type ?? 'N/A',
-            'college_type' => $campus->organisation->org_type ?? 'N/A',
+            'college_type' => $campus->organisation->organisationType->title ?? 'N/A',
             'establishment_year' => $campus->established_year ?? 'N/A',
             'campus_size' => $campus->campus_area_acres ? $campus->campus_area_acres . ' Acres' : 'N/A',
             'total_courses_offered' => $campus->departments->flatMap->courses->count(),
@@ -159,7 +159,9 @@
                             'mode' => $c->mode ?? 'N/A',
                             'approved_intake' => $c->student_strength ?? 'N/A',
                             'fees' => $c->total_fees ? '₹ ' . $c->total_fees : ($c->fees ? '₹ ' . $c->fees : 'N/A'),
-                            'exams_accepted' => $c->entranceExam->name ?? 'N/A',
+                            'exams_accepted' => (is_array($c->entrance_exam_ids) && count($c->entrance_exam_ids) > 0) 
+                                ? \App\Models\Exam::whereIn('id', $c->entrance_exam_ids)->pluck('name')->implode(', ') 
+                                : ($c->entranceExam->name ?? 'N/A'),
                             'course_approval' => 'N/A',
                             'admission_details' => strip_tags($c->admission_process) ?: 'N/A',
                             'eligibility_criteria' => strip_tags($c->eligibility) ?: 'N/A',
