@@ -140,6 +140,9 @@ Route::name('pages.')->group(function () {
     Route::get('/blogs/{slug}', [PageController::class, 'blogDetail'])
         ->name('blogs.detail');
 
+    Route::get('/learning-opportunity/{slug}', [PageController::class, 'learningOpportunityDetail'])
+        ->name('learning-opportunity.detail');
+
     Route::get('/degrees', [PageController::class, 'degrees'])
         ->name('degrees');
 

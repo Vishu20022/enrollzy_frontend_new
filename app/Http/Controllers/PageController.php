@@ -121,6 +121,22 @@ class PageController extends Controller
         return view('blog.blog-detail', compact('blog', 'recent_blogs'));
     }
 
+    public function learningOpportunityDetail($slug)
+    {
+        $mention = \App\Models\NoteworthyMention::where('slug', $slug)->first();
+        
+        // Fallback for old data where slug might be null, but user clicks link with ID
+        if (!$mention && is_numeric($slug)) {
+            $mention = \App\Models\NoteworthyMention::find($slug);
+        }
+
+        if (!$mention) {
+            abort(404);
+        }
+
+        return view('pages.learning-opportunity-detail', compact('mention'));
+    }
+
     public function degrees()
     {
         $faqs = Faq::orderBy('sort_order')->get();

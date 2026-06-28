@@ -37,6 +37,9 @@
     @include('includes.header2')
     {{-- PAGE CONTENT --}}
     <main>
+        @if(request()->path() !== '/')
+            @include('includes.breadcrumbs')
+        @endif
         @yield('content')
     </main>
 

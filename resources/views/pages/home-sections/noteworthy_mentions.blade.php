@@ -40,9 +40,10 @@
                                     @php
                                         $colorClass = $colors[$cIndex % 3];
                                     @endphp
-                                    @if ($mention->url)
-                                        <a href="{{ $mention->url }}" class="text-decoration-none text-dark">
-                                    @endif
+                                    @php
+                                        $detailUrl = route('pages.learning-opportunity.detail', $mention->slug ?? $mention->id);
+                                    @endphp
+                                    <a href="{{ $detailUrl }}" class="text-decoration-none text-dark">
                                     <div class="mention-card {{ $colorClass }}">
 
                                         <div class="icon-box">
@@ -69,9 +70,7 @@
                                         </div>
 
                                     </div>
-                                    @if ($mention->url)
-                                        </a>
-                                    @endif
+                                    </a>
                                 @endforeach
 
                             </div>
