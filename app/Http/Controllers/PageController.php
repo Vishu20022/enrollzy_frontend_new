@@ -256,7 +256,8 @@ class PageController extends Controller
         }
 
         $teams = \App\Models\AboutUsTeam::orderBy('sort_order')->get();
-        return view('pages.about-us', compact('page', 'offers', 'features', 'impacts', 'teams'));
+        $advisory_boards = \App\Models\AboutUsAdvisoryBoard::orderBy('sort_order')->get();
+        return view('pages.about-us', compact('page', 'offers', 'features', 'impacts', 'teams', 'advisory_boards'));
     }
 
     public function contactUs()

@@ -140,7 +140,7 @@
                     @if($generalLinks->count() > 0)
                     <div class="col-md-4 mb-4">
                         <div class="footer-menu-block h-100">
-                            <h6 class="footer-heading fw-bold mb-3 pb-2 text-white" style="border-bottom: 2px solid rgba(255,255,255,0.2);">General</h6>
+                            <h6 class="footer-heading fw-bold mb-3 pb-2 text-white" style="border-bottom: 2px solid rgba(255,255,255,0.2);">{{ $site_settings->footer_general_title ?? 'General' }}</h6>
                             <ul class="list-unstyled mb-2">
                                 @foreach($generalLinks as $gLink)
                                 <li class="mb-2"><a href="{{ $gLink->url ?: '#' }}" class="footer-link">{{ $gLink->title }}</a></li>

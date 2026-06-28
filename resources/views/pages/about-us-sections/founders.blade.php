@@ -1,6 +1,6 @@
 <!-- FOUNDERS SECTION -->
 @if($page->founder_1_name || $page->founder_2_name)
-<section class="founders-section py-4 bg-white">
+<section class="founders-section pt-4 pb-1 bg-white">
     <div class="container">
         <div class="text-center mb-4 fade-in-up">
             <span class="badge px-3 py-2 rounded-pill fw-bold text-uppercase mb-3" style="letter-spacing: 1.5px; font-size: 0.75rem; background-color: #e6f0fa !important; color: #163c97 !important;">LEADERSHIP</span>
@@ -86,7 +86,7 @@
                     
                     <div class="position-relative z-index-1">
                         <h5 class="text-warning fw-bold text-uppercase mb-3" style="letter-spacing: 1.5px; font-size: 0.8rem;">A Message From Our Leadership</h5>
-                        <div class="lh-lg fst-italic text-white-50 mb-0" style="font-size: 1rem; font-weight: 300;">
+                        <div class="lh-lg fst-italic text-white mb-0" style="font-size: 1rem; font-weight: 300;">
                             {!! $page->founders_common_message !!}
                         </div>
                     </div>

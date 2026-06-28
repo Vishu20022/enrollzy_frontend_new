@@ -5,7 +5,7 @@
 @section('content')
 
 @php
-    $defaultSections = ['hero', 'story', 'core_values', 'offers', 'features', 'impacts', 'founders', 'teams', 'cta'];
+    $defaultSections = ['hero', 'story', 'core_values', 'offers', 'features', 'impacts', 'founders', 'teams', 'advisory_board', 'cta'];
     $sectionOrders = $page->section_orders ?? $defaultSections;
 @endphp
 
