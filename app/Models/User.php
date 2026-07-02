@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'mobile',
         'is_admin',
+        'role',
         'image',
     ];
 
@@ -56,6 +57,16 @@ class User extends Authenticatable
     public function community_replies()
     {
         return $this->hasMany(CommunityReply::class);
+    }
+
+    public function interactions()
+    {
+        return $this->hasMany(Interaction::class);
+    }
+
+    public function mentorProfile()
+    {
+        return $this->hasOne(MentorProfile::class);
     }
 
     public function appointments()

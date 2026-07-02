@@ -68,6 +68,51 @@ Route::prefix('alumni')->group(function () {
     });
 });
 
+// ✅ Mentor Auth & Dashboard
+Route::prefix('mentor')->group(function () {
+    Route::get('/register', [\App\Http\Controllers\MentorAuthController::class, 'showRegisterForm'])->name('mentor.register');
+    Route::post('/register', [\App\Http\Controllers\MentorAuthController::class, 'register'])->name('mentor.register.submit');
+    
+    Route::get('/login', [\App\Http\Controllers\MentorAuthController::class, 'showLoginForm'])->name('mentor.login');
+    
+    Route::get('/login-otp', [\App\Http\Controllers\MentorAuthController::class, 'showLoginForm'])->name('mentor.login-otp');
+    Route::post('/login-otp', [\App\Http\Controllers\MentorAuthController::class, 'loginOtpSubmit'])->name('mentor.login.otp.submit');
+    
+    Route::get('/verify-otp', [\App\Http\Controllers\MentorAuthController::class, 'showVerifyOtp'])->name('mentor.otp.verify');
+    Route::post('/verify-otp', [\App\Http\Controllers\MentorAuthController::class, 'verifyOtp'])->name('mentor.otp.verify.submit');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/dashboard', function () {
+            if (auth()->user()->role !== 'mentor') {
+                return redirect()->route('pages.home')->with('error', 'Unauthorized access.');
+            }
+            return redirect()->route('mentor.profile.edit');
+        })->name('mentor.dashboard');
+
+        Route::get('/profile', [\App\Http\Controllers\MentorProfileController::class, 'edit'])->name('mentor.profile.edit');
+        Route::put('/profile', [\App\Http\Controllers\MentorProfileController::class, 'update'])->name('mentor.profile.update');
+
+        Route::get('/education', [\App\Http\Controllers\MentorEducationController::class, 'index'])->name('mentor.profile.education');
+        Route::post('/education', [\App\Http\Controllers\MentorEducationController::class, 'store'])->name('mentor.profile.education.store');
+        Route::get('/professional', [\App\Http\Controllers\MentorProfessionalController::class, 'index'])->name('mentor.profile.professional');
+        Route::post('/professional', [\App\Http\Controllers\MentorProfessionalController::class, 'store'])->name('mentor.profile.professional.store');
+        Route::get('/mentorship', [\App\Http\Controllers\MentorMentorshipController::class, 'index'])->name('mentor.profile.mentorship');
+        Route::post('/mentorship', [\App\Http\Controllers\MentorMentorshipController::class, 'store'])->name('mentor.profile.mentorship.store');
+        Route::get('/availability', [\App\Http\Controllers\MentorAvailabilityController::class, 'index'])->name('mentor.profile.availability');
+        Route::post('/availability', [\App\Http\Controllers\MentorAvailabilityController::class, 'store'])->name('mentor.profile.availability.store');
+        Route::get('/pricing', [\App\Http\Controllers\MentorPricingController::class, 'index'])->name('mentor.profile.pricing');
+        Route::post('/pricing', [\App\Http\Controllers\MentorPricingController::class, 'store'])->name('mentor.profile.pricing.store');
+        Route::get('/verification', [\App\Http\Controllers\MentorVerificationController::class, 'index'])->name('mentor.profile.verification');
+        Route::post('/verification/gov-id', [\App\Http\Controllers\MentorVerificationController::class, 'uploadGovId'])->name('mentor.profile.verification.gov_id');
+        Route::post('/verification/background', [\App\Http\Controllers\MentorVerificationController::class, 'initiateBackgroundCheck'])->name('mentor.profile.verification.background');
+        Route::post('/verification/agreement', [\App\Http\Controllers\MentorVerificationController::class, 'signAgreement'])->name('mentor.profile.verification.agreement');
+        Route::get('/preferences', [\App\Http\Controllers\MentorPreferenceController::class, 'index'])->name('mentor.profile.preferences');
+        Route::post('/preferences', [\App\Http\Controllers\MentorPreferenceController::class, 'store'])->name('mentor.profile.preferences.store');
+
+        Route::post('/logout', [\App\Http\Controllers\MentorAuthController::class, 'logout'])->name('mentor.logout');
+    });
+});
+
 // ✅ Shared Professional Management
 Route::middleware(['auth:expert,alumni'])->group(function () {
     // Legacy Routes (keeping for backward compatibility if needed, or replace)
