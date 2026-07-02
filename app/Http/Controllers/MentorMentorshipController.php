@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MentorProfile;
 use App\Models\MentorMentorshipDetail;
+use App\Models\MentorMenteeLevel;
 
 class MentorMentorshipController extends Controller
 {
@@ -15,7 +16,9 @@ class MentorMentorshipController extends Controller
         
         $mentorship = ($profile && $profile->mentorshipDetail) ? $profile->mentorshipDetail : new MentorMentorshipDetail();
         
-        return view('mentor.profile.mentorship', compact('profile', 'mentorship', 'user'));
+        $mentee_levels = MentorMenteeLevel::where('status', 1)->get();
+        
+        return view('mentor.profile.mentorship', compact('profile', 'mentorship', 'user', 'mentee_levels'));
     }
 
     public function store(Request $request)

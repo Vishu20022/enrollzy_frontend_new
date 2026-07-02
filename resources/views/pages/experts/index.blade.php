@@ -18,15 +18,15 @@
                     <div class="expert-card h-100 shadow-sm border-0" style="border-radius: 15px; overflow: hidden; background: #fff;">
                         <div class="image-wrap position-relative">
                             @php
-                                $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : env('BACKEND_URL') . '/' . ltrim($expert->img, '/')) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
+                                $imgUrl = $expert->profile_photo ? (str_starts_with($expert->profile_photo, 'http') ? $expert->profile_photo : asset($expert->profile_photo)) : 'https://ui-avatars.com/api/?name='.urlencode($expert->first_name . ' ' . $expert->last_name);
                             @endphp
-                            <img src="{{ $imgUrl }}" class="w-100" style="height: 250px; object-fit: cover;" alt="{{ $expert->name }}">
-                            <div class="rating position-absolute top-0 end-0 m-3 px-2 py-1 bg-white rounded shadow-sm small">⭐ {{ $expert->rating }}</div>
+                            <img src="{{ $imgUrl }}" class="w-100" style="height: 250px; object-fit: cover;" alt="{{ $expert->first_name . ' ' . $expert->last_name }}">
+                            
                         </div>
                         <div class="card-body p-4 text-center">
-                            <h5 class="fw-bold mb-1">{{ $expert->name }}</h5>
-                            <p class="text-primary small mb-2">{{ $expert->role }}</p>
-                            <p class="text-muted small mb-3">{{ $expert->degree }} · {{ $expert->exp }}</p>
+                            <h5 class="fw-bold mb-1">{{ $expert->first_name . ' ' . $expert->last_name }}</h5>
+                            <p class="text-primary small mb-2">{{ $expert->professional_headline }}</p>
+                            <p class="text-muted small mb-3">{{ ($expert->educations->first() ? $expert->educations->first()->degree_type : '') }} · {{ ($expert->experiences->first() ? $expert->experiences->first()->years_of_experience . ' yrs' : '') }}</p>
                             <div class="d-grid gap-2">
                                 <a href="{{ route('pages.experts.detail', $expert->id) }}" class="btn btn-outline-primary rounded-pill">View Profile</a>
                                 <button type="button" 
@@ -35,8 +35,8 @@
                                     data-bs-target="#bookingModal"
                                     data-provider-id="{{ $expert->id }}"
                                     data-provider-type="expert"
-                                    data-provider-name="{{ $expert->name }}"
-                                    data-provider-role="{{ $expert->role }}"
+                                    data-provider-name="{{ $expert->first_name . ' ' . $expert->last_name }}"
+                                    data-provider-role="{{ $expert->professional_headline }}"
                                     data-provider-img="{{ $imgUrl }}">
                                     Book Session
                                 </button>
@@ -49,3 +49,4 @@
     </div>
 </div>
 @endsection
+

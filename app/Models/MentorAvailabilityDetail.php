@@ -11,7 +11,8 @@ class MentorAvailabilityDetail extends Model
 
     protected $fillable = [
         'mentor_profile_id', 'timezone', 'slots', 
-        'advance_notice', 'max_sessions', 'pause_bookings'
+        'advance_notice', 'max_sessions', 'pause_bookings',
+        'unavailability_dates'
     ];
 
     protected $casts = [

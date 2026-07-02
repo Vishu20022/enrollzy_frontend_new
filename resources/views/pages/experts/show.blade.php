@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $expert->name . ' - Expert Profile')
+@section('title', $expert->first_name . ' ' . $expert->last_name . ' - Mentor Profile')
 
 @section('content')
 <div class="expert-profile-area py-5">
@@ -11,20 +11,20 @@
                 <div class="card border-0 shadow-sm sticky-top" style="border-radius: 20px; top: 100px;">
                     <div class="card-body p-4 text-center">
                         @php
-                            $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : env('BACKEND_URL') . '/' . ltrim($expert->img, '/')) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
+                            $imgUrl = $expert->profile_photo ? (str_starts_with($expert->profile_photo, 'http') ? $expert->profile_photo : asset($expert->profile_photo)) : 'https://ui-avatars.com/api/?name='.urlencode($expert->first_name . ' ' . $expert->last_name);
                         @endphp
-                        <img src="{{ $imgUrl }}" class="rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;" alt="{{ $expert->name }}">
-                        <h3 class="fw-bold mb-1">{{ $expert->name }}</h3>
-                        <p class="text-primary mb-3">{{ $expert->role }}</p>
+                        <img src="{{ $imgUrl }}" class="rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover;" alt="{{ $expert->first_name . ' ' . $expert->last_name }}">
+                        <h3 class="fw-bold mb-1">{{ $expert->first_name . ' ' . $expert->last_name }}</h3>
+                        <p class="text-primary mb-3">{{ $expert->professional_headline }}</p>
                         
                         <div class="d-flex justify-content-center gap-3 mb-4">
                             <div class="text-center">
-                                <h6 class="fw-bold mb-0">{{ $expert->rating }} ⭐</h6>
+                                <h6 class="fw-bold mb-0">? 5.0</h6>
                                 <small class="text-muted">Rating</small>
                             </div>
                             <div class="vr"></div>
                             <div class="text-center">
-                                <h6 class="fw-bold mb-0">{{ $expert->exp }}</h6>
+                                <h6 class="fw-bold mb-0">{{ $expert->experiences->first() ? $expert->experiences->first()->years_of_experience . '+' : 'N/A' }}</h6>
                                 <small class="text-muted">Experience</small>
                             </div>
                         </div>
@@ -35,8 +35,8 @@
                             data-bs-target="#bookingModal"
                             data-provider-id="{{ $expert->id }}"
                             data-provider-type="expert"
-                            data-provider-name="{{ $expert->name }}"
-                            data-provider-role="{{ $expert->role }}"
+                            data-provider-name="{{ $expert->first_name . ' ' . $expert->last_name }}"
+                            data-provider-role="{{ $expert->professional_headline }}"
                             data-provider-img="{{ $imgUrl }}">
                             Book a Session Now
                         </button>
@@ -53,16 +53,16 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">Send Inquiry to {{ $expert->name }}</h5>
+                <h5 class="modal-title fw-bold">Send Inquiry to {{ $expert->first_name . ' ' . $expert->last_name }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
                 <form action="{{ route('leads.submit') }}" method="POST">
                     @csrf
                     <input type="hidden" name="type" value="Expert">
-                    <input type="hidden" name="leadable_type" value="App\Models\Expert">
+                    <input type="hidden" name="leadable_type" value="App\Models\MentorProfile">
                     <input type="hidden" name="leadable_id" value="{{ $expert->id }}">
-                    <input type="hidden" name="subject" value="Inquiry for Expert: {{ $expert->name }}">
+                    <input type="hidden" name="subject" value="Inquiry for Mentor: {{ $expert->first_name . ' ' . $expert->last_name }}">
                     
                     <div class="mb-3">
                         <label class="form-label">Your Name</label>
@@ -91,75 +91,58 @@
             <!-- Main Content: Professional Details -->
             <div class="col-lg-8">
                 <div class="detail-section mb-5">
+                    <h4 class="fw-bold mb-4">About Me</h4>
+                    <p class="text-muted">{{ $expert->short_bio ?: 'Passionate about mentoring students and helping them achieve their career goals.' }}</p>
+                </div>
+
+                <div class="detail-section mb-5">
                     <h4 class="fw-bold mb-4">Academic & Professional Background</h4>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded-3">
                                 <small class="text-muted d-block mb-1">Highest Qualification</small>
-                                <span class="fw-semibold">{{ $expert->highest_qualification ?: $expert->degree }}</span>
+                                <span class="fw-semibold">{{ $expert->educations->first() ? $expert->educations->first()->degree_type : 'Not Specified' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded-3">
-                                <small class="text-muted d-block mb-1">Domain Certification</small>
-                                <span class="fw-semibold">{{ $expert->domain_certification ?: 'Not Specified' }}</span>
+                                <small class="text-muted d-block mb-1">Institution</small>
+                                <span class="fw-semibold">{{ $expert->educations->first() ? $expert->educations->first()->institution : 'Not Specified' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded-3">
-                                <small class="text-muted d-block mb-1">Primary Domain</small>
-                                <span class="fw-semibold">{{ $expert->primary_domain ?: 'Career Guidance' }}</span>
+                                <small class="text-muted d-block mb-1">Primary Industry</small>
+                                <span class="fw-semibold">{{ $expert->experiences->first() ? $expert->experiences->first()->industry : 'Not Specified' }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded-3">
-                                <small class="text-muted d-block mb-1">Sub-Specialization</small>
-                                <span class="fw-semibold">{{ $expert->sub_specialization ?: 'Overseas Education' }}</span>
+                                <small class="text-muted d-block mb-1">Current Company</small>
+                                <span class="fw-semibold">{{ $expert->experiences->first() ? $expert->experiences->first()->company : 'Not Specified' }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="detail-section mb-5">
-                    <h4 class="fw-bold mb-4">Expertise & Experience</h4>
-                    <p class="text-muted">Helping students choose the right path with data-driven career mapping and goal-oriented planning.</p>
+                    <h4 class="fw-bold mb-4">Mentorship Details</h4>
                     <ul class="list-unstyled">
                         <li class="mb-3 d-flex align-items-center">
                             <i class="fas fa-check-circle text-success me-3"></i>
-                            <span>{{ $expert->years_of_domain_experience ?: '5+' }} Years of Domain Experience</span>
+                            <span>Areas of Mentorship: 
+                                @php 
+                                    $areas = $expert->mentorshipDetail ? $expert->mentorshipDetail->areas_of_mentorship : null;
+                                    if (is_string($areas)) $areas = json_decode($areas, true);
+                                @endphp
+                                {{ is_array($areas) ? implode(', ', $areas) : 'General Counseling' }}
+                            </span>
                         </li>
                         <li class="mb-3 d-flex align-items-center">
                             <i class="fas fa-check-circle text-success me-3"></i>
-                            <span>{{ $expert->no_of_students_counseled ?: '500+' }} Students Counseled</span>
-                        </li>
-                        <li class="mb-3 d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3"></i>
-                            <span>Expertise in {{ is_array($expert->counseling_specialization) ? implode(', ', $expert->counseling_specialization) : 'General Counseling' }}</span>
+                            <span>Languages Spoken: {{ $expert->languages->pluck('name')->implode(', ') ?: 'English' }}</span>
                         </li>
                     </ul>
-                </div>
-
-                <div class="detail-section">
-                    <h4 class="fw-bold mb-4">Counseling Features</h4>
-                    <div class="row g-3">
-                        @php
-                            $features = [
-                                'One-on-One Counseling' => $expert->one_on_one_counseling,
-                                'Group Counseling' => $expert->group_counseling,
-                                'Psychometric Based' => $expert->psychometric_based_counseling,
-                                'Data Driven Mapping' => $expert->data_driven_career_mapping,
-                                'Goal Oriented' => $expert->goal_oriented_planning,
-                                'Flexible Scheduling' => $expert->flexible_scheduling,
-                            ];
-                        @endphp
-                        @foreach($features as $label => $valid)
-                            <div class="col-md-4">
-                                <div class="card bg-{{ $valid ? 'success-subtle' : 'light' }} border-0 text-center py-3">
-                                    <div class="fw-bold small {{ $valid ? 'text-success' : 'text-muted' }}">{{ $label }}</div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
                 </div>
             </div>
         </div>

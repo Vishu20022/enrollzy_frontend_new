@@ -34,14 +34,18 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm me-3">
                                                         @php
-                                                            $expert = $booking->expert;
-                                                            $imgUrl = $expert->img ? (str_starts_with($expert->img, 'http') ? $expert->img : asset($expert->img)) : 'https://ui-avatars.com/api/?name='.urlencode($expert->name);
+                                                            $provider = $booking->mentor ?? $booking->expert;
+                                                            $isMentor = $booking->mentor !== null;
+                                                            $name = $isMentor ? ($provider->first_name . ' ' . $provider->last_name) : $provider->name;
+                                                            $role = $isMentor ? ($provider->professionalDetail->designation ?? 'Mentor') : $provider->role;
+                                                            $photo = $isMentor ? $provider->profile_photo : $provider->img;
+                                                            $imgUrl = $photo ? (str_starts_with($photo, 'http') ? $photo : asset($photo)) : 'https://ui-avatars.com/api/?name='.urlencode($name);
                                                         @endphp
                                                         <img src="{{ $imgUrl }}" class="rounded-circle shadow-sm" width="40" height="40" style="object-fit:cover;">
                                                     </div>
                                                     <div>
-                                                        <div class="fw-bold">{{ $expert->name }}</div>
-                                                        <small class="text-muted">{{ $expert->role }}</small>
+                                                        <div class="fw-bold">{{ $name }}</div>
+                                                        <small class="text-muted">{{ $role }}</small>
                                                     </div>
                                                 </div>
                                             </a>

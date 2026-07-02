@@ -32,9 +32,9 @@
 
                 @foreach ($experts->take(4) as $expert)
                     @php
-                        $imgUrl = str_starts_with($expert->img, 'http')
-                            ? $expert->img
-                            : env('BACKEND_URL') . '/' . $expert->img;
+                        $imgUrl = str_starts_with($expert->profile_photo, 'http')
+                            ? $expert->profile_photo
+                            : asset($expert->profile_photo);
                     @endphp
                     <div class="col-lg-3 col-md-6">
 
@@ -42,25 +42,25 @@
 
                             <div class="card-image" style="height: 150px; width: 150px; overflow: hidden; margin: 20px auto 10px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                                 <a href="{{ route('pages.experts.detail', $expert->id) }}">
-                                    <img src="{{ $imgUrl }}" alt="{{ $expert->name }}"
+                                    <img src="{{ $imgUrl }}" alt="{{ $expert->first_name . ' ' . $expert->last_name }}"
                                         style="object-fit: cover; height: 100%; width: 100%;">
                                 </a>
                             </div>
 
                             <h3 class="card-title">
                                 <a href="{{ route('pages.experts.detail', $expert->id) }}"
-                                    class="text-decoration-none text-dark">{{ $expert->name }}</a>
+                                    class="text-decoration-none text-dark">{{ $expert->first_name . ' ' . $expert->last_name }}</a>
                             </h3>
 
                             <p class="card-desc">
-                                {{ $expert->role }} · {{ $expert->degree }}<br>
-                                {{ $expert->exp }} · ⭐ {{ $expert->rating }}
+                                {{ $expert->professional_headline }} · {{ ($expert->educations->first() ? $expert->educations->first()->degree_type : '') }}<br>
+                                {{ ($expert->experiences->first() ? $expert->experiences->first()->years_of_experience . ' yrs' : '') }} · ⭐ {{ $expert->rating }}
                             </p>
 
                             <button class="btn-theme-2 btn-book-session" data-bs-toggle="modal"
                                 data-bs-target="#bookingModal" data-provider-id="{{ $expert->id }}"
-                                data-provider-type="expert" data-provider-name="{{ $expert->name }}"
-                                data-provider-role="{{ $expert->role }}" data-provider-img="{{ $imgUrl }}">
+                                data-provider-type="expert" data-provider-name="{{ $expert->first_name . ' ' . $expert->last_name }}"
+                                data-provider-role="{{ $expert->professional_headline }}" data-provider-img="{{ $imgUrl }}">
                                 Book Session
                             </button>
 
@@ -77,5 +77,6 @@
         </div>
 
     </section>
+
 
 

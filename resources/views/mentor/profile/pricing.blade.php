@@ -17,7 +17,7 @@
         </div>
         @endif
 
-        <form action="{{ route('mentor.profile.pricing.store') }}" method="POST">
+        <form action="{{ route('mentor.profile.pricing.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="mb-4">
@@ -26,7 +26,7 @@
                     <span class="input-group-text bg-light fw-bold fs-5 border-end-0">₹</span>
                     <input type="number" class="form-control form-control-lg fs-5 border-start-0 ps-0" id="fee_30_min" name="fee_30_min" min="0" value="{{ old('fee_30_min', $pricing->fee_30_min) }}" placeholder="500">
                 </div>
-                <small class="text-muted d-block mt-2" id="commission-text-30">Platform commission: 15%. You receive ₹425 per 30-min session.</small>
+                <small class="text-muted d-block mt-2" id="commission-text-30">Platform commission: {{ $commissionRate }}%. You receive ₹425 per 30-min session.</small>
             </div>
 
             <div class="mb-4 pb-4 border-bottom">
@@ -77,6 +77,36 @@
                 <div style="max-width: 300px;">
                     <input type="text" class="form-control form-control-lg fs-6" name="upi_id" id="upi_id" value="{{ old('upi_id', $pricing->upi_id) }}" placeholder="yourname@upi">
                 </div>
+                <div class="mt-3" style="max-width: 300px;">
+                    <label class="form-label fw-bold text-dark mb-1">UPI QR Code</label>
+                    <input type="file" class="form-control form-control-lg fs-6" name="upi_qr_code" id="upi_qr_code" accept="image/*">
+                    @if($pricing->upi_qr_code)
+                        <div class="mt-2">
+                            <img src="{{ asset($pricing->upi_qr_code) }}" alt="QR Code" style="max-width: 150px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="mb-5 {{ old('payout_method', $pricing->payout_method) != 'Bank Transfer' ? 'd-none' : '' }}" id="bank-container">
+                <div class="row g-3" style="max-width: 500px;">
+                    <div class="col-12">
+                        <label class="form-label fw-bold text-dark mb-1">Account Holder Name</label>
+                        <input type="text" class="form-control form-control-lg fs-6" name="bank_account_holder_name" id="bank_account_holder_name" value="{{ old('bank_account_holder_name', $pricing->bank_account_holder_name) }}" placeholder="John Doe">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold text-dark mb-1">Account Number</label>
+                        <input type="text" class="form-control form-control-lg fs-6" name="bank_account_number" id="bank_account_number" value="{{ old('bank_account_number', $pricing->bank_account_number) }}" placeholder="0123456789">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold text-dark mb-1">Bank Name</label>
+                        <input type="text" class="form-control form-control-lg fs-6" name="bank_name" id="bank_name" value="{{ old('bank_name', $pricing->bank_name) }}" placeholder="HDFC Bank">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold text-dark mb-1">IFSC Code</label>
+                        <input type="text" class="form-control form-control-lg fs-6" name="bank_ifsc_code" id="bank_ifsc_code" value="{{ old('bank_ifsc_code', $pricing->bank_ifsc_code) }}" placeholder="HDFC0001234">
+                    </div>
+                </div>
             </div>
 
             <div class="d-flex justify-content-between align-items-center pt-3 border-top">
@@ -110,7 +140,7 @@
         const payoutMethod = document.getElementById('payout_method');
         const upiContainer = document.getElementById('upi-container');
         
-        const commissionRate = 0.15; // 15%
+        const commissionRate = {{ $commissionRate }} / 100;
 
         function calculatePayout(amount) {
             if (!amount || amount <= 0) return 0;
@@ -121,7 +151,7 @@
             const val = parseFloat(input.value);
             if (!isNaN(val) && val > 0) {
                 const payout = calculatePayout(val);
-                textEl.textContent = `Platform commission: 15%. You receive ₹${payout} per ${label} session.`;
+                textEl.textContent = `Platform commission: {{ $commissionRate }}%. You receive ₹${payout} per ${label} session.`;
                 textEl.style.display = 'block';
             } else {
                 textEl.style.display = 'none';
@@ -135,14 +165,22 @@
         updateCommissionText(fee30, text30, '30-min');
         updateCommissionText(fee60, text60, '60-min');
 
+        const bankContainer = document.getElementById('bank-container');
+
         payoutMethod.addEventListener('change', function() {
             if (this.value === 'UPI') {
                 upiContainer.classList.remove('d-none');
+                bankContainer.classList.add('d-none');
+            } else if (this.value === 'Bank Transfer') {
+                upiContainer.classList.add('d-none');
+                bankContainer.classList.remove('d-none');
             } else {
                 upiContainer.classList.add('d-none');
+                bankContainer.classList.add('d-none');
                 document.getElementById('upi_id').value = '';
             }
         });
     });
 </script>
 @endsection
+

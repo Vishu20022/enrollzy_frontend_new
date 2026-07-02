@@ -11,7 +11,8 @@ class MentorPricingDetail extends Model
 
     protected $fillable = [
         'mentor_profile_id', 'fee_30_min', 'fee_60_min',
-        'offer_free_first_session', 'pro_bono_sessions', 'payout_method', 'upi_id'
+        'offer_free_first_session', 'pro_bono_sessions', 'payout_method', 'upi_id',
+        'upi_qr_code', 'bank_account_holder_name', 'bank_account_number', 'bank_name', 'bank_ifsc_code'
     ];
 
     protected $casts = [

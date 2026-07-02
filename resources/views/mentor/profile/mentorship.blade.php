@@ -33,32 +33,12 @@
             <div class="mb-4 pb-2 border-bottom">
                 <label class="form-label text-muted small fw-bold mb-3">Target mentee level <span class="text-danger">*</span></label>
                 <div class="d-flex flex-wrap gap-4 mb-3">
+                    @foreach($mentee_levels as $level)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="High school" id="level_high" {{ in_array('High school', $levels) ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="level_high">High school</label>
+                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="{{ $level->name }}" id="level_{{ $level->id }}" {{ in_array($level->name, $levels) ? 'checked' : '' }}>
+                        <label class="form-check-label fw-bold" for="level_{{ $level->id }}">{{ $level->name }}</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="Undergraduate" id="level_undergrad" {{ in_array('Undergraduate', $levels) ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="level_undergrad">Undergraduate</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="Postgraduate" id="level_postgrad" {{ in_array('Postgraduate', $levels) ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="level_postgrad">Postgraduate</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="PhD" id="level_phd" {{ in_array('PhD', $levels) ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="level_phd">PhD</label>
-                    </div>
-                </div>
-                <div class="d-flex flex-wrap gap-4 mb-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="Early career (0-3 yrs)" id="level_early" {{ in_array('Early career (0-3 yrs)', $levels) ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="level_early">Early career (0-3 yrs)</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="target_mentee_levels[]" value="Mid career" id="level_mid" {{ in_array('Mid career', $levels) ? 'checked' : '' }}>
-                        <label class="form-check-label fw-bold" for="level_mid">Mid career</label>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 
@@ -109,9 +89,9 @@
                         <select class="form-select form-select-lg fs-6" name="preferred_platform">
                             <option value="Google Meet" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Google Meet' ? 'selected' : '' }}>Google Meet</option>
                             <option value="Zoom" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Zoom' ? 'selected' : '' }}>Zoom</option>
-                            <option value="Microsoft Teams" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Microsoft Teams' ? 'selected' : '' }}>Microsoft Teams</option>
+                            <!-- <option value="Microsoft Teams" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Microsoft Teams' ? 'selected' : '' }}>Microsoft Teams</option>
                             <option value="Skype" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Skype' ? 'selected' : '' }}>Skype</option>
-                            <option value="Phone Call" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Phone Call' ? 'selected' : '' }}>Phone Call</option>
+                            <option value="Phone Call" {{ old('preferred_platform', $mentorship->preferred_platform) == 'Phone Call' ? 'selected' : '' }}>Phone Call</option> -->
                         </select>
                     </div>
                 </div>

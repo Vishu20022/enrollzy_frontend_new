@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ExpertSlot;
 use App\Models\Booking;
 use App\Models\Payment;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -16,6 +17,35 @@ class BookingController extends Controller
         // 1. Check if student is logged in
         if (!Auth::check()) {
             return response()->json(['error' => 'Please login to book an appointment.'], 401);
+        }
+
+        // Handle dynamic mentor slots
+        if (is_string($request->slot_id) && str_starts_with($request->slot_id, 'mentor|')) {
+            $parts = explode('|', $request->slot_id);
+            if (count($parts) === 5) {
+                $mentorId = $parts[1];
+                $date = $parts[2];
+                $startTime = $parts[3];
+                $endTime = $parts[4];
+                
+                $mentor = \App\Models\MentorProfile::with('pricingDetail')->find($mentorId);
+                
+                if ($mentor) {
+                    $slot = ExpertSlot::firstOrCreate([
+                        'expert_id' => $mentorId, // Storing mentor_id in expert_id
+                        'date' => $date,
+                        'start_time' => $startTime,
+                    ], [
+                        'end_time' => $endTime,
+                        'status' => 'available',
+                        'cost' => $mentor->pricingDetail ? $mentor->pricingDetail->fee_30_min : 0,
+                        'mode' => 'video'
+                    ]);
+                    
+                    // Replace the string ID with the real database ID
+                    $request->merge(['slot_id' => $slot->id]);
+                }
+            }
         }
 
         $request->validate([
@@ -30,27 +60,30 @@ class BookingController extends Controller
             return response()->json(['error' => 'This slot is no longer available.'], 422);
         }
 
-        // 3. Calculate Fees using CommissionService
-        $commissionService = new \App\Services\CommissionService();
-        $breakdown = $commissionService->calculateStrict($slot->expert, $slot->cost);
+        // 3. Calculate Fees
+        $isMentor = is_string($request->slot_id) && str_starts_with($request->slot_id, 'mentor|') || ($request->provider_type === 'expert' && \App\Models\MentorProfile::find($slot->expert_id));
+        if ($isMentor) {
+            $commission = \App\Models\MentorCommission::first();
+            $platformFeePercent = $commission ? $commission->commission_percentage : 15;
+            $platformFee = ($slot->cost * $platformFeePercent) / 100;
+            $expertEarning = $slot->cost - $platformFee;
+            $breakdown = [
+                'total_amount' => $slot->cost,
+                'platform_total_deduction' => $platformFee,
+                'platform_fee_base' => $platformFee,
+                'net_expert_earning' => $expertEarning,
+                'applied_type' => 'percentage',
+                'applied_rate' => $platformFeePercent,
+                'applied_gst_rate' => 0,
+                'applied_tds_rate' => 0,
+            ];
+        } else {
+            $commissionService = new \App\Services\CommissionService();
+            $breakdown = $commissionService->calculateStrict($slot->expert, $slot->cost);
+        }
         
         $amount = $breakdown['total_amount'];
-        $platformFee = $breakdown['platform_total_deduction']; // Use total deduction (Fee + GST) as platform share? 
-        // Logic check: User prompt said: 
-        // "platform_fee = session_price × commission_rate"
-        // "expert_earning = session_price − platform_fee − tax"
-        // Wait, normally Platform Fee is arguably Revenue. GST is tax collected.
-        // My Service calculates: 'platform_fee_base' (Revenue), 'gst_on_fee' (Tax), 'platform_total_deduction' (Revenue+Tax).
-        // The 'platform_fee' column in DB usually implies the Application's Share effectively.
-        // Let's store 'platform_fee_base' as platform_fee, but we need to track GST somewhere. 
-        // Or store 'platform_total_deduction' as platform_fee? 
-        // User formula: platform_fee = session_price * rate. This usually implies base fee.
-        // User formula: expert_earning = session_price - platform_fee - tax. (Tax here likely GST on fee + maybe TDS).
-        // My service `net_expert_earning` handles all this.
-        
-        // I will trust my Service's `net_expert_earning` for `expert_earning` column.
-        // For `platform_fee` column, I will use `platform_fee_base`.
-        // The `amount` is `total_amount`.
+        $platformFee = $breakdown['platform_total_deduction'];
         
         // 4. Create Booking
         $booking = Booking::create([
@@ -99,7 +132,12 @@ class BookingController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        $appointments = Booking::where('user_id', Auth::id())->with(['expert', 'slot'])->latest()->get();
+        $appointments = Booking::where('user_id', Auth::id())->with(['expert', 'mentor', 'slot'])->latest()->get();
         return view('pages.my-bookings', compact('appointments')); // Will need to update view name or content
     }
 }
+
+
+
+
+

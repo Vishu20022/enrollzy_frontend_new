@@ -57,6 +57,11 @@ class Booking extends Model
     {
         return $this->belongsTo(Expert::class);
     }
+    
+    public function mentor()
+    {
+        return $this->belongsTo(MentorProfile::class, 'expert_id');
+    }
 
     public function slot()
     {

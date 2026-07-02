@@ -160,13 +160,58 @@ Route::get('/api/master-search', [\App\Http\Controllers\SearchController::class,
 // Fetch Slots (Publicly accessible but booking requires login)
 Route::get('/api/slots/{type}/{id}', function ($type, $id) {
     if ($type === 'expert') {
-        $expert = \App\Models\Expert::findOrFail($id);
-        return $expert->slots()
-            ->where('status', 'available')
-            ->where('date', '>=', now()->toDateString())
-            ->orderBy('date')
-            ->orderBy('start_time')
-            ->get();
+        $expert = \App\Models\MentorProfile::with(['availabilityDetail', 'pricingDetail'])->findOrFail($id);
+        $availability = $expert->availabilityDetail;
+        
+        if (!$availability || empty($availability->slots)) {
+            return response()->json([]);
+        }
+
+        $slots = [];
+        $unavailabilityDates = json_decode($availability->unavailability_dates ?? '[]', true) ?: [];
+        $cost = $expert->pricingDetail ? $expert->pricingDetail->fee_30_min : 0;
+        
+        $currentDate = now();
+        $endDate = now()->addDays(14); // Next 14 days
+        $slotIdCounter = 1;
+
+        while ($currentDate <= $endDate) {
+            $dayName = $currentDate->format('l');
+            $dateString = $currentDate->toDateString();
+
+            if (in_array($dateString, $unavailabilityDates)) {
+                $currentDate->addDay();
+                continue;
+            }
+
+            if (isset($availability->slots[$dayName])) {
+                foreach ($availability->slots[$dayName] as $timeStr) {
+                    $startTime = \Carbon\Carbon::parse($dateString . ' ' . $timeStr);
+                    if ($startTime->isPast()) {
+                        continue;
+                    }
+                    $endTime = $startTime->copy()->addMinutes(30);
+
+                    $slots[] = [
+                        'id' => 'mentor|' . $id . '|' . $dateString . '|' . $startTime->format('H:i:s') . '|' . $endTime->format('H:i:s'),
+                        'expert_id' => $id,
+                        'date' => $startTime->toIso8601String(),
+                        'start_time' => $startTime->format('H:i:s'),
+                        'end_time' => $endTime->format('H:i:s'),
+                        'status' => 'available',
+                        'cost' => $cost,
+                        'mode' => 'video'
+                    ];
+                }
+            }
+            $currentDate->addDay();
+        }
+        
+        usort($slots, function($a, $b) {
+            return strtotime($a['date']) <=> strtotime($b['date']);
+        });
+
+        return response()->json($slots);
     } else {
         // Fallback for alumni or others if needed
         $provider = \App\Models\Alumni::findOrFail($id);
@@ -230,6 +275,8 @@ Route::name('pages.')->group(function () {
     // Dynamic Pages (Privacy Policy, Terms, etc.)
     Route::get('/page/{slug}', [PageController::class, 'dynamicPage'])->name('dynamic');
 });
+
+
 
 
 

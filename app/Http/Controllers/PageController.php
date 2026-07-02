@@ -41,7 +41,7 @@ class PageController extends Controller
 
     public function home()
     {
-        $experts = Expert::latest()->get();
+        $experts = \App\Models\MentorProfile::with(['user', 'experiences', 'educations'])->latest()->get();
         // Fetch Alumni for Talk to Alumni section
         $site_alumni = Alumni::where('status', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
 
@@ -173,13 +173,13 @@ class PageController extends Controller
 
     public function experts()
     {
-        $experts = Expert::latest()->get();
+        $experts = \App\Models\MentorProfile::with(['user', 'experiences', 'educations'])->latest()->get();
         return view('pages.experts.index', compact('experts'));
     }
 
     public function expertDetail($id)
     {
-        $expert = Expert::findOrFail($id);
+        $expert = \App\Models\MentorProfile::with(['user', 'educations', 'experiences', 'languages', 'mentorshipDetail', 'availabilityDetail'])->findOrFail($id);
         return view('pages.experts.show', compact('expert'));
     }
 

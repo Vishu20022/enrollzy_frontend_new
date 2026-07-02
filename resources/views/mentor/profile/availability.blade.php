@@ -104,6 +104,14 @@
                 </div>
             </div>
 
+            <div class="mb-4 pb-4 border-bottom">
+                <label class="form-label fw-bold text-dark mb-1">Unavailability dates (Calendar)</label>
+                <p class="text-muted small mb-2">Select dates when you are entirely unavailable. Students won't be able to book sessions on these days.</p>
+                <div style="max-width: 300px;">
+                    <input type="text" id="unavailability_dates" class="form-control form-control-lg fs-6 bg-white" name="unavailability_dates" value="{{ old('unavailability_dates', $availability->unavailability_dates) }}" placeholder="Select dates...">
+                </div>
+            </div>
+
             <div class="mb-5 d-flex justify-content-between align-items-center">
                 <div>
                     <h6 class="fw-bold mb-1">Pause all bookings</h6>
@@ -208,6 +216,31 @@
                 slotsHiddenInput.value = JSON.stringify(selectedSlots);
             });
         });
+
+        // Initialize Flatpickr for Unavailability Dates
+        if (typeof flatpickr === 'undefined') {
+            const css = document.createElement('link');
+            css.rel = 'stylesheet';
+            css.href = 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css';
+            document.head.appendChild(css);
+
+            const js = document.createElement('script');
+            js.src = 'https://cdn.jsdelivr.net/npm/flatpickr';
+            js.onload = function() {
+                initFlatpickr();
+            };
+            document.head.appendChild(js);
+        } else {
+            initFlatpickr();
+        }
+
+        function initFlatpickr() {
+            flatpickr("#unavailability_dates", {
+                mode: "multiple",
+                dateFormat: "Y-m-d",
+                minDate: "today"
+            });
+        }
     });
 </script>
 @endsection

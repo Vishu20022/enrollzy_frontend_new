@@ -33,6 +33,7 @@ class MentorAvailabilityController extends Controller
             'advance_notice' => 'nullable|string|max:255',
             'max_sessions' => 'nullable|integer|min:0',
             'pause_bookings' => 'nullable|boolean',
+            'unavailability_dates' => 'nullable|string',
         ]);
 
         $slots = [];
@@ -46,6 +47,7 @@ class MentorAvailabilityController extends Controller
             'advance_notice' => $request->input('advance_notice'),
             'max_sessions' => $request->input('max_sessions'),
             'pause_bookings' => $request->has('pause_bookings') ? true : false,
+            'unavailability_dates' => $request->input('unavailability_dates'),
         ];
 
         if ($profile->availabilityDetail) {
