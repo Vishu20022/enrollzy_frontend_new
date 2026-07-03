@@ -1,154 +1,100 @@
-    <section class="why-choose-section pt-1 pb-5 bg-white overflow-hidden" style="background-color: #fafafa !important;">
-        <div class="container-fluid px-4 px-lg-5">
-            <div class="text-center mb-3 fade-in-up">
-                <span class="text-primary fw-bold text-uppercase tracking-wider mb-2 d-block" style="letter-spacing: 2px; font-size: 0.75rem;">WHY CHOOSE ENROLLZY</span>
-                <h2 class="fw-bolder text-dark mb-3" style="font-family: 'Outfit', sans-serif;">
-                    {!! $section->title ?? 'Why Choose enrollzy' !!}
-                </h2>
-                <div class="mx-auto" style="width: 40px; height: 3px; background-color: #ffc107;"></div>
-                <p class="section-desc mt-3 text-muted">
-                    We assist you with the right guidance for a successful career ahead.
-                </p>
-            </div>
-            
-            <div class="wavy-roadmap-wrapper position-relative mx-auto mt-2" style="max-width: 1600px; height: 450px;">
-                
-                @php 
-                    $count = count($home_services);
-                    $totalCols = $count + 1; // +1 for Title Block
-                    $totalWidth = $totalCols * 100;
-                    
-                    // Track starts straight through Title Block
-                    $pathD = "M 0,100 L 100,100 ";
-                    
-                    foreach($home_services as $index => $service) {
-                        $startX = ($index + 1) * 100; 
-                        $midX = $startX + 50;
-                        $endX = $startX + 100;
-                        
-                        if ($index % 2 == 0) {
-                            // Arch (perfectly symmetrical bezier)
-                            $pathD .= "C " . ($startX + 25) . ",100 " . ($startX + 25) . ",20 " . $midX . ",20 ";
-                            $pathD .= "C " . ($midX + 25) . ",20 " . ($midX + 25) . ",100 " . $endX . ",100 ";
-                        } else {
-                            // Valley (perfectly symmetrical bezier)
-                            $pathD .= "C " . ($startX + 25) . ",100 " . ($startX + 25) . ",180 " . $midX . ",180 ";
-                            $pathD .= "C " . ($midX + 25) . ",180 " . ($midX + 25) . ",100 " . $endX . ",100 ";
-                        }
-                    }
-                @endphp
-                
-                <!-- LAYER 1: CARDS (Bottom) -->
-                <div class="row m-0 position-absolute top-0 start-0 w-100 h-100" style="z-index: 1;">
-                    <!-- Title Block Space -->
-                    <div class="col px-1 px-xl-2 h-100 d-none d-lg-block"></div>
-                    
-                    @forelse($home_services as $index => $service)
-                        @php 
-                            $isArch = $index % 2 == 0;
-                            $gradients = [
-                                'linear-gradient(135deg, #1e40af, #3b82f6)',
-                                'linear-gradient(135deg, #c2410c, #f97316)',
-                                'linear-gradient(135deg, #5b21b6, #8b5cf6)',
-                                'linear-gradient(135deg, #0f766e, #14b8a6)',
-                            ];
-                            $bgGradient = $gradients[$index % 4];
-                        @endphp
-                        
-                        <div class="col px-1 px-xl-2 position-relative h-100">
-                            <!-- Card perfectly tucked behind the track -->
-                            <div class="position-absolute w-100 roadmap-card-wrapper" style="left: 0; padding: 0 10px; {{ $isArch ? 'top: calc(50% - 40px); height: 265px;' : 'bottom: calc(50% - 40px); height: 265px;' }}">
-                                <div class="card border-0 shadow-sm h-100 text-white w-100" style="background: {{ $bgGradient }}; border-radius: 24px; {{ $isArch ? 'padding: 60px 15px 15px 15px;' : 'padding: 15px 15px 60px 15px;' }}">
-                                    @if($service->image)
-                                        <div class="text-center mb-3">
-                                            <img src="{{ rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($service->image, '/') }}" alt="{{ $service->title }}" class="img-fluid rounded bg-white p-1" style="max-height: 45px; object-fit: contain;">
-                                        </div>
-                                    @endif
-                                    <h5 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif; font-size: 1rem;">{{ $service->title }}</h5>
-                                    <div class="text-white-50 roadmap-text" style="font-size: 0.75rem; line-height: 1.4;">
-                                        {!! $service->description !!}
-                                    </div>
-                                    @if ($service->footer_text)
-                                        <div class="mt-auto pt-2 border-top border-light border-opacity-25">
-                                            <span class="fw-bold text-white" style="font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;">{{ $service->footer_text }}</span>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col text-center text-muted py-5"><p>Services will appear here.</p></div>
-                    @endforelse
-                </div>
-
-                <!-- LAYER 2: SVG TRACK (Middle) -->
-                <svg width="100%" height="200" viewBox="0 0 {{ $totalWidth }} 200" preserveAspectRatio="none" class="position-absolute start-0" style="top: calc(50% - 100px); z-index: 2; pointer-events: none; overflow: visible;">
-                    <path d="{{ $pathD }}" stroke="#374151" stroke-width="32" vector-effect="non-scaling-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-
-                <!-- LAYER 3: TITLE BLOCK & NODES (Top) -->
-                <div class="row m-0 position-absolute top-0 start-0 w-100 h-100" style="z-index: 3; pointer-events: none;">
-                    
-                    <!-- Title Block -->
-                    <div class="col px-1 px-xl-2 position-relative h-100 d-none d-lg-block">
-                        <div class="position-absolute w-100" style="top: calc(50% - 150px); height: 140px; left: 0;">
-                            <div class="position-relative w-100 h-100 d-flex flex-column align-items-center justify-content-center">
-                                <h2 class="fw-bolder text-dark mb-0 text-center" style="font-family: 'Outfit', sans-serif; font-size: 2rem; line-height: 1.15;">
-                                    Career<br>Roadmap<br><span style="color: #1e3a8a;">2026</span>
-                                </h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    @foreach($home_services as $index => $service)
-                        @php 
-                            $isArch = $index % 2 == 0;
-                            $colors = ['#2563eb', '#ea580c', '#7c3aed', '#0d9488'];
-                            $nodeBorder = $colors[$index % 4];
-                        @endphp
-                        
-                        <div class="col px-1 px-xl-2 position-relative h-100">
-                            <!-- Node -->
-                            <div class="position-absolute translate-middle" style="left: 50%; pointer-events: auto; {{ $isArch ? 'top: calc(50% - 80px);' : 'top: calc(50% + 80px);' }}">
-                                <div class="rounded-circle bg-white d-flex align-items-center justify-content-center shadow-sm" style="width: 52px; height: 52px; border: 6px solid {{ $nodeBorder }};">
-                                    <span class="fs-5 fw-bolder" style="color: {{ $nodeBorder }}; font-family: 'Outfit', sans-serif;">{{ $index + 1 }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                
-            </div>
+<section class="why-choose-new py-5" style="background: linear-gradient(to bottom, #f4f9ff, #fffdf6);">
+    <div class="container text-center mb-5">
+        <!-- Top Pill Badge -->
+        <div class="d-inline-block bg-white text-dark border rounded-pill px-4 py-2 mb-4 fw-semibold shadow-sm" style="font-size: 14px; letter-spacing: 0.5px;">
+            Why choose enrollzy
         </div>
-    </section>
+        
+        <!-- Main Title -->
+        <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+            <span class="orange-line d-none d-md-inline-block" style="width: 50px; height: 1.5px; background-color: #f97316;"></span>
+            <h2 class="fw-bolder text-dark mb-0" style="font-family: 'Outfit', sans-serif; font-size: 32px;">
+                {!! $section->title ?? 'Your step-by-step journey to success' !!}
+            </h2>
+            <span class="orange-line d-none d-md-inline-block" style="width: 50px; height: 1.5px; background-color: #f97316;"></span>
+        </div>
+        
+        <!-- Subtitle -->
+        <p class="text-muted mx-auto" style="max-width: 700px; font-size: 16px; line-height: 1.6;">
+            {{ $section->subtitle ?? 'We guide you from school to your dream career with personalised milestones, resources, and mentors at every stage.' }}
+        </p>
+    </div>
 
-    @push('css')
-    <style>
-        .roadmap-card-wrapper {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .roadmap-card-wrapper:hover {
-            transform: translateY(-8px);
-        }
+    <div class="container pb-4">
+        <!-- Steps Row -->
+        <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center align-items-start gap-2 gap-lg-4">
+            @forelse($home_services as $index => $service)
+                <!-- Step -->
+                <div class="step-card text-center d-flex flex-column align-items-center mb-4" style="flex: 1; min-width: 130px; max-width: 200px;">
+                    <div class="step-icon-circle bg-white rounded-circle shadow-sm d-flex justify-content-center align-items-center mb-3" style="width: 85px; height: 85px; border: 2px solid #3b82f6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        @if($service->image)
+                            <img src="{{ rtrim(env('BACKEND_URL'), '/') . '/' . ltrim($service->image, '/') }}" alt="{{ $service->title }}" style="width: 45px; height: 45px; object-fit: contain;">
+                        @else
+                            <i class="fas fa-rocket text-primary fs-3"></i>
+                        @endif
+                    </div>
+                    <h6 class="fw-bold text-dark mb-2" style="font-size: 15px;">{{ $service->title }}</h6>
+                    <p class="text-muted mb-0 px-2" style="font-size: 12px; line-height: 1.4;">
+                        {{ Str::limit(strip_tags($service->description), 100) }}
+                    </p>
+                </div>
 
-        /* Rich text formatting inside the card */
-        .roadmap-text ul {
-            padding-left: 1.2rem;
-            margin-bottom: 0;
-            color: rgba(255,255,255,0.9);
-        }
-        .roadmap-text li {
-            margin-bottom: 0.5rem;
-        }
-        .roadmap-text p {
-            margin-bottom: 0.5rem;
-            color: rgba(255,255,255,0.9);
-        }
-        .roadmap-text *:last-child {
-            margin-bottom: 0;
-        }
-    </style>
-    @endpush
+                <!-- Arrow Separator -->
+                @if(!$loop->last)
+                <div class="step-arrow d-none d-lg-flex align-items-center justify-content-center" style="height: 85px; width: 20px;">
+                    <i class="fas fa-arrow-right text-secondary opacity-50" style="font-size: 16px;"></i>
+                </div>
+                @endif
+            @empty
+                <!-- Mock Fallbacks if no services in DB -->
+                @php
+                    $mocks = [
+                        ['title' => 'Explore & Discover', 'desc' => 'Find your interests and aptitude through guided assessments'],
+                        ['title' => 'Choose Institution', 'desc' => 'Compare & apply to best-fit schools, coaching, or colleges'],
+                        ['title' => 'Secure Funding', 'desc' => 'Apply for scholarships & financial aid through Enrollzy'],
+                        ['title' => 'Skill Up', 'desc' => 'Take certifications and courses alongside academics'],
+                        ['title' => 'Get a Mentor', 'desc' => '1:1 sessions with industry experts and alumni'],
+                        ['title' => 'Land the Job', 'desc' => 'Internships, placements, and career support on one platform']
+                    ];
+                @endphp
+                @foreach($mocks as $index => $mock)
+                <div class="step-card text-center d-flex flex-column align-items-center mb-4" style="flex: 1; min-width: 130px; max-width: 200px;">
+                    <div class="step-icon-circle bg-white rounded-circle shadow-sm d-flex justify-content-center align-items-center mb-3" style="width: 85px; height: 85px; border: 2px solid #3b82f6; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        <i class="fas fa-check-circle text-primary fs-3"></i>
+                    </div>
+                    <h6 class="fw-bold text-dark mb-2" style="font-size: 15px;">{{ $mock['title'] }}</h6>
+                    <p class="text-muted mb-0 px-2" style="font-size: 12px; line-height: 1.4;">
+                        {{ $mock['desc'] }}
+                    </p>
+                </div>
+                @if(!$loop->last)
+                <div class="step-arrow d-none d-lg-flex align-items-center justify-content-center" style="height: 85px; width: 20px;">
+                    <i class="fas fa-arrow-right text-secondary opacity-50" style="font-size: 16px;"></i>
+                </div>
+                @endif
+                @endforeach
+            @endforelse
+        </div>
+        
+        <!-- Call to Action Button -->
+        <div class="text-center mt-5 mb-3">
+            <a href="#" class="btn btn-primary rounded-pill px-5 py-2 shadow-sm fw-semibold hover-lift" style="background-color: #2563eb; border-color: #2563eb; font-size: 15px;">
+                Start your Journey <i class="fas fa-arrow-right ms-2" style="font-size: 13px;"></i>
+            </a>
+        </div>
+    </div>
+</section>
 
-
-
+<style>
+    .step-icon-circle:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15) !important;
+    }
+    .hover-lift {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2) !important;
+    }
+</style>

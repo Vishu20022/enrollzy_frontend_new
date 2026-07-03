@@ -275,10 +275,86 @@ header .navbar .nav-link {
     </div>
 
     <!-- ===================================== -->
-    <!--   MAIN HEADER NAVBAR (DESKTOP VIEW)   -->
-    <!-- ===================================== -->
-    <nav class="navbar navbar-expand-lg header-shadow py-2">
-        <div class="container ">
+    <!--   MAIN HEADER NAVBAR (NEW DESIGN)     -->
+    <div class="new-header-desktop d-none d-xl-block py-3">
+        <div class="container-fluid px-3 px-xxl-5">
+            <div class="d-flex align-items-center justify-content-between">
+                
+                <!-- Left: Logo -->
+                <div class="header-logo">
+                    <a class="navbar-brand text-decoration-none" href="{{ route('pages.home') }}">
+                        @if ($site_settings->logo ?? false)
+                            <img src="{{ env('BACKEND_URL') . '/' . $site_settings->logo }}"
+                                alt="{{ $site_settings->site_name ?? 'Logo' }}" style="max-height: 40px;">
+                        @else
+                            <span class="theme fw-bold fs-3 text-dark">{{ explode(' ', $site_settings->site_name ?? 'Enrollzy')[0] }}</span>
+                            <span class="fs-3 text-dark">{{ implode(' ', array_slice(explode(' ', $site_settings->site_name ?? 'Enrollzy'), 1)) }}</span>
+                        @endif
+                    </a>
+                </div>
+
+                <!-- Center: Navigation Pills -->
+                <div class="header-nav-center d-flex flex-column align-items-center gap-2">
+                    
+                    <!-- Top Pill (School Links) -->
+                    @php
+                        $headerLinks = \App\Models\HeaderLink::where('status', true)->orderBy('sort_order')->orderBy('title')->get();
+                    @endphp
+                    @if ($headerLinks->count() > 0)
+                    <div class="top-pill-nav bg-white rounded-pill shadow-sm px-3 py-2" style="width: fit-content;">
+                        <ul class="d-flex m-0 p-0 align-items-center gap-2 gap-xxl-3" style="list-style:none;">
+                            @foreach ($headerLinks as $link)
+                                <li>
+                                    <a href="{{ $link->url ?? '#' }}" class="text-dark text-decoration-none fw-bold text-nowrap" style="font-size: 11px; letter-spacing: 0.3px;">{{ strtoupper($link->title) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    <!-- Bottom Pill (Main Menus) -->
+                    <div class="bottom-pill-nav bg-white rounded-pill shadow-sm px-4 py-2" style="width: fit-content;">
+                        <ul class="d-flex m-0 p-0 align-items-center gap-3 gap-xxl-4 justify-content-center" style="list-style:none;">
+                            @foreach($mainHeaderMenus as $menu)
+                                <li>
+                                    <a href="{{ $menu->url ?: '#' }}" class="text-dark text-decoration-none fw-bold text-nowrap" style="font-size: 12px;">{{ $menu->title }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Right: User Profile -->
+                <div class="header-user-right auth-dropdown position-relative">
+                    <a class="user-icon-box bg-primary text-white rounded d-flex align-items-center justify-content-center text-decoration-none shadow-sm" style="width: 42px; height: 42px; background: #3b82f6 !important;" href="javascript:void(0)">
+                        <i class="fa-regular fa-user fs-5"></i>
+                    </a>
+                    <div class="auth-popup">
+                        @auth
+                            <a href="{{ route('profile.edit') }}">Profile</a>
+                            <a href="{{ route('appointments.mine') }}">Appointments</a>
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <span class="text-danger">Logout</span>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        @else
+                            <a href="{{ route('login-otp') }}">Login</a>
+                            <a href="{{ route('register') }}">Register</a>
+                        @endauth
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile/Tablet Header -->
+    <nav class="navbar navbar-expand-lg header-shadow py-2 d-xl-none bg-white">
+        <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="{{ route('pages.home') }}">
                 @if ($site_settings->logo ?? false)
@@ -290,140 +366,12 @@ header .navbar .nav-link {
                 @endif
             </a>
 
-            <!-- Mobile Toggle Button (Custom) -->
-            <button class="navbar-toggler" type="button" id="mobileToggleBtn">
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler border-0" type="button" id="mobileToggleBtn">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- NAV -->
-            <div class="collapse navbar-collapse add-flex-props" id="mainNav">
-                <!-- LEFT MENU -->
-                <ul class="navbar-nav ms-4 add-gap">
-                    @foreach($mainHeaderMenus as $menu)
-                        @if($menu->children->count() > 0)
-                            @php
-                                $hasGrandchildren = false;
-                                foreach($menu->children as $child) {
-                                    if($child->children->count() > 0) {
-                                        $hasGrandchildren = true;
-                                        break;
-                                    }
-                                }
-                            @endphp
-                            @if($hasGrandchildren)
-                                <!-- MEGA DROPDOWN -->
-                                <li class="nav-item position-static">
-                                    <a class="nav-link text-nowrap" href="javascript:void(0)" id="menu-{{ $menu->id }}">{{ $menu->title }} ▾</a>
-                                    <div class="mega-menu shadow">
-                                        <div class="row">
-                                            @foreach($menu->children as $column)
-                                                <div class="col-lg-3 col-6 mb-4">
-                                                    @if($column->url)
-                                                        <a href="{{ $column->url }}" class="mega-title" style="text-decoration:none;">{{ $column->title }}</a>
-                                                    @else
-                                                        <div class="mega-title">{{ $column->title }}</div>
-                                                    @endif
-                                                    
-                                                    @foreach($column->children as $link)
-                                                        <a href="{{ $link->url ?: '#' }}">{{ $link->title }}</a>
-                                                    @endforeach
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </li>
-                            @else
-                                <!-- SIMPLE DROPDOWN -->
-                                <li class="nav-item position-relative">
-                                    <a class="nav-link text-nowrap" href="javascript:void(0)" id="menu-{{ $menu->id }}">{{ $menu->title }} ▾</a>
-                                    <div class="simple-dropdown shadow">
-                                        @foreach($menu->children as $link)
-                                            <a href="{{ $link->url ?: '#' }}">{{ $link->title }}</a>
-                                        @endforeach
-                                    </div>
-                                </li>
-                            @endif
-                        @else
-                            <!-- SIMPLE LINK -->
-                            <li class="nav-item"><a href="{{ $menu->url ?: '#' }}" class="nav-link text-nowrap">{{ $menu->title }}</a></li>
-                        @endif
-                    @endforeach
-                </ul>
-
-                <div class="searchbtn mx-lg-4" style="width: 100%; max-width: 500px;" id="masterSearchContainer">
-                    <input type="search" class="form-control" name="search" id="masterSearchInput"
-                        placeholder="Search for organisation, exams, etc..." autocomplete="off">
-                    <button><i class="fa-solid fa-search"></i></button>
-                    
-                    <!-- Dropdown Results -->
-                    <div class="master-search-dropdown text-start" id="masterSearchDropdown">
-                        <!-- Content injected via JS -->
-                    </div>
-                </div>
-
-                <!-- RIGHT MENU -->
-                <ul class="navbar-nav ">
-
-                    <!-- <li class="nav-item"><a class="nav-link text-nowrap" href="#!">Enrollzy For Business</a></li> -->
-                    <li class="nav-item auth-dropdown">
-                        <a class="nav-link user-icon" href="javascript:void(0)">
-                            @auth
-                                <span class="d-flex align-items-center gap-2">
-                                    <i class="fa-regular fa-user"></i>
-                                    <span class="fs-6">{{ Str::limit(Auth::user()->name, 10) }}</span>
-                                </span>
-                            @else
-                                <i class="fa-regular fa-user"></i>
-                            @endauth
-                        </a>
-                        <div class="auth-popup">
-                            @auth
-                                <!-- <a href="javascript:void(0)" class="dropdown-header disabled text-muted">
-                                        {{ Auth::user()->email }}
-                                    </a>
-                                    {{-- <a href="{{ route('pages.mylearning') }}">My Learning</a> --}} -->
-                                <a href="{{ route('profile.edit') }}">Profile</a>
-                                <a href="{{ route('appointments.mine') }}">Appointments</a>
-                                <a href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <span class="text-danger">Logout</span>
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            @else
-                                <a href="{{ route('login-otp') }}">
-                                    Login
-                                </a>
-                                <a href="{{ route('register') }}">
-                                    Register
-                                </a>
-                            @endauth
-                        </div>
-                    </li>
-
-
-                </ul>
-
-            </div>
         </div>
     </nav>
-    @php
-        $headerLinks = \App\Models\HeaderLink::where('status', true)->orderBy('sort_order')->orderBy('title')->get();
-    @endphp
-    @if ($headerLinks->count() > 0)
-        <section class="school-nav">
-            <div class="container">
-                <ul class="school-list">
-                    @foreach ($headerLinks as $link)
-                        <li>
-                            <a href="{{ $link->url ?? '#' }}">{{ $link->title }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </section>
-    @endif
 </header>
 
 @push('js')

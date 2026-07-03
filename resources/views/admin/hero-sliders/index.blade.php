@@ -69,9 +69,62 @@
                         <input type="file" name="image_path" class="form-control" required>
                         <div class="form-text">Recommended size: 1200x800px. Max 5MB.</div>
                     </div>
-                    <div class="mb-0">
-                        <label class="form-label fw-bold">Sort Order</label>
-                        <input type="number" name="sort_order" class="form-control" value="0">
+                    
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Badge Text</label>
+                            <input type="text" name="badge_text" class="form-control" placeholder="e.g. India's no.1 Education Market place">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Sort Order</label>
+                            <input type="number" name="sort_order" class="form-control" value="0">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Main Heading</label>
+                        <input type="text" name="heading" class="form-control" placeholder="e.g. Find your path.">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Subheading (HTML Allowed)</label>
+                        <textarea name="subheading" class="form-control" rows="2" placeholder='e.g. <span class="text-warning">Learn, Apply,</span> <i>Get Hired.</i>'></textarea>
+                    </div>
+
+                    <hr>
+                    <h6 class="fw-bold mb-3">Statistics (Optional)</h6>
+                    
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Stat 1 Count</label>
+                            <input type="text" name="stat_1_count" class="form-control" placeholder="e.g. 2800+">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Stat 1 Label</label>
+                            <input type="text" name="stat_1_label" class="form-control" placeholder="e.g. Institution">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Stat 2 Count</label>
+                            <input type="text" name="stat_2_count" class="form-control" placeholder="e.g. 1.2L+">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Stat 2 Label</label>
+                            <input type="text" name="stat_2_label" class="form-control" placeholder="e.g. Student Enrolled">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-0">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Stat 3 Count</label>
+                            <input type="text" name="stat_3_count" class="form-control" placeholder="e.g. 4500+">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Stat 3 Label</label>
+                            <input type="text" name="stat_3_label" class="form-control" placeholder="e.g. Scholarship's">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top bg-light">

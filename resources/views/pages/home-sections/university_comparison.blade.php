@@ -1,37 +1,47 @@
-    <section class="featured-section">
-        <div class="container text-center">
-            <h2 class="featured-title main-heading">
-                {!! $section->title ?? 'Comparison' !!}
-            </h2>
+<section class="compare-banner-new py-4 my-5" style="background: linear-gradient(90deg, #fdf8e1 0%, #e8edf6 50%, #c8def4 100%); border-radius: 12px;">
+    <div class="container">
+        <div class="row align-items-center justify-content-between px-3">
+            
+            <!-- Left: Avatars -->
+            <div class="col-lg-3 col-md-4 text-center text-md-start mb-3 mb-md-0 ps-lg-4">
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start position-relative">
+                    <!-- Overlapping avatars, these can be generic memojis or illustrations -->
+                    <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix&backgroundColor=f8fafc" class="rounded-circle shadow-sm border border-2 border-white" style="width: 75px; height: 75px; object-fit: cover; z-index: 1;">
+                    <img src="https://api.dicebear.com/7.x/micah/svg?seed=Aneka&backgroundColor=fef08a" class="rounded-circle shadow-sm border border-2 border-white" style="width: 75px; height: 75px; object-fit: cover; margin-left: -25px; z-index: 2;">
+                    <img src="https://api.dicebear.com/7.x/micah/svg?seed=Oliver&backgroundColor=f8fafc" class="rounded-circle shadow-sm border border-2 border-white" style="width: 75px; height: 75px; object-fit: cover; margin-left: -25px; z-index: 3;">
+                </div>
+            </div>
 
-            @if($section->subtitle)
-            <p class="featured-desc">
-                {{ $section->subtitle }}
-            </p>
-            @else
-            <p class="featured-desc">
-                Compare multiple institutions and courses side-by-side to find the perfect fit for your academic journey.
-            </p>
-            @endif
+            <!-- Middle: Text -->
+            <div class="col-lg-6 col-md-5 text-center text-md-start mb-4 mb-md-0 pe-lg-5">
+                <h2 class="fw-bolder text-dark mb-1" style="font-size: 32px; letter-spacing: -0.5px;">
+                    {!! $section->title ?? 'Confused Between Colleges?' !!}
+                </h2>
+                <p class="text-dark mb-0 fw-semibold" style="font-size: 16px; opacity: 0.9;">
+                    {{ $section->subtitle ?? 'Compare fees, placements & courses in one-click!' }}
+                </p>
+            </div>
 
-            <div class="title-line"></div>
+            <!-- Right: Button -->
+            <div class="col-lg-3 col-md-3 text-center text-md-end pe-lg-4">
+                <button type="button" class="btn bg-white rounded-pill px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#courseSelectionModal" style="color: #0f172a; border: 1px solid #e2e8f0; font-size: 15px; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                    Compare Now <i class="fas fa-arrow-right" style="font-size: 13px;"></i>
+                </button>
+            </div>
+            
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="compare-section text-center" style="background: linear-gradient(135deg, #4e3890 0%, #7f5ae8 100%); position: relative; overflow: hidden; padding: 80px 0;">
-        <div class="container" style="position: relative; z-index: 2;">
-            <h3 class="text-white mb-4 fw-bold" style="font-size: 2rem;">Ready to make an informed decision?</h3>
-            <button type="button" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg" data-bs-toggle="modal" data-bs-target="#courseSelectionModal" style="font-size: 1.2rem; letter-spacing: 1px; color: #4e3890 !important; transition: transform 0.3s ease; border: none;">
-                <i class="fas fa-layer-group me-2"></i> SELECT COURSES TO COMPARE
-            </button>
-            <p class="text-white mt-4 mb-0" style="font-size: 1.1rem; opacity: 0.9;">Choose up to 4 programs to compare fees, placements, ratings, and more!</p>
-        </div>
-        <!-- Decorative overlay from theme -->
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('{{ asset('images/comparison.png') }}') center/cover; opacity: 0.15; z-index: 1;"></div>
-    </section>
+<!-- Include the Unified Selection Modal here so it works on the homepage -->
+@include('partials.compare-modal')
 
-    <!-- Include the Unified Selection Modal here so it works on the homepage -->
-    @include('partials.compare-modal')
-
-
-
+<style>
+    .compare-banner-new {
+        transition: transform 0.3s ease;
+    }
+    .compare-banner-new .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
+    }
+</style>

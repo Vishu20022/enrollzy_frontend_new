@@ -307,3 +307,17 @@ header li a:hover {
         font-size: 13px;
     }
 }
+
+
+
+
+/* --- PREMIUM NEW HEADER STYLES --- */
+.new-header-desktop { background-color: #b9d7fc; font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+.new-header-desktop a { font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important; white-space: nowrap !important; font-size: 14px !important; letter-spacing: 0.3px; }
+.top-pill-nav, .bottom-pill-nav { border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); padding: 6px 12px !important; }
+.top-pill-nav ul, .bottom-pill-nav ul { flex-wrap: nowrap; overflow: hidden; }
+.top-pill-nav ul li a, .bottom-pill-nav ul li a { padding: 10px 18px; border-radius: 30px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); color: #334155 !important; font-weight: 600; display: inline-block; }
+.top-pill-nav ul li a:hover, .bottom-pill-nav ul li a:hover { background-color: #f1ecfc; color: #805CD8 !important; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(128, 92, 216, 0.15); }
+.user-icon-box { transition: all 0.3s ease; }
+.user-icon-box:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(128, 92, 216, 0.3); }
+

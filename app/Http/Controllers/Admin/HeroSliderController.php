@@ -20,6 +20,15 @@ class HeroSliderController extends Controller
         $request->validate([
             'image_path' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
             'sort_order' => 'nullable|integer',
+            'heading' => 'nullable|string',
+            'subheading' => 'nullable|string',
+            'badge_text' => 'nullable|string',
+            'stat_1_count' => 'nullable|string',
+            'stat_1_label' => 'nullable|string',
+            'stat_2_count' => 'nullable|string',
+            'stat_2_label' => 'nullable|string',
+            'stat_3_count' => 'nullable|string',
+            'stat_3_label' => 'nullable|string',
         ]);
 
         if ($request->hasFile('image_path')) {
@@ -30,6 +39,15 @@ class HeroSliderController extends Controller
             HeroSlider::create([
                 'image_path' => $path,
                 'sort_order' => $request->sort_order ?? 0,
+                'heading' => $request->heading,
+                'subheading' => $request->subheading,
+                'badge_text' => $request->badge_text,
+                'stat_1_count' => $request->stat_1_count,
+                'stat_1_label' => $request->stat_1_label,
+                'stat_2_count' => $request->stat_2_count,
+                'stat_2_label' => $request->stat_2_label,
+                'stat_3_count' => $request->stat_3_count,
+                'stat_3_label' => $request->stat_3_label,
                 'is_active' => true,
             ]);
         }

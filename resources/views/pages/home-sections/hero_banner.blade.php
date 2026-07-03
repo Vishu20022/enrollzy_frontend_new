@@ -1,337 +1,194 @@
 @if($hero_sliders && $hero_sliders->isNotEmpty())
-    <section class="hero-slider pt-0">
-        <div class="container-fluid pt-0 pb-4" style="padding-left: 10%; padding-right: 10%;">
+    <section class="hero-slider-new position-relative overflow-hidden pt-5 pb-5">
+        
+        <!-- Subtle Grid Background Overlay -->
+        <div class="hero-bg-grid"></div>
 
-            <div id="heroCarousel" class="carousel slide rounded-4 overflow-hidden shadow" data-bs-ride="carousel" data-bs-interval="3000">
-
-                <!-- indicators -->
-
-                <div class="carousel-indicators">
-                    @foreach ($hero_sliders as $index => $slider)
-                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $index }}"
-                            class="{{ $index == 0 ? 'active' : '' }}"></button>
-                    @endforeach
-                </div>
-
+        <div class="container position-relative z-1 pt-4 pb-2">
+            <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
 
                 <div class="carousel-inner">
                     @foreach($hero_sliders as $index => $slider)
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }} position-relative">
-                            @if($slider->image_type === 'Text Overlay' || $slider->image_type === 'Text')
-                                <div class="hero-split-slide">
-                                    <div class="container-fluid p-0">
-                                        <div class="row align-items-center">
-                                            <!-- LEFT SIDE: Text Content (4 columns on desktop) -->
-                                            <div class="col-lg-4 col-md-12 hero-split-left-col">
-                                                <div class="hero-split-content">
-                                                    @if($slider->heading)
-                                                        <h2 class="hero-split-title">{{ $slider->heading }}</h2>
-                                                    @endif
-                                                    @if($slider->subheading)
-                                                        <div class="hero-split-desc">
-                                                            {!! $slider->subheading !!}
-                                                        </div>
-                                                    @endif
-                                                    @if($slider->button_text)
-                                                        <div class="hero-split-actions">
-                                                            <a href="{{ $slider->button_url ?? '#' }}" class="btn hero-slider-btn">
-                                                                {{ $slider->button_text }}
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <!-- RIGHT SIDE: Image (8 columns on desktop for larger display) -->
-                                            <div class="col-lg-8 col-md-12 hero-split-right-col text-center">
-                                                <div class="hero-split-image-wrapper">
-                                                    <img src="{{ env('BACKEND_URL') . '/' . $slider->image_path }}"
-                                                        alt="{{ $slider->heading ?? 'banner' }}" class="img-fluid hero-split-img">
-                                                </div>
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="row align-items-center g-5">
+                                
+                                <!-- LEFT SIDE -->
+                                <div class="col-lg-6 hero-left-content text-center text-lg-start">
+                                    
+                                    <!-- Badge -->
+                                    <div class="d-inline-block px-3 py-1 mb-4 rounded-pill border shadow-sm" style="background-color: #f1f5f9; border-color: #e2e8f0 !important;">
+                                        <span class="fw-semibold text-dark" style="font-size: 13px;">
+                                            {{ $slider->badge_text ?? "India's no.1 Education Market place" }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Heading -->
+                                    <h1 class="hero-main-title mb-2 text-dark">
+                                        {{ $slider->heading ?? 'Find your path.' }}
+                                    </h1>
+
+                                    <!-- Subheading -->
+                                    <h2 class="hero-sub-title mb-5">
+                                        @if($slider->subheading)
+                                            {!! $slider->subheading !!}
+                                        @else
+                                            <span style="color: #f59e0b; font-weight: 700;">Learn, Apply,</span> 
+                                            <span style="font-style: italic; color: #1e293b;">Get Hired.</span>
+                                        @endif
+                                    </h2>
+
+                                    <!-- Search Bar Area -->
+                                    <div class="hero-search-wrapper p-2 bg-white border rounded-pill shadow-sm d-flex align-items-center mb-4 mx-auto mx-lg-0" style="max-width: 550px; border-color: #f59e0b !important;">
+                                        
+                                        <!-- Dropdown -->
+                                        <div class="dropdown border-end px-2">
+                                            <button class="btn btn-link text-dark text-decoration-none dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" style="font-size: 14px;">
+                                                Looking for..
+                                            </button>
+                                            <ul class="dropdown-menu border-0 shadow">
+                                                <li><a class="dropdown-item" href="#">Courses</a></li>
+                                                <li><a class="dropdown-item" href="#">Colleges</a></li>
+                                                <li><a class="dropdown-item" href="#">Mentors</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <input type="text" class="form-control border-0 shadow-none px-3" placeholder="Search courses, colleges, mentor" style="font-size: 14px;">
+
+                                        <!-- Submit Button -->
+                                        <button class="btn rounded-pill px-4 py-2 text-white fw-bold d-flex align-items-center gap-2" style="background-color: #f59e0b; font-size: 14px;">
+                                            Search <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Tags -->
+                                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start gap-2 mb-5">
+                                        <span class="badge rounded-pill bg-transparent text-dark border border-secondary border-opacity-25 px-3 py-2 fw-medium">Top University</span>
+                                        <span class="badge rounded-pill bg-transparent text-dark border border-secondary border-opacity-25 px-3 py-2 fw-medium">Top Schools</span>
+                                        <span class="badge rounded-pill bg-transparent text-dark border border-secondary border-opacity-25 px-3 py-2 fw-medium">Top Schools</span>
+                                        <span class="badge rounded-pill bg-transparent text-dark border border-secondary border-opacity-25 px-3 py-2 fw-medium">Top Schools</span>
+                                    </div>
+
+                                    <!-- Statistics Blocks -->
+                                    <div class="row g-3 justify-content-center justify-content-lg-start mt-2">
+                                        <div class="col-auto">
+                                            <div class="bg-white rounded-3 shadow-sm py-3 px-4 text-center border hero-stat-card">
+                                                <h4 class="fw-bolder text-dark mb-1">{{ $slider->stat_1_count ?? '2800+' }}</h4>
+                                                <small class="text-muted fw-semibold" style="font-size: 12px;">{{ $slider->stat_1_label ?? 'Institution' }}</small>
                                             </div>
                                         </div>
+                                        <div class="col-auto">
+                                            <div class="bg-white rounded-3 shadow-sm py-3 px-4 text-center border hero-stat-card">
+                                                <h4 class="fw-bolder text-dark mb-1">{{ $slider->stat_2_count ?? '1.2L+' }}</h4>
+                                                <small class="text-muted fw-semibold" style="font-size: 12px;">{{ $slider->stat_2_label ?? 'Student Enrolled' }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="bg-white rounded-3 shadow-sm py-3 px-4 text-center border hero-stat-card">
+                                                <h4 class="fw-bolder text-dark mb-1">{{ $slider->stat_3_count ?? '4500+' }}</h4>
+                                                <small class="text-muted fw-semibold" style="font-size: 12px;">{{ $slider->stat_3_label ?? "Scholarship's" }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- RIGHT SIDE (Image) -->
+                                <div class="col-lg-6 text-center">
+                                    <div class="hero-image-wrapper mx-auto ms-lg-auto me-lg-0">
+                                        <img src="{{ env('BACKEND_URL') . '/' . $slider->image_path }}" alt="Hero Graphic" class="img-fluid w-100 h-100 object-fit-cover shadow-lg">
                                     </div>
                                 </div>
-                            @else
-                                <img src="{{ env('BACKEND_URL') . '/' . $slider->image_path }}"
-                                    alt="{{ $slider->heading ?? 'banner' }}" class="d-block w-100">
-                                
-                                @if($slider->heading || $slider->subheading || $slider->button_text)
-                                    <div class="hero-slider-overlay">
-                                        <div class="hero-slider-content">
-                                            @if($slider->heading)
-                                                <h2 class="hero-slider-title">{{ $slider->heading }}</h2>
-                                            @endif
-                                            @if($slider->subheading)
-                                                <div class="hero-slider-desc">
-                                                    {!! $slider->subheading !!}
-                                                </div>
-                                            @endif
-                                            @if($slider->button_text)
-                                                <a href="{{ $slider->button_url ?? '#' }}" class="btn hero-slider-btn">
-                                                    {{ $slider->button_text }}
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endif
-                            @endif
+                            </div>
                         </div>
                     @endforeach
                 </div>
 
-            </div>
+                <!-- Custom Carousel Indicators below the content -->
+                <div class="carousel-indicators custom-hero-indicators mt-5 position-relative mb-0 pt-4 pb-2">
+                    @foreach ($hero_sliders as $index => $slider)
+                        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}"></button>
+                    @endforeach
+                </div>
 
+            </div>
         </div>
     </section>
 
     <style>
-        .hero-slider-overlay {
+        .hero-slider-new {
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #f0f9ff 100%);
+        }
+
+        /* Subtle grid pattern overlay */
+        .hero-bg-grid {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0.15) 100%);
-            display: flex;
-            align-items: center;
-            padding: 0 8%;
-            color: #ffffff;
-            z-index: 2;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 60px 60px;
+            background-image: 
+                linear-gradient(to right, rgba(148, 163, 184, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+            z-index: 0;
         }
-        .hero-slider-content {
-            max-width: 60%;
-            text-align: left;
-        }
-        .hero-slider-title {
-            font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+
+        .hero-main-title {
+            font-size: clamp(3rem, 5vw, 4.5rem);
             font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+
+        .hero-sub-title {
+            font-size: clamp(2.5rem, 4vw, 3.8rem);
+            letter-spacing: -1px;
             line-height: 1.2;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
         }
-        .hero-slider-desc {
-            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-            line-height: 1.5;
-            margin-bottom: 25px;
-            opacity: 0.95;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+
+        .hero-image-wrapper {
+            max-width: 550px;
+            height: 550px;
+            border-radius: 30px;
+            overflow: hidden;
         }
-        .hero-slider-desc p {
-            margin-bottom: 0;
+
+        .hero-stat-card {
+            min-width: 130px;
+            transition: transform 0.2s ease;
         }
-        .hero-slider-btn {
-            background-color: #163c97;
-            border-color: #163c97;
-            color: #ffffff;
-            padding: 10px 28px;
-            font-weight: 600;
-            border-radius: 4px;
+        .hero-stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Custom Indicators */
+        .custom-hero-indicators button {
+            width: 10px !important;
+            height: 10px !important;
+            border-radius: 50% !important;
+            background-color: #cbd5e1 !important;
+            border: none !important;
+            opacity: 1 !important;
+            margin: 0 6px !important;
             transition: all 0.3s ease;
         }
-        .hero-slider-btn:hover {
-            background-color: #0f2a6b;
-            border-color: #0f2a6b;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        /* Hero Split Layout Styles */
-        .hero-split-slide {
-            background: linear-gradient(135deg, #0b1528 0%, #0f224a 50%, #1a356c 100%);
-            padding: 2.5rem 3.5rem;
-            min-height: 480px;
-            display: flex;
-            align-items: center;
-            color: #ffffff;
-            position: relative;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif !important;
-        }
-
-        /* Subtle glowing background circles for premium look */
-        .hero-split-slide::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(22, 60, 151, 0.45) 0%, rgba(22, 60, 151, 0) 70%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero-split-slide .container-fluid {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-split-left-col {
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-split-content {
-            width: 100%;
-            text-align: left;
-            padding-right: 1.5rem;
-        }
-
-        .hero-split-title {
-            font-family: 'Inter', sans-serif !important;
-            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 15px;
-            color: #ffffff;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 60%, #e2e8f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-split-desc {
-            font-family: 'Inter', sans-serif !important;
-            font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            color: #cbd5e1 !important;
-            font-weight: 400;
-            opacity: 0.9;
-        }
-
-        /* Force all children inside desc (like p, span, strong) to inherit the light color and sans-serif font */
-        .hero-split-desc * {
-            color: #cbd5e1 !important;
-            font-family: 'Inter', sans-serif !important;
-            font-size: inherit !important;
-            line-height: inherit !important;
-        }
-
-        .hero-split-desc p {
-            margin-bottom: 10px;
-        }
-        .hero-split-desc p:last-child {
-            margin-bottom: 0;
-        }
-
-        .hero-split-actions {
-            margin-top: 20px;
-        }
-
-        .hero-split-slide .hero-slider-btn {
-            font-family: 'Inter', sans-serif !important;
-            background: linear-gradient(135deg, #163c97 0%, #1e4bbd 100%);
-            border: none;
-            color: #ffffff !important;
-            padding: 10px 24px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 6px;
-            box-shadow: 0 4px 14px rgba(22, 60, 151, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .hero-split-slide .hero-slider-btn:hover {
-            background: linear-gradient(135deg, #1e4bbd 0%, #2b61eb 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(22, 60, 151, 0.6);
-            color: #ffffff !important;
-        }
-
-        .hero-split-right-col {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-split-image-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-
-        .hero-split-img {
-            max-height: 440px;
-            max-width: 100%;
-            object-fit: contain;
-            display: block;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 50px rgba(22, 60, 151, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-        }
-
-        .hero-split-img:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 60px rgba(22, 60, 151, 0.35);
-            border-color: rgba(255, 255, 255, 0.25);
+        
+        .custom-hero-indicators button.active {
+            width: 30px !important;
+            border-radius: 5px !important;
+            background-color: #1e293b !important;
         }
 
         @media (max-width: 991px) {
-            .hero-split-slide {
-                padding: 3rem 2rem;
-                min-height: auto;
-            }
-            .hero-split-content {
-                padding-right: 0;
-                text-align: center;
-                margin-bottom: 2.5rem;
-            }
-            .hero-split-image-wrapper {
-                max-width: 90%;
-            }
-            .hero-split-img {
-                max-height: 320px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-slider-overlay {
-                background: rgba(0, 0, 0, 0.6);
-                padding: 0 5%;
-            }
-            .hero-slider-content {
+            .hero-image-wrapper {
+                height: 400px;
                 max-width: 100%;
+                border-radius: 20px;
             }
-            .hero-slider-title {
-                font-size: 1.2rem;
-                margin-bottom: 8px;
+            .hero-main-title {
+                font-size: 2.5rem;
             }
-            .hero-slider-desc {
-                font-size: 0.8rem;
-                margin-bottom: 12px;
-                max-height: 50px;
-                overflow: hidden;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
-            .hero-slider-btn {
-                padding: 6px 18px;
-                font-size: 0.75rem;
-            }
-
-            .hero-split-slide {
-                padding: 2.5rem 1.5rem;
-            }
-            .hero-split-title {
-                font-size: 1.6rem;
-                margin-bottom: 12px;
-            }
-            .hero-split-desc {
-                font-size: 0.9rem;
-                margin-bottom: 20px;
-            }
-            .hero-split-img {
-                max-height: 240px;
+            .hero-sub-title {
+                font-size: 2rem;
             }
         }
     </style>
 @endif
-
-
