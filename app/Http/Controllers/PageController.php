@@ -39,6 +39,11 @@ class PageController extends Controller
         return view('pages.compare', compact('campuses', 'allFacilities'));
     }
 
+    public function newHome()
+    {
+        return view('pages.new_home');
+    }
+
     public function home()
     {
         $experts = \App\Models\MentorProfile::with(['user', 'experiences', 'educations'])->latest()->get();

@@ -221,8 +221,11 @@ Route::get('/api/slots/{type}/{id}', function ($type, $id) {
 
 Route::name('pages.')->group(function () {
 
-    Route::get('/', [PageController::class, 'home'])
+    Route::get('/', [PageController::class, 'newHome'])
         ->name('home');
+
+    Route::get('/old-home', [PageController::class, 'home'])
+        ->name('old.home');
 
     Route::get('/blogs', [PageController::class, 'blog'])
         ->name('blogs');
